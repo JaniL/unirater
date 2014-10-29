@@ -1,4 +1,4 @@
-UnicafeRater readme.md 29.10.2014
+UnicafeRater 29.10.2014
 ----------------------------------------------------------------------------
 
 UnicafeRater on webpalvelu, jossa käyttäjät voivat arvostella ja katsoa
@@ -14,4 +14,4 @@ arvosteltuja ravintoloita ja parhaiten arvosteltuja ruokia.
 UnicafeRater ota yhteyttä:
 
 IRCnet:
-Lesandre, Janluu, Coolness, neonyymi
+Lesandre, Janluu, Coolness, neodyymi
