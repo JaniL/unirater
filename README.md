@@ -1,6 +1,8 @@
 UnicafeRater 29.10.2014
 ----------------------------------------------------------------------------
 
+[![Coverage Status](https://img.shields.io/coveralls/JaniL/wepaharkka.svg)](https://coveralls.io/r/JaniL/wepaharkka)
+
 UnicafeRater on webpalvelu, jossa käyttäjät voivat arvostella ja katsoa
 arvosteluja kyseisenä päivänä tarjolla oleviiin ruokiin eri Unicafe ravintoloissa.
 käyttäjät saavat ravintolan valittuaan tarjolle kyseisen päivänä ruuat ja
