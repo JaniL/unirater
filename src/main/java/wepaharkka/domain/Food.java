@@ -6,19 +6,19 @@
 package wepaharkka.domain;
 
 import javax.persistence.Column;
-import javax.persistence.OneToMany;
+import javax.persistence.Entity;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
  *
  * @author chang
  */
+@Entity
 public class Food extends AbstractPersistable<Long> {
     
     @Column(unique = true)
     private String name;
     private Price price;
-    @OneToMany
     private Rating rating;
 
     public Food(String name, Price price, Rating rating) {

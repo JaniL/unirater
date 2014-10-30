@@ -6,36 +6,39 @@
 package wepaharkka.domain;
 
 import java.util.Date;
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
  *
  * @author chang
  */
-public class Rating {
+@Entity
+public class Rating extends AbstractPersistable<Long> {
     
-    private int arvostelu;
-    @ManyToOne
-    private Food ruoka;
+    private int rating;
+    private Food food;
     @javax.persistence.Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
 
-    public int getArvostelu() {
-        return arvostelu;
+    public int getRating() {
+        return rating;
     }
 
-    public void setArvostelu(int arvostelu) {
-        this.arvostelu = arvostelu;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
-    public Food getRuoka() {
-        return ruoka;
+    public Food getFood() {
+        return food;
     }
 
-    public void setRuoka(Food ruoka) {
-        this.ruoka = ruoka;
+    public void setFood(Food food) {
+        this.food = food;
     }
-
+    
+    
     public Date getDate() {
         return date;
     }
