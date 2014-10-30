@@ -10,9 +10,9 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath wepaharkka.Application</exec.args>
+                <exec.args>-classpath %classpath ${packageClassName}</exec.args>
                 <exec.executable>java</exec.executable>
-                <Env.DATABASE_URL>postgres://aqqeltgpktgtbr:AM5g0HXiDH0acfxz5q70zANAJs@ec2-54-83-205-46.compute-1.amazonaws.com:5432/d8ni575b1vcsrr</Env.DATABASE_URL>
+                <Env.DATABASE_URL>postgres://kfydohkmyreahd:3jgEERleT9H5HhMHRv1JJyCmke@ec2-54-225-102-235.compute-1.amazonaws.com:5432/de5krj3f1vdo8e</Env.DATABASE_URL>
             </properties>
         </action>
     </actions>
