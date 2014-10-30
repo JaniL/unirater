@@ -7,16 +7,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Created by jani on 29.10.2014.
  */
-
 @Controller
 @RequestMapping("/")
 @ResponseBody
 public class DefaultController {
-	
-	// @ResponseBody
-	@RequestMapping
+    
     public String lol() {
-    	System.out.println("do this pls");
-        return "lol";
+        System.out.println("do this pls");
+        return "lol oon paras";
     }
 }
