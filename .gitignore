@@ -19,6 +19,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+nbactions.xml
 
 # External tool builders
 .externalToolBuilders/
