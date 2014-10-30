@@ -12,6 +12,7 @@
             <properties>
                 <exec.args>-classpath %classpath wepaharkka.Application</exec.args>
                 <exec.executable>java</exec.executable>
+                <Env.DATABASE_URL>postgres://aqqeltgpktgtbr:AM5g0HXiDH0acfxz5q70zANAJs@ec2-54-83-205-46.compute-1.amazonaws.com:5432/d8ni575b1vcsrr</Env.DATABASE_URL>
             </properties>
         </action>
     </actions>

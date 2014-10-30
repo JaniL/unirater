@@ -1,7 +1,10 @@
 package wepaharkka.Profile;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -16,12 +19,15 @@ import wepaharkka.domain.Rating;
 
 public class DevProfile {
     
-    @Autowired FoodRepository foodRepo;
-    @Autowired RatingRepository ratingRepo;
+    @Autowired 
+    private FoodRepository foodRepo;
+    @Autowired 
+    private RatingRepository ratingRepo;
     
-    
+    @Transactional
     @PostConstruct
     public void init() {
+        System.out.println("asdasdasdasdasdasdasda");
         Food food = new Food();
         food.setName("asd");
         food.setPrice(Price.Kevyesti);
@@ -29,12 +35,16 @@ public class DevProfile {
         Rating rating = new Rating();
         rating.setDate(new Date());
         rating.setRating(5);
+
+        rating = ratingRepo.save(rating);
+
+        List<Rating> ratings = new ArrayList<>();
+        ratings.add(rating);
         
         rating.setFood(food);
-        food.setRating(rating);
+        food.setRatings(ratings);
         
         foodRepo.save(food);
-        ratingRepo.save(rating);
     }
     
 }

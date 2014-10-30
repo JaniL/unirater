@@ -5,8 +5,10 @@
  */
 package wepaharkka.domain;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -19,17 +21,8 @@ public class Food extends AbstractPersistable<Long> {
     @Column(unique = true)
     private String name;
     private Price price;
-    private Rating rating;
-
-    public Food(String name, Price price, Rating rating) {
-        this.name = name;
-        this.price = price;
-        this.rating = rating;
-    }
-
-    public Food() {
-        
-    }
+    @OneToMany
+    private List<Rating> ratings;
     
     
     public String getName() {
@@ -48,16 +41,14 @@ public class Food extends AbstractPersistable<Long> {
         this.price = price;
     }
 
-    public Rating getRating() {
-        return rating;
+    public List<Rating> getRatings() {
+        return ratings;
     }
 
-    public void setRating(Rating rating) {
-        this.rating = rating;
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
     }
-    
-    
 
-   
+    
     
 }
