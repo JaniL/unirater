@@ -12,6 +12,8 @@ ruokien arvosteluiden keskiarvot. Arvostelut kirjataan asteikolla 0-5.
 Tietokannasta on myös mahdollista tehdä kootusti hakuja etsien parhaiten
 arvosteltuja ravintoloita ja parhaiten arvosteltuja ruokia. 
 
+https://wepaharkka.herokuapp.com/
+
 ----------------------------------------------------------------------------
 
 UnicafeRater ota yhteyttä:
