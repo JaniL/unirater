@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import wepaharkka.Repository.FoodRepository;
 import wepaharkka.Repository.RatingRepository;
+import wepaharkka.domain.Food;
 
 /**
  * Created by jani on 29.10.2014.
@@ -22,8 +23,9 @@ public class DefaultController {
     
     @RequestMapping(method = RequestMethod.GET)
     public String lol() {
-        
-        
+        Food food = new Food();
+        food.setName("asdasd");
+        foodRepo.save(food);
         return "lol";
     }
     

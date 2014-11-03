@@ -16,7 +16,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @Profile("prod")
 public class ProdProfile {
-
+    
+ 
+    
+    
     @Bean
     public PlatformTransactionManager transactionManager() throws URISyntaxException {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
