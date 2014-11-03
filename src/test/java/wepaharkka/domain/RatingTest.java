@@ -6,10 +6,7 @@
 package wepaharkka.domain;
 
 import java.util.Date;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -36,10 +33,7 @@ public class RatingTest {
         
 
     }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
+    
     @Test
     public void getSetTest() {
          Date paiva = new Date();
