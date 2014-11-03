@@ -27,24 +27,24 @@ public class DevProfile {
     @Transactional
     @PostConstruct
     public void init() {
-        System.out.println("asdasdasdasdasdasdasda");
-        Food food = new Food();
-        food.setName("asd");
-        food.setPrice(Price.Kevyesti);
-        
-        Rating rating = new Rating();
-        rating.setDate(new Date());
-        rating.setRating(5);
-
-        rating = ratingRepo.save(rating);
-
-        List<Rating> ratings = new ArrayList<>();
-        ratings.add(rating);
-        
-        rating.setFood(food);
-        food.setRatings(ratings);
-        
-        foodRepo.save(food);
+//        System.out.println("asdasdasdasdasdasdasda");
+//        Food food = new Food();
+//        food.setName("asd");
+//        food.setPrice(Price.Kevyesti);
+//        
+//        Rating rating = new Rating();
+//        rating.setDate(new Date());
+//        rating.setRating(5);
+//
+//        rating = ratingRepo.save(rating);
+//
+//        List<Rating> ratings = new ArrayList<>();
+//        ratings.add(rating);
+//        
+//        rating.setFood(food);
+//        food.setRatings(ratings);
+//        
+//        foodRepo.save(food);
     }
     
 }

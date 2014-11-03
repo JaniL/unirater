@@ -8,6 +8,7 @@ package wepaharkka.domain;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -21,7 +22,8 @@ public class Food extends AbstractPersistable<Long> {
     @Column(unique = true)
     private String name;
     private Price price;
-    @OneToMany
+    
+    @OneToMany(fetch=FetchType.EAGER)
     private List<Rating> ratings;
     
     
@@ -29,6 +31,19 @@ public class Food extends AbstractPersistable<Long> {
         return name;
     }
 
+    
+    public double getAverage() {
+        if (ratings == null) return 0;
+        if (ratings.isEmpty()) return 0;
+        
+        double summa = 0;
+        for (Rating rating : ratings) {
+            summa += rating.getRating();
+        }
+        
+        return summa / ratings.size();
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
