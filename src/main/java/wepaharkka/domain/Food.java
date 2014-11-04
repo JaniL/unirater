@@ -5,7 +5,10 @@
  */
 package wepaharkka.domain;
 
+import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -13,29 +16,34 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  *
  * @author chang
  */
+@Entity
 public class Food extends AbstractPersistable<Long> {
     
     @Column(unique = true)
     private String name;
     private Price price;
-    @OneToMany
-    private Rating rating;
-
-    public Food(String name, Price price, Rating rating) {
-        this.name = name;
-        this.price = price;
-        this.rating = rating;
-    }
-
-    public Food() {
-        
-    }
+    
+    @OneToMany(fetch=FetchType.EAGER)
+    private List<Rating> ratings;
     
     
     public String getName() {
         return name;
     }
 
+    
+    public double getAverage() {
+        if (ratings == null) return 0;
+        if (ratings.isEmpty()) return 0;
+        
+        double sum = 0;
+        for (Rating rating : ratings) {
+            sum += rating.getRating();
+        }
+        
+        return sum / ratings.size();
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -48,16 +56,14 @@ public class Food extends AbstractPersistable<Long> {
         this.price = price;
     }
 
-    public Rating getRating() {
-        return rating;
+    public List<Rating> getRatings() {
+        return ratings;
     }
 
-    public void setRating(Rating rating) {
-        this.rating = rating;
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
     }
-    
-    
 
-   
+    
     
 }
