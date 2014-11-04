@@ -15,7 +15,7 @@ import wepaharkka.domain.Price;
 import wepaharkka.domain.Rating;
 
 @Configuration
-@Profile(value = {"dev", "default"})
+@Profile(value = {"dev"})
 
 public class DevProfile {
     
@@ -45,6 +45,9 @@ public class DevProfile {
         food.setRatings(ratings);
         
         foodRepo.save(food);
+        
+        
+        
     }
     
 }

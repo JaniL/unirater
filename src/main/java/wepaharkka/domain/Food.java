@@ -36,12 +36,12 @@ public class Food extends AbstractPersistable<Long> {
         if (ratings == null) return 0;
         if (ratings.isEmpty()) return 0;
         
-        double summa = 0;
+        double sum = 0;
         for (Rating rating : ratings) {
-            summa += rating.getRating();
+            sum += rating.getRating();
         }
         
-        return summa / ratings.size();
+        return sum / ratings.size();
     }
     
     public void setName(String name) {

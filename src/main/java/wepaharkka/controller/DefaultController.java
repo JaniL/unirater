@@ -14,7 +14,7 @@ import wepaharkka.domain.Food;
  */
 
 @Controller
-@RequestMapping("*")
+@RequestMapping("/index")
 @ResponseBody
 public class DefaultController {
     
@@ -23,9 +23,7 @@ public class DefaultController {
     
     @RequestMapping(method = RequestMethod.GET)
     public String lol() {
-        Food food = new Food();
-        food.setName("asdasd");
-        foodRepo.save(food);
+       
         return "lol";
     }
     
