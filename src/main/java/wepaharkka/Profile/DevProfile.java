@@ -27,7 +27,6 @@ public class DevProfile {
     @Transactional
     @PostConstruct
     public void init() {
-        System.out.println("asdasdasdasdasdasdasda");
         Food food = new Food();
         food.setName("asd");
         food.setPrice(Price.Kevyesti);
