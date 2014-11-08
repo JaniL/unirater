@@ -6,12 +6,14 @@
 package wepaharkka.domain;
 
 import java.util.ArrayList;
+import javax.transaction.Transactional;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import wepaharkka.Application;
@@ -24,6 +26,7 @@ import wepaharkka.Repository.FoodRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
+@ActiveProfiles("test")
 public class FoodTest {
 
     @Autowired
@@ -33,6 +36,7 @@ public class FoodTest {
     ArrayList<Rating> arv;
 
     @Before
+    @Transactional
     public void setUp() {
         this.food = new Food();
         food.setName("porkkanakakku");
@@ -46,6 +50,7 @@ public class FoodTest {
     }
 
     @Test
+    @Transactional
     public void getterSetterTest() {
         assertEquals(food.getPrice(), Price.Kevyesti);
         assertEquals(food.getName(), "porkkanakakku");
@@ -53,6 +58,7 @@ public class FoodTest {
     }
 
     @Test
+    @Transactional
     public void canHaveManyRatings() {
         Rating testi1 = new Rating();
         Rating testi2 = new Rating();
@@ -68,6 +74,7 @@ public class FoodTest {
     //Alla tietokanta testei eivät toimi vielä. Pitäis toimia sit kun kannat on korjattu
 
     @Test
+    @Transactional
     public void databaseTest() {
         foodrepository.save(food);
         Food foo2 = foodrepository.findAll().get(0);
@@ -75,17 +82,11 @@ public class FoodTest {
     }
 
     @Test
+    @Transactional
     public void repoFindByNameTest() {
         foodrepository.save(food);
         Food foo2 = foodrepository.findByName("porkkanakakku");
         assertEquals(food.getName(), foo2.getName());
     }
-    @Test
-    public void canNotSaveTwoFoodWithSameName() {
-        foodrepository.save(food);
-        Food foo2 = new Food();
-        foo2.setName("porkkanakakku");
-        foodrepository.save(foo2);
-        assertEquals(foodrepository.count(),1); //onko count oikea metodi? Ei nettiä en voi tarkistaa
-    }
+    
 }

@@ -6,20 +6,24 @@
 package wepaharkka.domain;
 
 import java.util.Date;
+import javax.transaction.Transactional;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.test.context.ActiveProfiles;
 
 /**
  *
  * @author tixtixti
  */
+@ActiveProfiles("test")
 public class RatingTest {
 
     Food food;
     Rating rating;
 
     @Before
+    @Transactional
     public void setUp() {
         this.food = new Food();
         this.rating = new Rating();
@@ -35,6 +39,7 @@ public class RatingTest {
     }
     
     @Test
+    @Transactional
     public void getSetTest() {
          Date paiva = new Date();
         assertEquals(rating.getFood().getName(), "JaninSukat");
