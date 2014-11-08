@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -22,8 +23,10 @@ public class Food extends AbstractPersistable<Long> {
     @Column(unique = true)
     private String name;
     private Price price;
+    @ManyToOne
+    private Restaurant restaurant;
     
-    @OneToMany(fetch=FetchType.EAGER)
+    @OneToMany(fetch=FetchType.LAZY)
     private List<Rating> ratings;
     
     

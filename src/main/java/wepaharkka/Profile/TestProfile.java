@@ -19,7 +19,7 @@ public class TestProfile {
     
     
     @PostConstruct
-    public void init() {
+    public void init() { 
         System.out.println("loloonparas");
     }
 }
