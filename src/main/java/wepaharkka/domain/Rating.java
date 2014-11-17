@@ -20,11 +20,9 @@ public class Rating extends AbstractPersistable<Long> {
     private int rating;
 
     
-    private Food food;
     @javax.persistence.Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
     
-    private Restaurant restaurant;
 
     public int getRating() {
         return rating;
@@ -33,27 +31,11 @@ public class Rating extends AbstractPersistable<Long> {
     public void setRating(int rating) {
         this.rating = rating;
     }
-
-    public Food getFood() {
-        return food;
-    }
-
-    public void setFood(Food food) {
-        this.food = food;
-    }
-    
     
     public Date getDate() {
         return date;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
     
     public void setDate(Date date) {
         this.date = date;
