@@ -25,8 +25,8 @@ import wepaharkka.domain.Price;
 public class UnicafeService {
 
     private RestTemplate restTemplate;
-    private SyndFeedInput input;
-    private SyndFeed feed;
+//    private SyndFeedInput input;
+//    private SyndFeed feed;
     private URL url;
     private ArrayList<String> titles;
     private ArrayList<String> descriptions;
@@ -37,8 +37,8 @@ public class UnicafeService {
         this.restTemplate = new RestTemplate();
         String urli = "http://www.hyyravintolat.fi/rss/fin/";
         this.url = null;
-        this.input = new SyndFeedInput();
-        this.feed = null;
+//        this.input = new SyndFeedInput();
+//        this.feed = null;
         this.titles = new ArrayList();
         this.descriptions = new ArrayList();
         this.title = null;
@@ -46,10 +46,13 @@ public class UnicafeService {
     }
 
     public void fetchInfo(URL url) throws IOException, IllegalArgumentException, FeedException {
-        this.url = url;
+//        this.url = url;
         this.titles = new ArrayList();
-        this.feed = input.build(new XmlReader(url));
-        this.title = this.feed.getTitle() + "::" + feed.getDescriptionEx().getValue();;
+        SyndFeedInput input = new SyndFeedInput();
+        SyndFeed feed = input.build(new XmlReader(url));
+        this.descriptions = new ArrayList();
+        this.titles = new ArrayList();
+        this.title = feed.getTitle() + "::" + feed.getDescriptionEx().getValue();;
         for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) {
 
             this.titles.add(entry.getTitle());
@@ -68,7 +71,7 @@ public class UnicafeService {
     public String getTitle() {//Name of restaurant
         return this.title;
     }
-    
+
     public String getTitleForDay(int i) {//Date info for specific day 0=monday, 1=tuesday ... 6=sunday
         return this.getTitles().get(i);
     }
@@ -81,32 +84,38 @@ public class UnicafeService {
         for (String l : lines) {
             if (l.contains("<span class=\"priceinfo\">")) {
                 String h = new String();
-                
+
                 prices.add(l.substring(l.indexOf("<span class=\"priceinfo\">"), l.indexOf("</span>", l.indexOf("<span class=\"priceinfo\">"))) + h);
-                
+
             }
         }
         for (String l : lines) {
             if (l.contains("</span>")) {
                 String h = new String();
                 ret.add(l.substring(0, l.indexOf("</span>")));
-                
+
             }
         }
-        for(int j = 0;j < ret.size();j++) {
+        for (int j = 0; j < ret.size(); j++) {
             Food food = new Food();
             food.setName(ret.get(j));
-            if(prices.get(j).contains("Maukkaasti")) {
+            if (prices.size() == j) {
+                break;
+            }
+            if (prices.get(j).contains("Maukkaasti")) {
                 food.setPrice(Price.Maukkaasti);
-            } else if(prices.get(j).contains("Edullisesti")) {
+            } else if (prices.get(j).contains("Edullisesti")) {
                 food.setPrice(Price.Edullisesti);
-            }else if(prices.get(j).contains("Kevyesti")) {
+            } else if (prices.get(j).contains("Kevyesti")) {
                 food.setPrice(Price.Kevyesti);
+            } else {
+                food.setPrice(Price.Makeasti);
             }
             foods.add(food);
         }
         return foods;
     }
+
     public String getAll() {//Silly toString type thing
 
         String ret = new String();
