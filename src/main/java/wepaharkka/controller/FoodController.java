@@ -21,7 +21,6 @@ import wepaharkka.domain.Food;
  * @author chang
  */
 @RequestMapping("/foods")
-@ResponseBody
 @Controller
 public class FoodController {
     
@@ -38,7 +37,7 @@ public class FoodController {
             list += " " + food.getName();
         }
         
-        return list;
+        return "index";
     }
     
     @RequestMapping(method = RequestMethod.POST)
