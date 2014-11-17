@@ -44,7 +44,7 @@ public class Food extends AbstractPersistable<Long> {
             sum += rating.getRating();
         }
         
-        return sum / ratings.size();
+        return Math.round(sum / ratings.size());
     }
     
     public void setName(String name) {

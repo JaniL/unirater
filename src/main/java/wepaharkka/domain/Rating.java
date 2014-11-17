@@ -18,9 +18,13 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public class Rating extends AbstractPersistable<Long> {
     
     private int rating;
+
+    
     private Food food;
     @javax.persistence.Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
+    
+    private Restaurant restaurant;
 
     public int getRating() {
         return rating;
@@ -43,6 +47,14 @@ public class Rating extends AbstractPersistable<Long> {
         return date;
     }
 
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+    
     public void setDate(Date date) {
         this.date = date;
     }
