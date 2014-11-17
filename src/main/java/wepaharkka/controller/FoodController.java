@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import wepaharkka.Repository.FoodRepository;
+import wepaharkka.Repository.RestaurantRepository;
 import wepaharkka.domain.Food;
 
 /**
@@ -27,10 +29,16 @@ public class FoodController {
     @Autowired
     private FoodRepository foodRepo;
     
+    @Autowired
+    private RestaurantRepository restaurantRepo;
+    
     @RequestMapping(method = RequestMethod.GET)
     public String listFoods(Model model) {
         
         model.addAttribute("foods", foodRepo.findAll());
+        System.out.println("asdkaskdjhasljkdhasljkdas");
+        System.out.println(restaurantRepo.findAll().size());
+        model.addAttribute("restaurants", restaurantRepo.findAll());
         
         String list = "";
         for (Food food : foodRepo.findAll()) {
