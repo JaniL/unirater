@@ -22,32 +22,26 @@ import unicaferater.domain.Food;
  *
  * @author chang
  */
-@RequestMapping("/foods")
+@RequestMapping("*")
 @Controller
 public class FoodController {
-    
+
     @Autowired
     private FoodRepository foodRepo;
-    
+
     @Autowired
     private RestaurantRepository restaurantRepo;
-    
+
     @RequestMapping(method = RequestMethod.GET)
     public String listFoods(Model model) {
-        
+
         model.addAttribute("foods", foodRepo.findAll());
-        System.out.println("asdkaskdjhasljkdhasljkdas");
         System.out.println(restaurantRepo.findAll().size());
         model.addAttribute("restaurants", restaurantRepo.findAll());
-        
-        String list = "";
-        for (Food food : foodRepo.findAll()) {
-            list += " " + food.getName();
-        }
-        
+
         return "index";
     }
-    
+
     @RequestMapping(method = RequestMethod.POST)
     public String postFood(@ModelAttribute Food food, BindingResult bindRes) {
         if (food.getName() != null && food.getPrice() != null) {
@@ -55,9 +49,8 @@ public class FoodController {
                 foodRepo.save(food);
             }
         }
-        
-        
+
         return "redirect:/foods";
     }
-    
+
 }
