@@ -39,8 +39,20 @@ public class DevProfile {
         food.setPrice(Price.Kevyesti);
         
         Food food2 = new Food();
-        food.setName("Makarooni");
-        food.setPrice(Price.Maukkaasti);
+        food2.setName("Makarooni");
+        food2.setPrice(Price.Maukkaasti);
+        
+        Rating rating2 = new Rating();
+        rating2.setDate(new Date());
+        rating2.setRating(3);
+        
+        rating2 = ratingRepo.save(rating2);
+        
+        List<Rating> ratings2 = new ArrayList<>();
+        ratings2.add(rating2);
+        
+        food2.setRatings(ratings2);
+        foodRepo.save(food2);
         
         Rating rating = new Rating();
         rating.setDate(new Date());
