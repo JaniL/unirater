@@ -10,6 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableWebMvc
 public class StaticConfig extends WebMvcConfigurerAdapter {
 
+    /**
+     Ohjaa springin lukemaan tiedostot oikeasta kansiosta
+     * @param registry
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// System.out.println("jouaskdhsakjfsaehdfs");

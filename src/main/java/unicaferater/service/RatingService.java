@@ -29,10 +29,21 @@ public class RatingService {
     @Autowired
     private FoodRepository foodRepo;
     
+    /**
+     * Palauttaa parhaan arvion saaneen ruuan
+     * @return
+     */
     public Food getHighestRatedFood() {
         return getTopHighestRated(1).get(0);
     }
     
+    /**
+     * Hakee ruuat tietokannasta ja listaa ne paremmuusjärjestykseen
+     * @param howMany
+     * Kuinka monta tulosta halutaan
+     * @return
+     * lista ruuista.
+     */
     public List<Food> getTopHighestRated(int howMany) {
         List<Food> foods = foodRepo.findAll();
         List<Food> highestRated = new ArrayList();

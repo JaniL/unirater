@@ -13,7 +13,7 @@ import unicaferater.domain.Restaurant;
  *
  * @author chang
  */
-
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
-    
+
+    Restaurant findByName(String name);
 }

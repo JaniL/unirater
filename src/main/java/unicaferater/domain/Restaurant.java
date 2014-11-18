@@ -5,6 +5,7 @@
  */
 package unicaferater.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +27,10 @@ public class Restaurant extends AbstractPersistable<Long> {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Food> foods;
 
+    public Restaurant() {
+        foods = new ArrayList();
+    }
+
     
     public String getName() {
         return name;
@@ -43,6 +48,6 @@ public class Restaurant extends AbstractPersistable<Long> {
         this.foods = foods;
     }
     
-    
-    
+     
+        
 }

@@ -27,35 +27,47 @@ import unicaferater.domain.Rating;
  *
  * @author chang
  */
-@RequestMapping("/foods")
+@RequestMapping("*")
 @Controller
 public class FoodController {
-    
+
     @Autowired
     private FoodRepository foodRepo;
-    
+
     @Autowired
     private RestaurantRepository restaurantRepo;
+<<<<<<< HEAD
     
     @Autowired
     private RatingRepository ratingRepo;
     
+=======
+
+    /**
+     * Listaa kaikki ruuat ja ravintolat omaan modeliin
+     * @param model
+     * @return
+     * palauttaa indexi sivun
+     */
+>>>>>>> bedd55a05861d81416e91f885897d754d3939206
     @RequestMapping(method = RequestMethod.GET)
     public String listFoods(Model model) {
-        
+
         model.addAttribute("foods", foodRepo.findAll());
-        System.out.println("asdkaskdjhasljkdhasljkdas");
         System.out.println(restaurantRepo.findAll().size());
         model.addAttribute("restaurants", restaurantRepo.findAll());
-        
-        String list = "";
-        for (Food food : foodRepo.findAll()) {
-            list += " " + food.getName();
-        }
-        
+
         return "index";
     }
-    
+
+    /**
+     * En tiedä mitä tekee
+     * voisi varmaan tehdä jotain
+     * tai olla jossain muualla.
+     * @param food
+     * @param bindRes
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
     public String postFood(@ModelAttribute Food food, BindingResult bindRes) {
         if (food.getName() != null && food.getPrice() != null) {
@@ -63,8 +75,7 @@ public class FoodController {
                 foodRepo.save(food);
             }
         }
-        
-        
+
         return "redirect:/foods";
     }
     
