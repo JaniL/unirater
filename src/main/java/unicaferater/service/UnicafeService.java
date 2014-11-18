@@ -7,9 +7,12 @@ import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import unicaferater.Repository.FoodRepository;
@@ -152,7 +155,7 @@ public class UnicafeService {
     }
 
     @Transactional
-    public void storeFoodsForWeek() { //not ready
+    public void storeFoodsForWeek() { //Stores fetched restaurant foods into repository
         Restaurant restaurantTmp;
         if (restaurantRepository.findByName(this.restaurant.getName()) != null) {
             restaurantTmp = restaurantRepository.findByName(this.restaurant.getName());
@@ -182,37 +185,20 @@ public class UnicafeService {
         restaurantRepository.save(restaurantTmp);
     }
 
-    public String listFoodsFromRepository() {
-        String ret = new String();
-        for (Restaurant r : restaurantRepository.findAll()) {
-
-            ret += "<br>\n";
-            ret += r.getName();
-            ret += "<br>\n";
-            ret += "<p>";
-            for (Food f : r.getFoods()) {
-                ret += "*" + f.getName();
-                ret += " - " + f.getPrice();
-                ret += "<br>\n";
+    public String storeAll() throws MalformedURLException, IOException { //Fetches and stores all restaurants
+        for (int i = 1; i <= 40; i++) {
+            
+            
+            try {
+                this.fetchInfo(new URL("http://www.hyyravintolat.fi/rss/fin/" + i + "/"));
+            } catch (IllegalArgumentException ex) {
+                continue; //Invalid document, skip.
+            } catch (FeedException ex) {
+                continue; //Invalid document, skip.
             }
-            ret += "</p>";
-            ret += "<hr>";
+            
+            this.storeFoodsForWeek();
         }
-        for (Food f : foodRepository.findAll()) {
-
-            ret += "*" + f.getName();
-            ret += " - " + f.getPrice();
-            if (f.getRestaurant() != null) {
-                ret += " - " + f.getRestaurant().getName();
-            }
-            ret += " - " + f.getAverage();
-            ret += "<br>\n";
-        }
-        ret += "</p>";
-//        }
-
-        return ret;
-
+        return "Saved all";
     }
-
 }
