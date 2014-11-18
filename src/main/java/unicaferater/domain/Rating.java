@@ -5,9 +5,9 @@
  */
 package unicaferater.domain;
 
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -31,15 +31,20 @@ public class Rating extends AbstractPersistable<Long> {
     public void setRating(int rating) {
         this.rating = rating;
     }
-    
+
     public Date getDate() {
         return date;
     }
 
-    
     public void setDate(Date date) {
         this.date = date;
     }
+
+
+
+
+    
+
     
     
 }

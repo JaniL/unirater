@@ -20,4 +20,5 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     Food findByName(String name);
     List<Food> findAllByName(String name);
     Food findByNameAndRestaurant(String name, Restaurant restaurant);
+    Food findByRestaurant(Restaurant restaurant);
 }

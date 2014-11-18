@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.RestaurantRepository;
@@ -42,7 +42,6 @@ public class FoodController {
     public String listFoods(Model model) {
 
         model.addAttribute("foods", foodRepo.findAll());
-        System.out.println(restaurantRepo.findAll().size());
         model.addAttribute("restaurants", restaurantRepo.findAll());
 
         return "index";
@@ -67,4 +66,12 @@ public class FoodController {
         return "redirect:/foods";
     }
 
+    @RequestMapping(value = "/{restaurantId}", method = RequestMethod.GET)
+    public String listFoodsByRestaurant(Model model, @PathVariable Long restaurantId) {
+        
+        model.addAttribute("foods", foodRepo.findByRestaurant(restaurantRepo.findOne(restaurantId)));
+        
+        return "index";
+    }
+    
 }

@@ -5,13 +5,15 @@
  */
 package unicaferater.domain;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -26,6 +28,9 @@ public class Food extends AbstractPersistable<Long> {
     private Price price;
     @ManyToOne
     private Restaurant restaurant;
+
+    @Temporal(TemporalType.DATE)
+    private Date lastSeenOnMenu;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Rating> ratings;
@@ -88,5 +93,17 @@ public class Food extends AbstractPersistable<Long> {
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
+
+    public Date getLastSeenOnMenu() {
+        return lastSeenOnMenu;
+    }
+
+    public void setLastSeenOnMenu(Date lastSeenOnMenu) {
+        this.lastSeenOnMenu = lastSeenOnMenu;
+    }
+    
+    
+    
+    
 
 }
