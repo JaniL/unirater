@@ -16,6 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import unicaferater.domain.Price;
+
 /**
  *
  * @author chang
