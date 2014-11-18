@@ -32,6 +32,12 @@ public class FoodController {
     @Autowired
     private RestaurantRepository restaurantRepo;
 
+    
+    @Autowired
+    private RatingRepository ratingRepo;
+    
+
+
     /**
      * Listaa kaikki ruuat ja ravintolat omaan modeliin
      * @param model
@@ -74,6 +80,27 @@ public class FoodController {
         model.addAttribute("foods", foodRepo.findByRestaurant(restaurantRepo.findOne(restaurantId)));
         model.addAttribute("restaurants", restaurantRepo.findAll());
         return "index";
+    }
+    
+    @RequestMapping(value="/rate/{foodId}", method = RequestMethod.POST, produces="application/json")
+    @ResponseBody
+    public String postRating(@PathVariable Long foodId, @ModelAttribute Rating rating) {
+    	Food food = foodRepo.findOne(foodId);
+    	
+    	if (food == null) {
+    		return "FOODNOTFOUND";
+    	}
+    	
+    	ratingRepo.save(rating);
+    	
+    	food.getRatings().add(rating);
+    	
+    	foodRepo.save(food);
+        
+        Double average = food.getAverage();
+    	int maara = food.getRatings().size();
+        
+    	return average + "/" + maara;
     }
     
 }
