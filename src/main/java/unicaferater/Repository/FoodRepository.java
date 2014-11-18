@@ -14,5 +14,6 @@ import unicaferater.domain.Food;
  * @author chang
  */
 public interface FoodRepository extends JpaRepository<Food, Long> {
+
     Food findByName(String name);
 }

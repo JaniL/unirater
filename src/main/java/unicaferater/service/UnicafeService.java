@@ -1,4 +1,4 @@
-package wepaharkka.service;
+package unicaferater.service;
 
 import org.springframework.stereotype.Service;
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -10,9 +10,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import wepaharkka.Repository.FoodRepository;
-import wepaharkka.domain.Food;
-import wepaharkka.domain.Price;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import unicaferater.Repository.FoodRepository;
+import unicaferater.Repository.RestaurantRepository;
+import unicaferater.domain.Food;
+import unicaferater.domain.Price;
+import unicaferater.domain.Restaurant;
 
 /**
  *
@@ -21,18 +25,22 @@ import wepaharkka.domain.Price;
 @Service
 public class UnicafeService {
 
+    @Autowired
     private FoodRepository foodRepository;
+
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     private ArrayList<String> titles;
     private ArrayList<String> descriptions;
 
-    private String restaurant;
+    private Restaurant restaurant;
     private String week;
 
     public UnicafeService() {
         this.titles = new ArrayList();
         this.descriptions = new ArrayList();
-        this.restaurant = null;
+        this.restaurant = new Restaurant();
         this.week = null;
 
     }
@@ -43,7 +51,8 @@ public class UnicafeService {
         SyndFeed feed = input.build(new XmlReader(url));
         this.descriptions = new ArrayList();
         this.titles = new ArrayList();
-        this.restaurant = feed.getTitle();
+        this.restaurant = new Restaurant();
+        this.restaurant.setName(feed.getTitle());
         this.week = feed.getDescriptionEx().getValue();;
         for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) {
 
@@ -61,11 +70,11 @@ public class UnicafeService {
     }
 
     public String getTitle() {//Name of restaurant
-        return this.restaurant + " - " + this.week;
+        return this.getRestaurant() + " - " + this.getWeek();
     }
 
     public String getRestaurant() {
-        return this.restaurant;
+        return this.restaurant.getName();
     }
 
     public String getWeek() {
@@ -99,6 +108,7 @@ public class UnicafeService {
         for (int j = 0; j < ret.size(); j++) {
             Food food = new Food();
             food.setName(ret.get(j));
+//            food.setRestaurant(this.restaurant);
             if (prices.size() == j) {
                 break;
             }
@@ -111,7 +121,9 @@ public class UnicafeService {
             } else {
                 food.setPrice(Price.Makeasti);
             }
+
             foods.add(food);
+
         }
         return foods;
     }
@@ -126,7 +138,12 @@ public class UnicafeService {
 
             ret += "<p>" + this.getTitleForDay(i) + ":<br>\n";
             for (Food f : this.getFoodsForDay(i)) {
-                ret += "*" + f.getName() + " - " + f.getPrice() + "<br>\n";
+
+                ret += "*" + f.getName();
+                if (!f.getPrice().equals(Price.Makeasti)) {
+                    ret += " - " + f.getPrice();
+                }
+                ret += "<br>\n";
             }
             ret += "</p>\n";
         }
@@ -134,16 +151,68 @@ public class UnicafeService {
         return ret;
     }
 
+    @Transactional
     public void storeFoodsForWeek() { //not ready
+        Restaurant restaurantTmp;
+        if (restaurantRepository.findByName(this.restaurant.getName()) != null) {
+            restaurantTmp = restaurantRepository.findByName(this.restaurant.getName());
+        } else {
+            restaurantTmp = restaurantRepository.save(this.restaurant);
+        }
+        List<Food> foodsTmp;
+        if (restaurantTmp.getFoods() == null) {
+            foodsTmp = new ArrayList();
+        } else {
+            foodsTmp = restaurantTmp.getFoods();
+        }
         for (int i = 0; i < this.getTitles().size(); i++) {
 
             this.getTitleForDay(i);
             for (Food f : this.getFoodsForDay(i)) {
-                f.getName();
-                f.getPrice();
+                if (!f.getPrice().equals(Price.Makeasti) && foodRepository.findByName(f.getName()) == null) {
+                    f.setRestaurant(restaurantTmp);
+                    f = foodRepository.save(f);
+                    if (foodsTmp.isEmpty() || !foodsTmp.contains(f)) {
+                        foodsTmp.add(f);
+                    }
+                }
             }
-
         }
+        restaurantTmp.setFoods(foodsTmp);
+        restaurantRepository.save(restaurantTmp);
+    }
+
+    public String listFoodsFromRepository() {
+        String ret = new String();
+        for (Restaurant r : restaurantRepository.findAll()) {
+
+            ret += "<br>\n";
+            ret += r.getName();
+            ret += "<br>\n";
+            ret += "<p>";
+            for (Food f : r.getFoods()) {
+                ret += "*" + f.getName();
+                ret += " - " + f.getPrice();
+                ret += "<br>\n";
+            }
+            ret += "</p>";
+            ret += "<hr>";
+        }
+        for (Food f : foodRepository.findAll()) {
+
+            ret += "*" + f.getName();
+            ret += " - " + f.getPrice();
+            if (f.getRestaurant() != null) {
+                ret += " - " + f.getRestaurant().getName();
+            }
+            ret += " - " + f.getAverage();
+            ret += "<br>\n";
+        }
+        ret += "</p>";
+//        }
+
+        return ret;
+
     }
 
 }
