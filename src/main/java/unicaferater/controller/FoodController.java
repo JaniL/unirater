@@ -10,13 +10,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import unicaferater.Repository.FoodRepository;
+import unicaferater.Repository.RatingRepository;
 import unicaferater.Repository.RestaurantRepository;
 import unicaferater.domain.Food;
+import unicaferater.domain.Rating;
 
 /**
  *
@@ -31,6 +36,9 @@ public class FoodController {
     
     @Autowired
     private RestaurantRepository restaurantRepo;
+    
+    @Autowired
+    private RatingRepository ratingRepo;
     
     @RequestMapping(method = RequestMethod.GET)
     public String listFoods(Model model) {
@@ -58,6 +66,24 @@ public class FoodController {
         
         
         return "redirect:/foods";
+    }
+    
+    @RequestMapping(value="/rate/{foodId}", method = RequestMethod.POST)
+    @ResponseBody
+    public String postRating(@PathVariable Long foodId, @ModelAttribute Rating rating) {
+    	Food food = foodRepo.findOne(foodId);
+    	
+    	if (food == null) {
+    		return "FOODNOTFOUND";
+    	}
+    	
+    	ratingRepo.save(rating);
+    	
+    	food.getRatings().add(rating);
+    	
+    	foodRepo.save(food);
+    	
+    	return "DONE";
     }
     
 }

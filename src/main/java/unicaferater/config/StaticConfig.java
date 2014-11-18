@@ -12,7 +12,8 @@ public class StaticConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		System.out.println("jouaskdhsakjfsaehdfs");
+		// System.out.println("jouaskdhsakjfsaehdfs");
+		// registry.
 		  registry.addResourceHandler("/static/**")
 		    .addResourceLocations("classpath:/static/");
     }

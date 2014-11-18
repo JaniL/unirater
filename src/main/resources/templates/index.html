@@ -8,6 +8,7 @@
 
     <!-- Bootstrap -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet"/>
+    
 
   
 </head>
@@ -62,12 +63,12 @@
                     <tr th:each="food : ${foods}">
                         <td th:text="${food.name}">Pizzaa</td>
                         <td th:text="${food.price}">Halpaa</td>
-                        <td>
-                            <span class="glyphicon glyphicon glyphicon-star-empty"></span>
-                            <span class="glyphicon glyphicon glyphicon-star-empty"></span>
-                            <span class="glyphicon glyphicon glyphicon-star-empty"></span>
-                            <span class="glyphicon glyphicon glyphicon-star-empty"></span>
-                            <span class="glyphicon glyphicon glyphicon-star-empty"></span>
+                        <td class="ratingstars">
+                            <span class="glyphicon glyphicon glyphicon-star-empty onestar" th:attr="data-id=${food.id}" data-number="1"></span>
+                            <span class="glyphicon glyphicon glyphicon-star-empty twostars" th:attr="data-id=${food.id}" data-number="2"></span>
+                            <span class="glyphicon glyphicon glyphicon-star-empty threestars" th:attr="data-id=${food.id}" data-number="3"></span>
+                            <span class="glyphicon glyphicon glyphicon-star-empty fourstars" th:attr="data-id=${food.id}" data-number="4"></span>
+                            <span class="glyphicon glyphicon glyphicon-star-empty fivestars" th:attr="data-id=${food.id}" data-number="5"></span>
                         </td>
                     </tr>
                 </tbody>
@@ -81,5 +82,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/main.js"></script>
 </body>
 </html>
