@@ -38,7 +38,6 @@ public class RatingTest {
         
         food.setName("JaninSukat");
         food.setPrice(Price.Makeasti);
-        rating.setFood(food);
         rating.setRating(5);
         Date paiva = new Date();
         rating.setDate(paiva);
@@ -50,7 +49,6 @@ public class RatingTest {
     @Transactional
     public void getSetTest() {
          Date paiva = new Date();
-        assertEquals(rating.getFood().getName(), "JaninSukat");
         assertEquals(rating.getRating(), 5);
         assertEquals(rating.getDate(),paiva);
     }

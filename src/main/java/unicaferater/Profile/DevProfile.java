@@ -20,7 +20,7 @@ import unicaferater.domain.Rating;
 import unicaferater.domain.Restaurant;
 
 @Configuration
-@Profile(value = {"dev"})
+@Profile(value = {"dev", "default"})
 
 public class DevProfile {
     
@@ -38,6 +38,22 @@ public class DevProfile {
         food.setName("asd");
         food.setPrice(Price.Kevyesti);
         
+        Food food2 = new Food();
+        food2.setName("Makarooni");
+        food2.setPrice(Price.Maukkaasti);
+        
+        Rating rating2 = new Rating();
+        rating2.setDate(new Date());
+        rating2.setRating(3);
+        
+        rating2 = ratingRepo.save(rating2);
+        
+        List<Rating> ratings2 = new ArrayList<>();
+        ratings2.add(rating2);
+        
+        food2.setRatings(ratings2);
+        foodRepo.save(food2);
+        
         Rating rating = new Rating();
         rating.setDate(new Date());
         rating.setRating(5);
@@ -47,7 +63,6 @@ public class DevProfile {
         List<Rating> ratings = new ArrayList<>();
         ratings.add(rating);
         
-        rating.setFood(food);
         food.setRatings(ratings);
         
         foodRepo.save(food);
