@@ -36,12 +36,12 @@ public class FoodController {
 
     @Autowired
     private RestaurantRepository restaurantRepo;
-<<<<<<< HEAD
+
     
     @Autowired
     private RatingRepository ratingRepo;
     
-=======
+
 
     /**
      * Listaa kaikki ruuat ja ravintolat omaan modeliin
@@ -49,7 +49,6 @@ public class FoodController {
      * @return
      * palauttaa indexi sivun
      */
->>>>>>> bedd55a05861d81416e91f885897d754d3939206
     @RequestMapping(method = RequestMethod.GET)
     public String listFoods(Model model) {
 
@@ -97,7 +96,7 @@ public class FoodController {
         Double average = food.getAverage();
     	int maara = food.getRatings().size();
         
-    	return average + "/" + maara    ;
+    	return average + "/" + maara;
     }
     
 }
