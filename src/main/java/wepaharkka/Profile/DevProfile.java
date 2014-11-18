@@ -20,7 +20,7 @@ import wepaharkka.domain.Rating;
 import wepaharkka.domain.Restaurant;
 
 @Configuration
-@Profile(value = {"dev"})
+@Profile(value = {"dev", "default"})
 
 public class DevProfile {
     
@@ -38,6 +38,10 @@ public class DevProfile {
         food.setName("asd");
         food.setPrice(Price.Kevyesti);
         
+        Food food2 = new Food();
+        food.setName("Makarooni");
+        food.setPrice(Price.Maukkaasti);
+        
         Rating rating = new Rating();
         rating.setDate(new Date());
         rating.setRating(5);
@@ -47,7 +51,6 @@ public class DevProfile {
         List<Rating> ratings = new ArrayList<>();
         ratings.add(rating);
         
-        rating.setFood(food);
         food.setRatings(ratings);
         
         foodRepo.save(food);
