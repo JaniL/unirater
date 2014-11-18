@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.wepajengi</groupId>
-    <artifactId>wepaharkka</artifactId>
+    <artifactId>unicaferater</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>wepaharkka</name>
+    <name>unicaferater</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>
@@ -68,7 +68,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <start-class>wepaharkka.Application</start-class>
+        <start-class>unicaferater.Application</start-class>
         <java.version>1.7</java.version>
     </properties>
 

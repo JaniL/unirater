@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wepaharkka.Repository;
+package unicaferater.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import wepaharkka.domain.Food;
+
+import unicaferater.domain.Rating;
 
 /**
  *
  * @author chang
  */
-public interface FoodRepository extends JpaRepository<Food, Long> {
-    Food findByName(String name);
+public interface RatingRepository extends JpaRepository<Rating, Long> {
+    
 }

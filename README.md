@@ -1,22 +1,22 @@
 UnicafeRater 29.10.2014
 ----------------------------------------------------------------------------
 
-[![Build Status](https://travis-ci.org/JaniL/wepaharkka.svg?branch=master)](https://travis-ci.org/JaniL/wepaharkka)
-[![Coverage Status](https://img.shields.io/coveralls/JaniL/wepaharkka.svg)](https://coveralls.io/r/JaniL/wepaharkka)
+[![Build Status](https://travis-ci.org/JaniL/unicaferater.svg?branch=master)](https://travis-ci.org/JaniL/unicaferater)
+[![Coverage Status](https://img.shields.io/coveralls/JaniL/unicaferater.svg)](https://coveralls.io/r/JaniL/unicaferater)
 
-UnicafeRater on webpalvelu, jossa käyttäjät voivat arvostella ja katsoa
-arvosteluja kyseisenä päivänä tarjolla oleviiin ruokiin eri Unicafe ravintoloissa.
-käyttäjät saavat ravintolan valittuaan tarjolle kyseisen päivänä ruuat ja
+UnicafeRater on webpalvelu, jossa kï¿½yttï¿½jï¿½t voivat arvostella ja katsoa
+arvosteluja kyseisenï¿½ pï¿½ivï¿½nï¿½ tarjolla oleviiin ruokiin eri Unicafe ravintoloissa.
+kï¿½yttï¿½jï¿½t saavat ravintolan valittuaan tarjolle kyseisen pï¿½ivï¿½nï¿½ ruuat ja
 ruokien arvosteluiden keskiarvot. Arvostelut kirjataan asteikolla 0-5.
 
-Tietokannasta on myös mahdollista tehdä kootusti hakuja etsien parhaiten
+Tietokannasta on myï¿½s mahdollista tehdï¿½ kootusti hakuja etsien parhaiten
 arvosteltuja ravintoloita ja parhaiten arvosteltuja ruokia. 
 
-https://wepaharkka.herokuapp.com/
+https://unicaferater.herokuapp.com/
 
 ----------------------------------------------------------------------------
 
-UnicafeRater ota yhteyttä:
+UnicafeRater ota yhteyttï¿½:
 
 IRCnet:
 Lesandre, Janluu, Coolness, neodyymi

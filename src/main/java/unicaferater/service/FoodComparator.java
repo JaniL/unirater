@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wepaharkka.service;
+package unicaferater.service;
 
 import java.util.Comparator;
-import wepaharkka.domain.Food;
+
+import unicaferater.domain.Food;
 
 /**
  *

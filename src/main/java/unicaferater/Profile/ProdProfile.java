@@ -1,4 +1,4 @@
-package wepaharkka.Profile;
+package unicaferater.Profile;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -37,7 +37,7 @@ public class ProdProfile {
 
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPersistenceUnitName("production");
-        factory.setPackagesToScan("wepaharkka");
+        factory.setPackagesToScan("unicaferater");
         factory.setDataSource(dataSource());
 
         factory.afterPropertiesSet();

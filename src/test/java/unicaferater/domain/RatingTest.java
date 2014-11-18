@@ -3,14 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wepaharkka.domain;
+package unicaferater.domain;
 
 import java.util.Date;
+
 import javax.transaction.Transactional;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.springframework.test.context.ActiveProfiles;
+
+import unicaferater.domain.Food;
+import unicaferater.domain.Price;
+import unicaferater.domain.Rating;
 
 /**
  *

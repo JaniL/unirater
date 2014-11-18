@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wepaharkka.Repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import wepaharkka.domain.Rating;
+package unicaferater.domain;
 
 /**
  *
  * @author chang
  */
-public interface RatingRepository extends JpaRepository<Rating, Long> {
-    
+public enum Price {
+    Edullisesti,Maukkaasti,Kevyesti,Makeasti;
 }
