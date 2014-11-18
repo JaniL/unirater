@@ -9,8 +9,12 @@ import com.sun.syndication.io.XmlReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.transaction.Transactional;
@@ -93,6 +97,13 @@ public class UnicafeService {
         String[] lines = this.getDescriptions().get(i).split("<span class=\"meal\">");
         ArrayList<Food> foods = new ArrayList();
         ArrayList<String> prices = new ArrayList();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("E dd.mm.yyyy", new Locale("fi", "FI"));
+        Date foodDate;
+        try {
+            foodDate = dateFormat.parse(this.getTitleForDay(i));
+        } catch (ParseException ex) {
+            foodDate = new Date();
+        }
         for (String l : lines) {
             if (l.contains("<span class=\"priceinfo\">")) {
                 String h = new String();
@@ -111,7 +122,7 @@ public class UnicafeService {
         for (int j = 0; j < ret.size(); j++) {
             Food food = new Food();
             food.setName(ret.get(j));
-//            food.setRestaurant(this.restaurant);
+            food.setLastSeenOnMenu(foodDate);
             if (prices.size() == j) {
                 break;
             }
@@ -187,8 +198,7 @@ public class UnicafeService {
 
     public String storeAll() throws MalformedURLException, IOException { //Fetches and stores all restaurants
         for (int i = 1; i <= 40; i++) {
-            
-            
+
             try {
                 this.fetchInfo(new URL("http://www.hyyravintolat.fi/rss/fin/" + i + "/"));
             } catch (IllegalArgumentException ex) {
@@ -196,7 +206,7 @@ public class UnicafeService {
             } catch (FeedException ex) {
                 continue; //Invalid document, skip.
             }
-            
+
             this.storeFoodsForWeek();
         }
         return "Saved all";
