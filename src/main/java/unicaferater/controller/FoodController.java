@@ -43,7 +43,9 @@ public class FoodController {
 
         model.addAttribute("foods", foodRepo.findAll());
         model.addAttribute("restaurants", restaurantRepo.findAll());
-
+        
+        //jos haluaa oletuksena excan ruuat näkyviin niin tuosta:
+        //return "redirect:/foods/11 
         return "index";
     }
 
@@ -70,7 +72,7 @@ public class FoodController {
     public String listFoodsByRestaurant(Model model, @PathVariable Long restaurantId) {
         
         model.addAttribute("foods", foodRepo.findByRestaurant(restaurantRepo.findOne(restaurantId)));
-        
+        model.addAttribute("restaurants", restaurantRepo.findAll());
         return "index";
     }
     

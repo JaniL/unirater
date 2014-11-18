@@ -32,7 +32,7 @@
                 <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ravintolat <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li th:each="restaurant : ${restaurants}"><a href="#" th:text="${restaurant.name}">Kumpula</a></li>
+            <li th:each="restaurant : ${restaurants}"><a th:href="@{|/${restaurant.id}|}" th:text="${restaurant.name}">Kumpula</a></li>
           </ul>
         </li>
 
