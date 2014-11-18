@@ -34,7 +34,11 @@ public class Food extends AbstractPersistable<Long> {
         return name;
     }
 
-    
+    /**
+     * Laskee ruualle kaikkien arvosteluiden keskiarvon
+     * @return
+     * paluttaa double tyylisen vastauksen yhdellä desimaalilla
+     */
     public double getAverage() {
         if (ratings == null) return 0;
         if (ratings.isEmpty()) return 0;

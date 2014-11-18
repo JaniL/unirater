@@ -32,6 +32,12 @@ public class FoodController {
     @Autowired
     private RestaurantRepository restaurantRepo;
 
+    /**
+     * Listaa kaikki ruuat ja ravintolat omaan modeliin
+     * @param model
+     * @return
+     * palauttaa indexi sivun
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String listFoods(Model model) {
 
@@ -42,6 +48,14 @@ public class FoodController {
         return "index";
     }
 
+    /**
+     * En tiedä mitä tekee
+     * voisi varmaan tehdä jotain
+     * tai olla jossain muualla.
+     * @param food
+     * @param bindRes
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
     public String postFood(@ModelAttribute Food food, BindingResult bindRes) {
         if (food.getName() != null && food.getPrice() != null) {
