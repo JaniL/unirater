@@ -23,6 +23,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import unicaferater.Application;
 import unicaferater.Repository.FoodRepository;
+import unicaferater.domain.Food;
+import unicaferater.domain.Price;
+import unicaferater.domain.Rating;
 
 /**
  *
@@ -75,6 +78,8 @@ public class FoodTest {
 
         assertEquals(food.getRatings().size(), 3);
     }
+
+    //Alla tietokanta testei eivät toimi vielä. Pitäis toimia sit kun kannat on korjattu
 
     @Test
     @Transactional

@@ -16,6 +16,9 @@ import static org.junit.Assert.*;
 
 import org.springframework.test.context.ActiveProfiles;
 
+import unicaferater.domain.Food;
+import unicaferater.domain.Price;
+import unicaferater.domain.Rating;
 
 /**
  *
@@ -36,8 +39,8 @@ public class RatingTest {
         food.setName("JaninSukat");
         food.setPrice(Price.Makeasti);
         rating.setRating(5);
-        Date date = new Date();
-        rating.setDate(date);
+        Date paiva = new Date();
+        rating.setDate(paiva);
         
 
     }
@@ -45,8 +48,8 @@ public class RatingTest {
     @Test
     @Transactional
     public void getSetTest() {
-        Date date = new Date();
+         Date paiva = new Date();
         assertEquals(rating.getRating(), 5);
-        assertFalse(rating.getDate().before(date));
+        assertEquals(rating.getDate(),paiva);
     }
 }
