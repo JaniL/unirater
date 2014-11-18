@@ -22,11 +22,12 @@ $(document).ready(function() {
 	$(".ratingstars > .glyphicon-star-empty").click(function() {
 		if ($( this ).parent().hasClass( "hasvoted" ) == false) {
 			var foodId = $(this).attr('data-id')
-			$.post("/foods/rate/" + foodId, { rating: parseInt($(this).attr('data-number')) }, function(data) {
+			$.post("/rate/" + foodId, { rating: parseInt($(this).attr('data-number')) }, function(data) {
 				console.log(data);
 				var tulos = data.split("/");
 				if (tulos.length == 2) {
 					var ka = parseFloat(tulos[0]);
+					$(this).parent().addClass("hasvoted");
 					var aanimaara = parseInt(tulos[1]);
 					$(this).css('color', '#C7BD2E');
 					for (var i = 1; i <= ka; i++) {
