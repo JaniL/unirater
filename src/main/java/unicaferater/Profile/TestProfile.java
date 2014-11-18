@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wepaharkka.Profile;
+package unicaferater.Profile;
 
 import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;

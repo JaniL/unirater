@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wepaharkka.domain;
+package unicaferater.domain;
 
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -20,11 +20,9 @@ public class Rating extends AbstractPersistable<Long> {
     private int rating;
 
     
-    private Food food;
     @javax.persistence.Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
     
-    private Restaurant restaurant;
 
     public int getRating() {
         return rating;
@@ -34,30 +32,19 @@ public class Rating extends AbstractPersistable<Long> {
         this.rating = rating;
     }
 
-    public Food getFood() {
-        return food;
-    }
-
-    public void setFood(Food food) {
-        this.food = food;
-    }
-    
-    
     public Date getDate() {
         return date;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-    
     public void setDate(Date date) {
         this.date = date;
     }
+
+
+
+
+    
+
     
     
 }

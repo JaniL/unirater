@@ -3,14 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wepaharkka.domain;
+package unicaferater.domain;
 
 import java.util.Date;
+
 import javax.transaction.Transactional;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.springframework.test.context.ActiveProfiles;
+
 
 /**
  *
@@ -30,10 +35,9 @@ public class RatingTest {
         
         food.setName("JaninSukat");
         food.setPrice(Price.Makeasti);
-        rating.setFood(food);
         rating.setRating(5);
-        Date paiva = new Date();
-        rating.setDate(paiva);
+        Date date = new Date();
+        rating.setDate(date);
         
 
     }
@@ -41,9 +45,8 @@ public class RatingTest {
     @Test
     @Transactional
     public void getSetTest() {
-         Date paiva = new Date();
-        assertEquals(rating.getFood().getName(), "JaninSukat");
+        Date date = new Date();
         assertEquals(rating.getRating(), 5);
-        assertEquals(rating.getDate(),paiva);
+        assertFalse(rating.getDate().before(date));
     }
 }

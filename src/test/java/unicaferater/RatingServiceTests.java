@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wepaharkka;
+package unicaferater;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.transaction.Transactional;
+
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,11 +20,13 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import wepaharkka.Repository.FoodRepository;
-import wepaharkka.Repository.RatingRepository;
-import wepaharkka.domain.Food;
-import wepaharkka.domain.Rating;
-import wepaharkka.service.RatingService;
+
+import unicaferater.Application;
+import unicaferater.Repository.FoodRepository;
+import unicaferater.Repository.RatingRepository;
+import unicaferater.domain.Food;
+import unicaferater.domain.Rating;
+import unicaferater.service.RatingService;
 
 /**
  *

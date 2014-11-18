@@ -1,14 +1,17 @@
-package wepaharkka;
+package unicaferater;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import wepaharkka.domain.Food;
-import wepaharkka.domain.Price;
+
+import unicaferater.Application;
+import unicaferater.domain.Food;
+import unicaferater.domain.Price;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)

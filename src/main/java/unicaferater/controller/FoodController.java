@@ -3,43 +3,58 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wepaharkka.controller;
+package unicaferater.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import wepaharkka.Repository.FoodRepository;
-import wepaharkka.domain.Food;
+
+import unicaferater.Repository.FoodRepository;
+import unicaferater.Repository.RestaurantRepository;
+import unicaferater.domain.Food;
 
 /**
  *
  * @author chang
  */
-@RequestMapping("/foods")
+@RequestMapping("*")
 @Controller
 public class FoodController {
-    
+
     @Autowired
     private FoodRepository foodRepo;
-    
+
+    @Autowired
+    private RestaurantRepository restaurantRepo;
+
+    /**
+     * Listaa kaikki ruuat ja ravintolat omaan modeliin
+     * @param model
+     * @return
+     * palauttaa indexi sivun
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String listFoods(Model model) {
-        
+
         model.addAttribute("foods", foodRepo.findAll());
-        
-        String list = "";
-        for (Food food : foodRepo.findAll()) {
-            list += " " + food.getName();
-        }
-        
+        model.addAttribute("restaurants", restaurantRepo.findAll());
+
         return "index";
     }
-    
+
+    /**
+     * En tiedä mitä tekee
+     * voisi varmaan tehdä jotain
+     * tai olla jossain muualla.
+     * @param food
+     * @param bindRes
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
     public String postFood(@ModelAttribute Food food, BindingResult bindRes) {
         if (food.getName() != null && food.getPrice() != null) {
@@ -47,9 +62,16 @@ public class FoodController {
                 foodRepo.save(food);
             }
         }
-        
-        
+
         return "redirect:/foods";
+    }
+
+    @RequestMapping(value = "/{restaurantId}", method = RequestMethod.GET)
+    public String listFoodsByRestaurant(Model model, @PathVariable Long restaurantId) {
+        
+        model.addAttribute("foods", foodRepo.findByRestaurant(restaurantRepo.findOne(restaurantId)));
+        
+        return "index";
     }
     
 }
