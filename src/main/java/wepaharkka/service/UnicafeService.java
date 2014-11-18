@@ -1,12 +1,8 @@
 package wepaharkka.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import com.sun.syndication.feed.synd.SyndCategoryImpl;
-import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.feed.synd.SyndLinkImpl;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
@@ -14,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import wepaharkka.Repository.FoodRepository;
 import wepaharkka.domain.Food;
 import wepaharkka.domain.Price;
 
@@ -24,35 +21,30 @@ import wepaharkka.domain.Price;
 @Service
 public class UnicafeService {
 
-    private RestTemplate restTemplate;
-//    private SyndFeedInput input;
-//    private SyndFeed feed;
-    private URL url;
+    private FoodRepository foodRepository;
+
     private ArrayList<String> titles;
     private ArrayList<String> descriptions;
 
-    private String title;
+    private String restaurant;
+    private String week;
 
     public UnicafeService() {
-        this.restTemplate = new RestTemplate();
-        String urli = "http://www.hyyravintolat.fi/rss/fin/";
-        this.url = null;
-//        this.input = new SyndFeedInput();
-//        this.feed = null;
         this.titles = new ArrayList();
         this.descriptions = new ArrayList();
-        this.title = null;
+        this.restaurant = null;
+        this.week = null;
 
     }
 
-    public void fetchInfo(URL url) throws IOException, IllegalArgumentException, FeedException {
-//        this.url = url;
+    public void fetchInfo(URL url) throws IOException, IllegalArgumentException, FeedException { //Gets info from url and parses it into food items
         this.titles = new ArrayList();
         SyndFeedInput input = new SyndFeedInput();
         SyndFeed feed = input.build(new XmlReader(url));
         this.descriptions = new ArrayList();
         this.titles = new ArrayList();
-        this.title = feed.getTitle() + "::" + feed.getDescriptionEx().getValue();;
+        this.restaurant = feed.getTitle();
+        this.week = feed.getDescriptionEx().getValue();;
         for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) {
 
             this.titles.add(entry.getTitle());
@@ -69,7 +61,15 @@ public class UnicafeService {
     }
 
     public String getTitle() {//Name of restaurant
-        return this.title;
+        return this.restaurant + " - " + this.week;
+    }
+
+    public String getRestaurant() {
+        return this.restaurant;
+    }
+
+    public String getWeek() {
+        return this.week;
     }
 
     public String getTitleForDay(int i) {//Date info for specific day 0=monday, 1=tuesday ... 6=sunday
@@ -132,6 +132,18 @@ public class UnicafeService {
         }
 
         return ret;
+    }
+
+    public void storeFoodsForWeek() { //not ready
+        for (int i = 0; i < this.getTitles().size(); i++) {
+
+            this.getTitleForDay(i);
+            for (Food f : this.getFoodsForDay(i)) {
+                f.getName();
+                f.getPrice();
+            }
+
+        }
     }
 
 }
