@@ -169,7 +169,7 @@ public class UnicafeService {
 
             this.getTitleForDay(i);
             for (Food f : this.getFoodsForDay(i)) {
-                if (!f.getPrice().equals(Price.Makeasti) && foodRepository.findByName(f.getName()) == null) {
+                if (!f.getPrice().equals(Price.Makeasti) && foodRepository.findByNameAndRestaurant(f.getName(), restaurantTmp) == null) {
                     f.setRestaurant(restaurantTmp);
                     f = foodRepository.save(f);
                     if (foodsTmp.isEmpty() || !foodsTmp.contains(f)) {

@@ -8,6 +8,7 @@ package unicaferater.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import unicaferater.domain.Food;
+import unicaferater.domain.Restaurant;
 
 /**
  *
@@ -16,4 +17,5 @@ import unicaferater.domain.Food;
 public interface FoodRepository extends JpaRepository<Food, Long> {
 
     Food findByName(String name);
+    Food findByNameAndRestaurant(String name, Restaurant restaurant);
 }
