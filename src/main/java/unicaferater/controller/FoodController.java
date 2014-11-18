@@ -68,7 +68,7 @@ public class FoodController {
         return "redirect:/foods";
     }
     
-    @RequestMapping(value="/rate/{foodId}", method = RequestMethod.POST)
+    @RequestMapping(value="/rate/{foodId}", method = RequestMethod.POST, produces="application/json")
     @ResponseBody
     public String postRating(@PathVariable Long foodId, @ModelAttribute Rating rating) {
     	Food food = foodRepo.findOne(foodId);
@@ -82,8 +82,11 @@ public class FoodController {
     	food.getRatings().add(rating);
     	
     	foodRepo.save(food);
-    	
-    	return "DONE";
+        
+        Double average = food.getAverage();
+    	int maara = food.getRatings().size();
+        
+    	return average + "/" + maara    ;
     }
     
 }

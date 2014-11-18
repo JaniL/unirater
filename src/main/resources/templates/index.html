@@ -69,6 +69,7 @@
                             <span class="glyphicon glyphicon glyphicon-star-empty threestars" th:attr="data-id=${food.id}" data-number="3"></span>
                             <span class="glyphicon glyphicon glyphicon-star-empty fourstars" th:attr="data-id=${food.id}" data-number="4"></span>
                             <span class="glyphicon glyphicon glyphicon-star-empty fivestars" th:attr="data-id=${food.id}" data-number="5"></span>
+                            <span th:text="${food.getAverage()}"></span>
                         </td>
                     </tr>
                 </tbody>
