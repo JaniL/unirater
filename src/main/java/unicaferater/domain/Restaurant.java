@@ -27,10 +27,19 @@ public class Restaurant extends AbstractPersistable<Long> {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Food> foods;
 
+    private int areacode;
+    
     public Restaurant() {
         foods = new ArrayList();
     }
 
+    public int getAreacode() {
+		return areacode;
+	}
+    
+    public void setAreacode(int areacode) {
+		this.areacode = areacode;
+	}
     
     public String getName() {
         return name;
