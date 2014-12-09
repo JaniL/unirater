@@ -56,7 +56,9 @@ public class Restaurant extends AbstractPersistable<Long> {
     public void setFoods(List<Food> foods) {
         this.foods = foods;
     }
-    
-     
-        
+
+    @Override
+    public String toString() {
+        return this.getName() + "(" + getFoods().size() + " foods)";
+    }
 }

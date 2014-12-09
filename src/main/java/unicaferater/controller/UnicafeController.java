@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import unicaferater.domain.FoodDetails;
+import unicaferater.domain.MenuOfTheDay;
+import unicaferater.domain.RestaurantResponse;
 import unicaferater.service.LounastyokaluService;
 import unicaferater.service.RestaurantService;
 import unicaferater.service.UnicafeService;
@@ -44,7 +47,17 @@ public class UnicafeController {
         return ret; */
     	
     	lounastyokaluService.fetchRestaurants();
-    	return "";
+        System.out.println("pow");
+        RestaurantResponse restaurantResponse = lounastyokaluService.fetchRestaurant((long) 9);
+
+        for (MenuOfTheDay menuOfTheDay : restaurantResponse.getData()) {
+            for (FoodDetails foodDetails : menuOfTheDay.getData()) {
+                System.out.println(foodDetails.getName() + "(" + foodDetails.getName_sv() + ")");
+            }
+
+        }
+
+        return "";
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
