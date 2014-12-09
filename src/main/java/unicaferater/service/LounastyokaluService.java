@@ -23,7 +23,12 @@ import com.google.gson.JsonParser;
 public class LounastyokaluService {
 	private String API_URL = "http://messi.hyyravintolat.fi/publicapi";
 	private RestTemplate restTemplate = new RestTemplate();
-	
+
+
+    /**
+     * Hakee Unicafen rajapinnasta ravintolat ja niiden id:t.
+     * @return Palauttaa Unicafen ravintolat
+     */
 	public RestaurantsResponse fetchRestaurants(){		
 		RestaurantsResponse result = restTemplate.getForObject(API_URL + "/restaurants", RestaurantsResponse.class);
 		
@@ -33,6 +38,11 @@ public class LounastyokaluService {
 		
 	}
 
+    /**
+     * Hakee Unicafen rajapinnasta ruokalistoja ravintolan id:n mukaan
+     * @param id Ravintolan id Unicafen rajanpinnassa
+     * @return Palauttaa pyydetyn ravintolan ruokalistat sekä informaatiota ravintolasta. (mm. aukioloajat)
+     */
     public RestaurantResponse fetchRestaurant(Long id) {
         RestaurantResponse result = restTemplate.getForObject(API_URL + "/restaurant/" + id, RestaurantResponse.class);
 
