@@ -30,7 +30,7 @@ public class RestaurantInformation {
     /**
      * Ei tietoa.
      */
-    private String ilta;
+    // private String ilta;
 
     // private String lounas;
 
@@ -102,9 +102,10 @@ public class RestaurantInformation {
         return description_sv;
     }
 
+    /*
     public String getIlta() {
         return ilta;
-    }
+    } */
 
     /**
      * Hakee ravintolan nimen
@@ -162,9 +163,9 @@ public class RestaurantInformation {
         this.description_sv = description_sv;
     }
 
-    public void setIlta(String ilta) {
+    /* public void setIlta(String ilta) {
         this.ilta = ilta;
-    }
+    } */
 
     /**
      * Asettaa ravintolan nimen

@@ -1,7 +1,6 @@
 package unicaferater.domain;
 
 import java.util.List;
-import unicaferater.domain.Restaurant;
 
 public class RestaurantResponse {
     /**
