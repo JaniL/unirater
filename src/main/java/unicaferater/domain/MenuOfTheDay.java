@@ -1,6 +1,11 @@
 package unicaferater.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jani on 9.12.2014.
@@ -14,9 +19,9 @@ public class MenuOfTheDay {
     /**
      * Listan päivämäärä suomeksi, englanniksi ja ruotsiksi.
      */
-    private String date;
-    private String date_en;
-    private String date_sv;
+    private Date date;
+    private Date date_en;
+    private Date date_sv;
 
     /**
      * Viesti. Ei tietoa mistä tässä on kysymys.
@@ -35,8 +40,8 @@ public class MenuOfTheDay {
      * Hakee listan suomenkielisen päivämäärän
      * @return Palauttaa listan suomenkielisen päivämäärän
      */
-    public String getDate() {
-        return date;
+    public Date getDate() {
+        return date_en;
     }
 
     /**
@@ -59,7 +64,7 @@ public class MenuOfTheDay {
      * Hakee englanninkielisen päivämäärän
      * @return Palauttaa englanninkielisen päivämäärän
      */
-    public String getDate_en() {
+    public Date getDate_en() {
         return date_en;
     }
 
@@ -67,8 +72,8 @@ public class MenuOfTheDay {
      * Hakee ruotsinkielisen päivämäärän
      * @return Palauttaa ruotsinkielisen päivämäärän
      */
-    public String getDate_sv() {
-        return date_sv;
+    public Date getDate_sv() {
+        return date_en;
     }
 
     /**
@@ -76,7 +81,7 @@ public class MenuOfTheDay {
      * @param date
      */
     public void setDate(String date) {
-        this.date = date;
+
     }
 
     /**
@@ -84,7 +89,17 @@ public class MenuOfTheDay {
      * @param date_en
      */
     public void setDate_en(String date_en) {
-        this.date_en = date_en;
+        //this.date_en = date_en;
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE dd.MM yyyy", Locale.ENGLISH);
+        try {
+            this.date_en = simpleDateFormat.parse(date_en + " " + Calendar.getInstance().get(Calendar.YEAR));
+            // this.date_en.
+        } catch (ParseException e) {
+            System.out.println("ei onnistunut");
+            System.out.println(e);
+            this.date_en = new Date();
+        }
     }
 
     /**
@@ -92,7 +107,7 @@ public class MenuOfTheDay {
      * @param date_sv
      */
     public void setDate_sv(String date_sv) {
-        this.date_sv = date_sv;
+
     }
 
     /**

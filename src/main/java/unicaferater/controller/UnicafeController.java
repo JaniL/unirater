@@ -51,6 +51,7 @@ public class UnicafeController {
         RestaurantResponse restaurantResponse = lounastyokaluService.fetchRestaurant((long) 9);
 
         for (MenuOfTheDay menuOfTheDay : restaurantResponse.getData()) {
+            System.out.println(menuOfTheDay.getDate());
             for (FoodDetails foodDetails : menuOfTheDay.getData()) {
                 System.out.println(foodDetails.getName() + "(" + foodDetails.getName_sv() + ")");
             }
