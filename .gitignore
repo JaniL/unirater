@@ -8,6 +8,7 @@
 *.pydevproject
 .project
 .metadata
+.idea/
 bin/**
 tmp/**
 tmp/**/*
@@ -27,3 +28,5 @@ nbactions.xml
 # Locally stored "Eclipse launch configurations"
 *.launch
 nbactions.xml
+
+.DS_Store
