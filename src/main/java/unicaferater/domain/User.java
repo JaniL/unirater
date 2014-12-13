@@ -1,22 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package unicaferater.domain;
 
-/**
- *
- * @author chang
- */
-import java.io.Serializable;
+
 import javax.persistence.*;
 import unicaferater.auth.Role;
 import unicaferater.auth.SocialMediaService;
+import unicaferater.entity.BaseEntity;
  
 @Entity
 @Table(name = "user_accounts")
-public class User implements Serializable {
+public class User extends BaseEntity<Long> {
  
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,10 +34,12 @@ public class User implements Serializable {
     @Column(name = "sign_in_provider", length = 20)
     private SocialMediaService signInProvider;
  
-    public User() {
+    //The constructor and getters are omitted for the sake of clarity
  
+    public static Builder getBuilder() {
+        return new Builder();
     }
- 
+
     public Long getId() {
         return id;
     }
@@ -100,5 +94,45 @@ public class User implements Serializable {
 
     public void setSignInProvider(SocialMediaService signInProvider) {
         this.signInProvider = signInProvider;
+    }
+     
+    
+    public static class Builder {
+ 
+        private User user;
+ 
+        public Builder() {
+            user = new User();
+            user.role = Role.ROLE_USER;
+        }
+ 
+        public Builder email(String email) {
+            user.email = email;
+            return this;
+        }
+ 
+        public Builder firstName(String firstName) {
+            user.firstName = firstName;
+            return this;
+        }
+ 
+        public Builder lastName(String lastName) {
+            user.lastName = lastName;
+            return this;
+        }
+ 
+        public Builder password(String password) {
+            user.password = password;
+            return this;
+        }
+ 
+        public Builder signInProvider(SocialMediaService signInProvider) {
+            user.signInProvider = signInProvider;
+            return this;
+        }
+ 
+        public User build() {
+            return user;
+        }
     }
 }
