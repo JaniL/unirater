@@ -8,6 +8,7 @@ package unicaferater.domain;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -15,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.data.jpa.domain.AbstractPersistable;
-
 import unicaferater.domain.Price;
 
 /**
@@ -24,21 +24,21 @@ import unicaferater.domain.Price;
  */
 @Entity
 public class Food extends AbstractPersistable<Long> {
+// @Column(unique = true)
 
-//    @Column(unique = true)
     private String name;
     private Price price;
+     int total; //olisko helpompi pitää ruuan arvostelu karmaa omassa muuttujassa?
     @ManyToOne
     private Restaurant restaurant;
-
     @Temporal(TemporalType.DATE)
     private Date lastSeenOnMenu;
-
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade=CascadeType.ALL) //cascade vaadittiin että homma ei kaatuisi
     private List<Rating> ratings;
-
+    
     public Food() {
         this.ratings = new ArrayList();
+        total = 0; //joka olisi alussa 0
     }
 
     public String getName() {
@@ -46,24 +46,24 @@ public class Food extends AbstractPersistable<Long> {
     }
 
     /**
-     * Laskee ruualle kaikkien arvosteluiden keskiarvon
-     * @return
-     * paluttaa double tyylisen vastauksen yhdellä desimaalilla
+     * Laskee ruualle kaikkien arvosteluiden Totaalin.
+     *
+     * @return paluttaa total arvostelun INT arvon. 
      */
-    public double getAverage() {
+    public int getRatingResult() { //masterissa getAvarage
         if (ratings == null) {
             return 0;
         }
         if (ratings.isEmpty()) {
             return 0;
         }
-
-        double sum = 0;
+        int sum = 0;
         for (Rating rating : ratings) {
             sum += rating.getRating();
         }
-
-        return Math.round(sum / ratings.size());
+        total = 0;
+        total = sum; //ja joka muutettaisiin aina lisäyksessä vastaamaan todellisuutta?
+        return sum; 
     }
 
     public void setName(String name) {
@@ -87,9 +87,7 @@ public class Food extends AbstractPersistable<Long> {
     }
 
     public Restaurant getRestaurant() {
-
         return restaurant;
-
     }
 
     public void setRestaurant(Restaurant restaurant) {
@@ -103,9 +101,4 @@ public class Food extends AbstractPersistable<Long> {
     public void setLastSeenOnMenu(Date lastSeenOnMenu) {
         this.lastSeenOnMenu = lastSeenOnMenu;
     }
-    
-    
-    
-    
-
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package unicaferater.domain;
 
 import java.util.Calendar;
@@ -16,13 +11,10 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  */
 @Entity
 public class Rating extends AbstractPersistable<Long> {
-    
-    private int rating;
 
-    
+    private int rating;
     @javax.persistence.Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
-    
 
     public int getRating() {
         return rating;
@@ -39,12 +31,4 @@ public class Rating extends AbstractPersistable<Long> {
     public void setDate(Date date) {
         this.date = date;
     }
-
-
-
-
-    
-
-    
-    
 }

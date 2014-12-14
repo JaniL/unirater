@@ -23,6 +23,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import unicaferater.Application;
 import unicaferater.Repository.FoodRepository;
+import unicaferater.Repository.RatingRepository;
 
 /**
  *
@@ -36,6 +37,8 @@ public class FoodTest {
 
     @Autowired
     FoodRepository foodrepository;
+      @Autowired
+    RatingRepository ratingrepository;
 
     Food food;
     ArrayList<Rating> arv;
@@ -48,7 +51,7 @@ public class FoodTest {
         food.setPrice(Price.Kevyesti);
 
         Rating arvostelut = new Rating();
-        arvostelut.setRating(5);
+        arvostelut.setRating(2);
         arv = new ArrayList();
         arv.add(arvostelut);
         food.setRatings(arv);
@@ -59,7 +62,7 @@ public class FoodTest {
     public void getterSetterTest() {
         assertEquals(food.getPrice(), Price.Kevyesti);
         assertEquals(food.getName(), "porkkanakakku");
-        assertEquals(food.getRatings().get(0).getRating(), 5);
+        assertEquals(food.getRatingResult(), 2);
     }
 
     @Test
@@ -68,7 +71,7 @@ public class FoodTest {
         Rating testi1 = new Rating();
         Rating testi2 = new Rating();
         testi1.setRating(2);
-        testi2.setRating(3);
+        testi2.setRating(1);
 
         arv.add(testi2);
         arv.add(testi1);
@@ -92,4 +95,19 @@ public class FoodTest {
         assertEquals(food.getName(), foo2.getName());
     }
     
+       @Test
+    @Transactional
+    public void calculateTotalRight() {
+        foodrepository.save(food);
+        Food foo2 = foodrepository.findByName("porkkanakakku");
+         Rating testi1 = new Rating();
+        Rating testi2 = new Rating();
+        testi1.setRating(2);
+        testi2.setRating(1);
+
+        arv.add(testi2);
+        arv.add(testi1);
+        foo2.getRatingResult();
+        assertEquals(5, foo2.total);
+    }
 }

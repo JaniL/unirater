@@ -28,7 +28,7 @@ public class FoodService {
             if (f.getRestaurant() != null) {
                 ret += " - " + f.getRestaurant().getName();
             }
-            ret += " - " + f.getAverage();
+            ret += " - " + f.getRatingResult();
             ret += "<br>\n";
         }
         ret += "</p>";
@@ -44,7 +44,7 @@ public class FoodService {
             if (f.getRestaurant() != null) {
                 ret += " - " + f.getRestaurant().getName();
             }
-            ret += " - " + f.getAverage();
+            ret += " - " + f.getRatingResult();
             ret += "<br>\n";
         }
         ret += "</p>";

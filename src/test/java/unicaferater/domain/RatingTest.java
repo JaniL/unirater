@@ -13,8 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.test.context.ActiveProfiles;
+import unicaferater.Repository.RatingRepository;
 
 
 /**
@@ -26,7 +28,9 @@ public class RatingTest {
 
     Food food;
     Rating rating;
-
+      @Autowired
+    RatingRepository ratingrepository;
+      
     @Before
     @Transactional
     public void setUp() {
@@ -35,7 +39,7 @@ public class RatingTest {
         
         food.setName("JaninSukat");
         food.setPrice(Price.Makeasti);
-        rating.setRating(5);
+        rating.setRating(1);
         Date date = new Date();
         rating.setDate(date);
         
@@ -46,7 +50,16 @@ public class RatingTest {
     @Transactional
     public void getSetTest() {
         Date date = new Date();
-        assertEquals(rating.getRating(), 5);
+        assertEquals(rating.getRating(), 1);
         assertFalse(rating.getDate().before(date));
     }
+//        @Test
+//    @Transactional
+//    public void dateBasePleaseWorkTest() {
+//        Rating rate = new Rating();
+//        rate.setRating(1);
+//        ratingrepository.save(rate); //NPE miksi? 
+//        assertEquals(ratingrepository.count(), 1);
+//        assertEquals(ratingrepository.findAll().get(0),1);
+//    }
 }

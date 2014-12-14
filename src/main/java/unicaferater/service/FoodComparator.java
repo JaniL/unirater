@@ -17,7 +17,7 @@ public class FoodComparator implements Comparator<Food> {
 
     @Override
     public int compare(Food first, Food second) {
-        return (int) second.getAverage() - (int) first.getAverage();
+        return (int) second.getRatingResult() - (int) first.getRatingResult();
     }
 
     

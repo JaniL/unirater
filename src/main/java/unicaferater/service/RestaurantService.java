@@ -67,7 +67,7 @@ public class RestaurantService {
             if (f.getRestaurant() != null) {
                 ret += " - " + f.getRestaurant().getName();
             }
-            ret += " - " + f.getAverage();
+            ret += " - " + f.getRatingResult();
             ret += "<br>\n";
         }
         ret += "</p>";
