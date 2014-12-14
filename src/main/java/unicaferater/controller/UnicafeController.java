@@ -18,7 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.RestaurantRepository;
-import unicaferater.domain.*;
+import unicaferater.domain.database.Food;
+import unicaferater.domain.database.Restaurant;
+import unicaferater.domain.lounastyokalu.FoodDetails;
+import unicaferater.domain.lounastyokalu.MenuOfTheDay;
+import unicaferater.domain.lounastyokalu.RestaurantResponse;
+import unicaferater.domain.lounastyokalu.RestaurantsResponse;
 import unicaferater.service.LounastyokaluService;
 import unicaferater.service.RestaurantService;
 import unicaferater.service.UnicafeService;

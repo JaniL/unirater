@@ -7,7 +7,7 @@ package unicaferater.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import unicaferater.domain.Restaurant;
+import unicaferater.domain.database.Restaurant;
 
 /**
  *

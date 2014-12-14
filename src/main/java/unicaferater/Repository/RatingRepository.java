@@ -5,11 +5,9 @@
  */
 package unicaferater.Repository;
 
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import unicaferater.domain.Food;
 
-import unicaferater.domain.Rating;
+import unicaferater.domain.database.Rating;
 
 /**
  *

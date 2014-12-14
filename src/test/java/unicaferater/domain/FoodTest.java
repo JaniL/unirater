@@ -24,6 +24,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import unicaferater.Application;
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.RatingRepository;
+import unicaferater.domain.database.Food;
+import unicaferater.domain.database.Price;
+import unicaferater.domain.database.Rating;
 
 /**
  *

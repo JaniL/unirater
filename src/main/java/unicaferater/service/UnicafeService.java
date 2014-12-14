@@ -15,15 +15,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.RestaurantRepository;
-import unicaferater.domain.Food;
-import unicaferater.domain.Price;
-import unicaferater.domain.Restaurant;
+import unicaferater.domain.database.Food;
+import unicaferater.domain.database.Price;
+import unicaferater.domain.database.Restaurant;
 
 /**
  *

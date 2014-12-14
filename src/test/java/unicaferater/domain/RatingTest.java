@@ -17,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.test.context.ActiveProfiles;
 import unicaferater.Repository.RatingRepository;
+import unicaferater.domain.database.Food;
+import unicaferater.domain.database.Price;
+import unicaferater.domain.database.Rating;
 
 
 /**

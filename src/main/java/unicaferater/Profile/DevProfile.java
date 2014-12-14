@@ -1,23 +1,7 @@
 package unicaferater.Profile;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-
-import unicaferater.Repository.FoodRepository;
-import unicaferater.Repository.RatingRepository;
-import unicaferater.Repository.RestaurantRepository;
-import unicaferater.domain.Food;
-import unicaferater.domain.Price;
-import unicaferater.domain.Rating;
-import unicaferater.domain.Restaurant;
 
 @Configuration
 @Profile(value = {"dev", "default"})

@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.RestaurantRepository;
-import unicaferater.domain.Food;
-import unicaferater.domain.Restaurant;
+import unicaferater.domain.database.Food;
+import unicaferater.domain.database.Restaurant;
 
 /**
  *

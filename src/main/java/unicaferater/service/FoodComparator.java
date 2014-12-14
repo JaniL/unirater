@@ -7,7 +7,7 @@ package unicaferater.service;
 
 import java.util.Comparator;
 
-import unicaferater.domain.Food;
+import unicaferater.domain.database.Food;
 
 /**
  *

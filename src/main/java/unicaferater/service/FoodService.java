@@ -8,7 +8,7 @@ package unicaferater.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import unicaferater.Repository.FoodRepository;
-import unicaferater.domain.Food;
+import unicaferater.domain.database.Food;
 
 /**
  *

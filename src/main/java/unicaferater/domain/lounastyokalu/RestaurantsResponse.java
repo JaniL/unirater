@@ -1,7 +1,7 @@
-package unicaferater.domain;
+package unicaferater.domain.lounastyokalu;
 
 import java.util.List;
-import unicaferater.domain.Restaurant;
+import unicaferater.domain.database.Restaurant;
 
 public class RestaurantsResponse {
     /**

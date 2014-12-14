@@ -8,8 +8,8 @@ package unicaferater.Repository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import unicaferater.domain.Food;
-import unicaferater.domain.Restaurant;
+import unicaferater.domain.database.Food;
+import unicaferater.domain.database.Restaurant;
 
 /**
  *

@@ -20,11 +20,10 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import unicaferater.Application;
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.RatingRepository;
-import unicaferater.domain.Food;
-import unicaferater.domain.Rating;
+import unicaferater.domain.database.Food;
+import unicaferater.domain.database.Rating;
 import unicaferater.service.RatingService;
 
 /**

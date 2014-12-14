@@ -1,4 +1,4 @@
-package unicaferater.domain;
+package unicaferater.domain.lounastyokalu;
 
 import java.util.List;
 

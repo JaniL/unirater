@@ -9,9 +9,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import unicaferater.Application;
-import unicaferater.domain.Food;
-import unicaferater.domain.Price;
+import unicaferater.domain.database.Food;
+import unicaferater.domain.database.Price;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
