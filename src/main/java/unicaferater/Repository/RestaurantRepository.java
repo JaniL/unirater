@@ -16,4 +16,5 @@ import unicaferater.domain.Restaurant;
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     Restaurant findByName(String name);
+    Restaurant findByUri(String uri);
 }

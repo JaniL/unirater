@@ -108,6 +108,6 @@ public class FoodTest {
         arv.add(testi2);
         arv.add(testi1);
         foo2.getRatingResult();
-        assertEquals(5, foo2.total);
+        assertEquals(5, foo2.getTotal());
     }
 }

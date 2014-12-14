@@ -55,10 +55,10 @@ public class FoodController {
         return "index";
     }
 
-    @RequestMapping(value = "/{restaurantId}", method = RequestMethod.GET)
-    public String listFoodsByRestaurant(Model model, @PathVariable Long restaurantId) {
+    @RequestMapping(value = "/{restaurantUri}", method = RequestMethod.GET)
+    public String listFoodsByRestaurant(Model model, @PathVariable String restaurantUri) {
 
-        model.addAttribute("foods", foodRepo.findByRestaurant(restaurantRepo.findOne(restaurantId)));
+        model.addAttribute("foods", foodRepo.findByRestaurant(restaurantRepo.findByUri(restaurantUri)));
         model.addAttribute("restaurants", restaurantRepo.findAll());
         return "index";
     }

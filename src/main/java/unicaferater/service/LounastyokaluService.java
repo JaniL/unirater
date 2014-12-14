@@ -46,7 +46,7 @@ public class LounastyokaluService {
     public RestaurantResponse fetchRestaurant(Long id) {
         RestaurantResponse result = restTemplate.getForObject(API_URL + "/restaurant/" + id, RestaurantResponse.class);
 
-        System.out.println(result);
+        // System.out.println(result);
 
         return result;
     }

@@ -28,7 +28,7 @@ public class Food extends AbstractPersistable<Long> {
 
     private String name;
     private Price price;
-     int total; //olisko helpompi pitää ruuan arvostelu karmaa omassa muuttujassa?
+    private int total; //olisko helpompi pitää ruuan arvostelu karmaa omassa muuttujassa?
     @ManyToOne
     private Restaurant restaurant;
     @Temporal(TemporalType.DATE)
@@ -43,6 +43,14 @@ public class Food extends AbstractPersistable<Long> {
 
     public String getName() {
         return name;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     /**

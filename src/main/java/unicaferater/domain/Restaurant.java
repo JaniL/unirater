@@ -5,6 +5,7 @@
  */
 package unicaferater.domain;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -23,6 +24,9 @@ public class Restaurant extends AbstractPersistable<Long> {
     
     @Column(unique = true)
     private String name;
+
+    @Column(unique = true)
+    private String uri;
     
     @OneToMany(fetch = FetchType.LAZY)
     private List<Food> foods;
@@ -47,6 +51,17 @@ public class Restaurant extends AbstractPersistable<Long> {
 
     public void setName(String name) {
         this.name = name;
+        setUri(name);
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = Normalizer.normalize(uri.toLowerCase(), Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                .replaceAll("[^\\p{Alnum}]+", "-");
     }
 
     public List<Food> getFoods() {

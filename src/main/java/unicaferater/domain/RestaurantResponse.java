@@ -72,6 +72,9 @@ public class RestaurantResponse {
 
     @Override
 	public String toString() {
-		return "Pyyntö, jonka status on " + this.getStatus() + " ja siihen kuuluu " + this.getData().size() + " ruokalistaa.";
+        if (this.getStatus().equals("OK")) {
+            return "Rajapinnan vastaus, jonka status on " + this.getStatus() + " ja se sisältää ravintolan " + this.getInformation().getRestaurant() + " " + this.getData().size() + " ruokalistaa.";
+        }
+		return "Rajapinnan vastaus, jonka status on " + this.getStatus() + ".";
 	}
 }
