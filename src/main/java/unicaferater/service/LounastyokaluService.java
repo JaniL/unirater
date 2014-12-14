@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import unicaferater.Repository.FoodRepository;
+import unicaferater.Repository.MenuOfTheDayRepository;
 import unicaferater.Repository.RestaurantRepository;
 import unicaferater.domain.database.Food;
 import unicaferater.domain.database.Price;
@@ -28,6 +29,9 @@ public class LounastyokaluService {
 
     @Autowired
     private FoodRepository foodRepository;
+
+    @Autowired
+    private MenuOfTheDayRepository menuOfTheDayRepository;
 
     /**
      * Hakee Unicafen rajapinnasta ravintolat ja niiden id:t.
@@ -66,19 +70,35 @@ public class LounastyokaluService {
                 repoRes = restaurantRepository.save(restaurant);
             }
 
-            List<Food> foods;
-            if (repoRes.getFoods() == null) {
-                foods = new ArrayList<>();
-            } else {
-                foods = repoRes.getFoods();
-            }
+            //List<Food> foods;
+            // if (repoRes.getFoods() == null) {
+            //    foods = new ArrayList<>();
+            // } else {
+            //    foods = repoRes.getFoods();
+            // }
 
             RestaurantResponse restaurantResponse = fetchRestaurant(id);
+
+            List<unicaferater.domain.database.MenuOfTheDay> menus = repoRes.getMenus();
 
 
             for (MenuOfTheDay menuOfTheDay : restaurantResponse.getData()) {
                 Date date = menuOfTheDay.getDate();
+
+                if (menuOfTheDayRepository.findByRestaurantAndDate(repoRes,date) == null) {
+                    // jos päivän lista löytyy jo,
+                    // niin listaa ei lisätä uudelleen
+                    continue;
+                }
+
+                unicaferater.domain.database.MenuOfTheDay dbMenu = new unicaferater.domain.database.MenuOfTheDay();
+                dbMenu.setRestaurant(repoRes);
+                dbMenu.setDate(date);
+
+                List<Food> foods = new ArrayList<>();
                 for (FoodDetails foodDetails : menuOfTheDay.getData()) {
+
+
                     Food food = new Food();
 
                     food.setName(foodDetails.getName());
@@ -106,13 +126,17 @@ public class LounastyokaluService {
                     food.setRestaurant(repoRes);
                     foodRepository.save(food);
 
-                    if (foods.isEmpty() || !foods.contains(food)) {
-                        foods.add(food);
-                    }
+                    // if (foods.isEmpty() || !foods.contains(food)) {
+                    foods.add(food);
+                    // }
                 }
-
+                dbMenu.setMenu(foods);
+                menus.add(dbMenu);
+                menuOfTheDayRepository.save(dbMenu);
             }
-            repoRes.setFoods(foods);
+
+            // repoRes.setFoods(foods);
+            repoRes.setMenus(menus);
             restaurantRepository.save(repoRes);
 
 

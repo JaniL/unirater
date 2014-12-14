@@ -28,13 +28,25 @@ public class Restaurant extends AbstractPersistable<Long> {
     @Column(unique = true)
     private String uri;
     
+    //@OneToMany(fetch = FetchType.LAZY)
+    //private List<Food> foods;
+
     @OneToMany(fetch = FetchType.LAZY)
-    private List<Food> foods;
+    private List<MenuOfTheDay> menus;
+
 
     private int areacode;
     
-    public Restaurant() {
+    /*public Restaurant() {
         foods = new ArrayList();
+    }*/
+
+    public List<MenuOfTheDay> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<MenuOfTheDay> menus) {
+        this.menus = menus;
     }
 
     public int getAreacode() {
@@ -64,16 +76,16 @@ public class Restaurant extends AbstractPersistable<Long> {
                 .replaceAll("[^\\p{Alnum}]+", "-");
     }
 
-    public List<Food> getFoods() {
+    /*public List<Food> getFoods() {
         return foods;
     }
 
     public void setFoods(List<Food> foods) {
         this.foods = foods;
-    }
+    }*/
 
     @Override
     public String toString() {
-        return this.getName() + "(" + getFoods().size() + " foods)";
+        return this.getName() + "(" + 0 + " foods)";
     }
 }

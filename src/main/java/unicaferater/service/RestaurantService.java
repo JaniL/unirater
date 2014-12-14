@@ -25,6 +25,7 @@ public class RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    /*
     public String listFoodsFromOne(Long id) {
         Restaurant restaurant = restaurantRepository.findOne(id);
         String ret = new String();
@@ -39,8 +40,9 @@ public class RestaurantService {
         }
         ret += "</p>";
         return ret;
-    }
+    } */
 
+    /*
     public String listAllFoodsAndRestaurants() {
         String ret = new String();
         int i = 1;
@@ -75,5 +77,6 @@ public class RestaurantService {
         return ret;
 
     }
+    */
 
 }
