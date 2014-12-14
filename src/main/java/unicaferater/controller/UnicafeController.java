@@ -109,68 +109,7 @@ public class UnicafeController {
         // return unicafeService.storeAll();
 
         RestaurantsResponse restaurantsResponse = lounastyokaluService.fetchRestaurants();
-        for (Restaurant restaurant : restaurantsResponse.getData()) {
-            // System.out.println("Käydään läpi ravintolan " + restaurant.getName() + " listat. (id " + restaurant.getId() + ")");
-            Restaurant repoRes = restaurantRepository.findByName(restaurant.getName());
-
-            Long id = restaurant.getId();
-
-            if (repoRes == null) {
-                repoRes = restaurantRepository.save(restaurant);
-            }
-
-            List<Food> foods;
-            if (repoRes.getFoods() == null) {
-                foods = new ArrayList<>();
-            } else {
-                foods = repoRes.getFoods();
-            }
-
-            RestaurantResponse restaurantResponse = lounastyokaluService.fetchRestaurant(id);
-
-
-            for (MenuOfTheDay menuOfTheDay : restaurantResponse.getData()) {
-                Date date = menuOfTheDay.getDate();
-                for (FoodDetails foodDetails : menuOfTheDay.getData()) {
-                    Food food = new Food();
-
-                    food.setName(foodDetails.getName());
-                    food.setLastSeenOnMenu(date);
-
-                    Price price = null;
-                    String priceString = foodDetails.getPrice().getName();
-
-                    System.out.println("PriceString: " + priceString);
-
-                    if (priceString.equals("Edullisesti")) {
-                        price = Price.Edullisesti;
-                    } else if (priceString.equals("Maukkaasti")) {
-                        price = Price.Maukkaasti;
-                    } else if (priceString.equals("Kevyesti")) {
-                        price = Price.Kevyesti;
-                    } else if (priceString.equals("Makeasti")) {
-                        price = Price.Makeasti;
-                    }
-
-                    System.out.println("Olio: " + price);
-
-                    food.setPrice(price);
-
-                    food.setRestaurant(repoRes);
-                    foodRepository.save(food);
-
-                    if (foods.isEmpty() || !foods.contains(food)) {
-                        foods.add(food);
-                    }
-                }
-
-            }
-            repoRes.setFoods(foods);
-            restaurantRepository.save(repoRes);
-
-
-
-        }
+        lounastyokaluService.saveAllToRepo(restaurantsResponse);
 
         return "saved things!";
 
