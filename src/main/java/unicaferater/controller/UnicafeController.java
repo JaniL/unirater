@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.RestaurantRepository;
 import unicaferater.domain.database.Food;
+import unicaferater.domain.database.Price;
 import unicaferater.domain.database.Restaurant;
 import unicaferater.domain.lounastyokalu.FoodDetails;
 import unicaferater.domain.lounastyokalu.MenuOfTheDay;
@@ -69,7 +70,7 @@ public class UnicafeController {
         for (MenuOfTheDay menuOfTheDay : restaurantResponse.getData()) {
             System.out.println(menuOfTheDay.getDate());
             for (FoodDetails foodDetails : menuOfTheDay.getData()) {
-                System.out.println(foodDetails.getName() + "(" + foodDetails.getName_sv() + ")");
+                System.out.println(foodDetails.getName() + " (" + foodDetails.getPrice().getName() + ")");
             }
 
         }
@@ -135,6 +136,26 @@ public class UnicafeController {
 
                     food.setName(foodDetails.getName());
                     food.setLastSeenOnMenu(date);
+
+                    Price price = null;
+                    String priceString = foodDetails.getPrice().getName();
+
+                    System.out.println("PriceString: " + priceString);
+
+                    if (priceString.equals("Edullisesti")) {
+                        price = Price.Edullisesti;
+                    } else if (priceString.equals("Maukkaasti")) {
+                        price = Price.Maukkaasti;
+                    } else if (priceString.equals("Kevyesti")) {
+                        price = Price.Kevyesti;
+                    } else if (priceString.equals("Makeasti")) {
+                        price = Price.Makeasti;
+                    }
+
+                    System.out.println("Olio: " + price);
+
+                    food.setPrice(price);
+
                     food.setRestaurant(repoRes);
                     foodRepository.save(food);
 

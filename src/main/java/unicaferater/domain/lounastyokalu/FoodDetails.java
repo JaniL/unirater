@@ -19,7 +19,7 @@ public class FoodDetails {
 
     private String nutrition;
 
-    // private HashMap<String, > price
+    private Price price;
 
 
     /**
@@ -112,5 +112,13 @@ public class FoodDetails {
      */
     public void setNutrition(String nutrition) {
         this.nutrition = nutrition;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
     }
 }
