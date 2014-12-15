@@ -8,7 +8,7 @@ package unicaferater.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import unicaferater.Repository.FoodRepository;
-import unicaferater.domain.Food;
+import unicaferater.domain.database.Food;
 
 /**
  *
@@ -25,10 +25,10 @@ public class FoodService {
         for (Food f : foodRepository.findAll()) {
             ret += "*" + f.getName();
             ret += " - " + f.getPrice();
-            if (f.getRestaurant() != null) {
-                ret += " - " + f.getRestaurant().getName();
+            if ("" != null) {
+                ret += " - " + "";
             }
-            ret += " - " + f.getAverage();
+            ret += " - " + f.getRatingResult();
             ret += "<br>\n";
         }
         ret += "</p>";
@@ -41,10 +41,10 @@ public class FoodService {
         for (Food f : foodRepository.findAllByName(name)) {
             ret += "*" + f.getName();
             ret += " - " + f.getPrice();
-            if (f.getRestaurant() != null) {
-                ret += " - " + f.getRestaurant().getName();
+            if ("" != null) {
+                ret += " - " + "";
             }
-            ret += " - " + f.getAverage();
+            ret += " - " + f.getRatingResult();
             ret += "<br>\n";
         }
         ret += "</p>";

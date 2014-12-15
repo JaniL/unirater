@@ -5,27 +5,30 @@
  */
 package unicaferater.controller;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import unicaferater.Repository.FoodRepository;
+import unicaferater.Repository.MenuOfTheDayRepository;
 import unicaferater.Repository.RatingRepository;
 import unicaferater.Repository.RestaurantRepository;
-import unicaferater.domain.Food;
-import unicaferater.domain.Rating;
+import unicaferater.domain.database.Food;
+import unicaferater.domain.database.MenuOfTheDay;
+import unicaferater.domain.database.Rating;
+import unicaferater.domain.database.Restaurant;
 
 /**
  *
  * @author chang
  */
-@RequestMapping("*")
+@RequestMapping("/*")
 @Controller
 public class FoodController {
 
@@ -35,75 +38,73 @@ public class FoodController {
     @Autowired
     private RestaurantRepository restaurantRepo;
 
-    
     @Autowired
     private RatingRepository ratingRepo;
-    
 
+    @Autowired
+    private MenuOfTheDayRepository menuRepo;
 
     /**
-     * Listaa kaikki ruuat ja ravintolat omaan modeliin
+     * Listaa kaikki ruokalistat ja ravintolat omaan modeliin
+     *
      * @param model
-     * @return
-     * palauttaa indexi sivun
+     * @return palauttaa indexi sivun
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value="/", method = RequestMethod.GET)
     public String listFoods(Model model) {
-
-        model.addAttribute("foods", foodRepo.findAll());
+        model.addAttribute("menus", menuRepo.findAll());
         model.addAttribute("restaurants", restaurantRepo.findAll());
-        
-        //jos haluaa oletuksena excan ruuat näkyviin niin tuosta:
-        //return "redirect:/foods/11 
+
         return "index";
     }
 
     /**
-     * En tiedä mitä tekee
-     * voisi varmaan tehdä jotain
-     * tai olla jossain muualla.
-     * @param food
-     * @param bindRes
-     * @return
+     * Listaa pyydetyn ravintolan ruokalistat ja ravintolat
+     * @param model
+     * @param restaurantUri
+     * @return Palauttaa sivun, joka sisältää ravintolan ruokalistat sekä ravintolat valikossa
      */
-    @RequestMapping(method = RequestMethod.POST)
-    public String postFood(@ModelAttribute Food food, BindingResult bindRes) {
-        if (food.getName() != null && food.getPrice() != null) {
-            if (!bindRes.hasErrors()) {
-                foodRepo.save(food);
-            }
+    @RequestMapping(value = "/{restaurantUri}", method = RequestMethod.GET)
+    public String listFoodsByRestaurant(Model model, @PathVariable String restaurantUri) {
+
+        List<MenuOfTheDay> menus;
+        if (restaurantUri.equals("favicon") || restaurantUri.equals("")) {
+            menus = menuRepo.findAll();
+        } else {
+            Restaurant restaurant = restaurantRepo.findByUri(restaurantUri);
+            menus = menuRepo.findByRestaurant(restaurant);
         }
-
-        return "redirect:/foods";
-    }
-
-    @RequestMapping(value = "/{restaurantId}", method = RequestMethod.GET)
-    public String listFoodsByRestaurant(Model model, @PathVariable Long restaurantId) {
-        
-        model.addAttribute("foods", foodRepo.findByRestaurant(restaurantRepo.findOne(restaurantId)));
+        model.addAttribute("menus", menus);
         model.addAttribute("restaurants", restaurantRepo.findAll());
         return "index";
     }
-    
-    @RequestMapping(value="/rate/{foodId}", method = RequestMethod.POST, produces="application/json")
-    @ResponseBody
+
+    /**
+     * Tekee POST pyynnön kyseisen Ruuan ID:hen 
+     * Pitäisi ottaa Modelista Rating arvio.
+     * Rating lisätään päivämäärä jollain arvostelu on annettu. 
+     * lisätään rating ruualle annettujen arvostelujen listaan.
+     * Tallenetaan kaikki.
+     * @param foodId
+     * @param rating
+     * @return HEP! Tällä hetkellä ohjaa meilahteen. 
+     * Miten saataisiin ohjaamaan sinne mistä on tullut? 
+     * Tai jonnekin relevanttiin paikkan?
+     */
+    @RequestMapping(value = "/{foodId}", method = RequestMethod.POST)
     public String postRating(@PathVariable Long foodId, @ModelAttribute Rating rating) {
-    	Food food = foodRepo.findOne(foodId);
-    	
-    	if (food == null) {
-    		return "FOODNOTFOUND";
-    	}
-    	
-    	ratingRepo.save(rating);
-    	
-    	food.getRatings().add(rating);
-    	
-    	foodRepo.save(food);
+        Food food = foodRepo.findOne(foodId);
+
+        Date date = new Date();
+        rating.setDate(date);
+        ratingRepo.findAll().add(rating);
         
-        Double average = food.getAverage();
-    	int maara = food.getRatings().size();
-        
-    	return average + "/" + maara;
+        List<Rating> ratingNewList =  foodRepo.findOne(foodId).getRatings();
+        ratingNewList.add(rating);
+        ratingRepo.save(rating);
+        food.setRatings(ratingNewList);
+        food.getRatingResult(); // Että tallentaisi totaalin. Voi muuttaa sinne frontiinki.
+        foodRepo.save(food);
+        return "redirect:/11"; // minne tän pitäs ohjata uudelleen. 
     }
-    
 }

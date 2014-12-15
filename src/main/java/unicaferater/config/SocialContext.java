@@ -38,8 +38,8 @@ public class SocialContext implements SocialConfigurer {
 //                env.getProperty("twitter.consumer.secret")
 //        ));
         cfConfig.addConnectionFactory(new FacebookConnectionFactory(
-                "asd",
-                "asdasd"
+                env.getProperty("fbconsumerkey"),
+                env.getProperty("fbconsumersecret")
         ));
     }
  

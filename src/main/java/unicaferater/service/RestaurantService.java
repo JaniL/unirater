@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.RestaurantRepository;
-import unicaferater.domain.Food;
-import unicaferater.domain.Restaurant;
+import unicaferater.domain.database.Food;
+import unicaferater.domain.database.Restaurant;
 
 /**
  *
@@ -25,6 +25,7 @@ public class RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    /*
     public String listFoodsFromOne(Long id) {
         Restaurant restaurant = restaurantRepository.findOne(id);
         String ret = new String();
@@ -39,8 +40,9 @@ public class RestaurantService {
         }
         ret += "</p>";
         return ret;
-    }
+    } */
 
+    /*
     public String listAllFoodsAndRestaurants() {
         String ret = new String();
         int i = 1;
@@ -67,7 +69,7 @@ public class RestaurantService {
             if (f.getRestaurant() != null) {
                 ret += " - " + f.getRestaurant().getName();
             }
-            ret += " - " + f.getAverage();
+            ret += " - " + f.getRatingResult();
             ret += "<br>\n";
         }
         ret += "</p>";
@@ -75,5 +77,6 @@ public class RestaurantService {
         return ret;
 
     }
+    */
 
 }

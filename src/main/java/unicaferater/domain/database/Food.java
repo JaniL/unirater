@@ -3,20 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package unicaferater.domain;
+package unicaferater.domain.database;
 
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.data.jpa.domain.AbstractPersistable;
-
-import unicaferater.domain.Price;
+import unicaferater.domain.common.Price;
 
 /**
  *
@@ -24,56 +23,93 @@ import unicaferater.domain.Price;
  */
 @Entity
 public class Food extends AbstractPersistable<Long> {
+// @Column(unique = true)
 
-//    @Column(unique = true)
+    /**
+     * Ruuan nimi
+     */
     private String name;
-    private Price price;
+
+    /**
+     * Ruuan hinta
+     */
     @ManyToOne
-    private Restaurant restaurant;
+    private Price price;
+
+    private int total; //olisko helpompi pitää ruuan arvostelu karmaa omassa muuttujassa?
+
+    /**
+     * Ruokalistat joissa kyseinen ruoka löytyy
+     */
+    @ManyToOne
+    private MenuOfTheDay menus;
 
     @Temporal(TemporalType.DATE)
     private Date lastSeenOnMenu;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade=CascadeType.ALL) //cascade vaadittiin että homma ei kaatuisi
     private List<Rating> ratings;
-
+    
     public Food() {
         this.ratings = new ArrayList();
+        total = 0; //joka olisi alussa 0
     }
 
+    /**
+     * @return Palauttaa ruuan nimen
+     */
     public String getName() {
         return name;
     }
 
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
     /**
-     * Laskee ruualle kaikkien arvosteluiden keskiarvon
-     * @return
-     * paluttaa double tyylisen vastauksen yhdellä desimaalilla
+     * Laskee ruualle kaikkien arvosteluiden Totaalin.
+     *
+     * @return paluttaa total arvostelun INT arvon. 
      */
-    public double getAverage() {
+    public int getRatingResult() { //masterissa getAvarage
         if (ratings == null) {
             return 0;
         }
         if (ratings.isEmpty()) {
             return 0;
         }
-
-        double sum = 0;
+        int sum = 0;
         for (Rating rating : ratings) {
             sum += rating.getRating();
         }
-
-        return Math.round(sum / ratings.size());
+        total = 0;
+        total = sum; //ja joka muutettaisiin aina lisäyksessä vastaamaan todellisuutta?
+        return sum; 
     }
 
+    /**
+     * Asettaa ruuan nimen
+     * @param name Ruuan nimi
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * @return Palauttaa ruuan hinnan
+     */
     public Price getPrice() {
         return price;
     }
 
+    /**
+     * Asettaa ruuan hinnan
+     * @param price Ruuan hinta
+     */
     public void setPrice(Price price) {
         this.price = price;
     }
@@ -86,14 +122,19 @@ public class Food extends AbstractPersistable<Long> {
         this.ratings = ratings;
     }
 
-    public Restaurant getRestaurant() {
-
-        return restaurant;
-
+    /**
+     * @return Palauttaa ruokalistat, joista ruoka löytyy
+     */
+    public MenuOfTheDay getMenus() {
+        return menus;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    /**
+     * Asettaa listan ruokalistoista, joista ruoka löytyy
+     * @param menus Ruokalistat, joista ruoka löytyy
+     */
+    public void setMenus(MenuOfTheDay menus) {
+        this.menus = menus;
     }
 
     public Date getLastSeenOnMenu() {
@@ -103,9 +144,4 @@ public class Food extends AbstractPersistable<Long> {
     public void setLastSeenOnMenu(Date lastSeenOnMenu) {
         this.lastSeenOnMenu = lastSeenOnMenu;
     }
-    
-    
-    
-    
-
 }

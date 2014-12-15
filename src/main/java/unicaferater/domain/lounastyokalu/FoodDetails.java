@@ -1,8 +1,7 @@
-package unicaferater.domain;
+package unicaferater.domain.lounastyokalu;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.util.List;
+import unicaferater.domain.common.Price;
 
 /**
  * Created by jani on 9.12.2014.
@@ -19,7 +18,7 @@ public class FoodDetails {
 
     private String nutrition;
 
-    // private HashMap<String, > price
+    private Price price;
 
 
     /**
@@ -112,5 +111,13 @@ public class FoodDetails {
      */
     public void setNutrition(String nutrition) {
         this.nutrition = nutrition;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
     }
 }

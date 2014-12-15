@@ -6,13 +6,9 @@
 package unicaferater.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import unicaferater.domain.common.PriceValue;
 
-import unicaferater.domain.database.Rating;
 
-/**
- *
- * @author chang
- */
-public interface RatingRepository extends JpaRepository<Rating, Long> {
+public interface PriceValueRepository extends JpaRepository<PriceValue, Long> {
 
 }

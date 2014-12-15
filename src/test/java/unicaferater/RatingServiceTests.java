@@ -20,12 +20,10 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-
-import unicaferater.Application;
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.RatingRepository;
-import unicaferater.domain.Food;
-import unicaferater.domain.Rating;
+import unicaferater.domain.database.Food;
+import unicaferater.domain.database.Rating;
 import unicaferater.service.RatingService;
 
 /**
@@ -54,7 +52,7 @@ public class RatingServiceTests {
         food.setName("Mansikkakakku");
         List<Rating> ratings = new ArrayList();
         Rating rating = new Rating();
-        rating.setRating(5);
+        rating.setRating(2);
         rating = ratingRepo.save(rating);
         ratings.add(rating);
         food.setRatings(ratings);
@@ -66,7 +64,7 @@ public class RatingServiceTests {
         food2.setName("Makkarapiirakka");
         List<Rating> ratings2 = new ArrayList();
         Rating rating2 = new Rating();
-        rating2.setRating(3);
+        rating2.setRating(2);
         rating2 = ratingRepo.save(rating2);
         ratings2.add(rating2);
         food2.setRatings(ratings2);
@@ -96,7 +94,7 @@ public class RatingServiceTests {
         Rating rating = new Rating();
         rating.setRating(5);
         Rating rating2 = new Rating();
-        rating2.setRating(3);
+        rating2.setRating(2);
         rating = ratingRepo.save(rating);
         rating2 = ratingRepo.save(rating2);
         ratings.add(rating);
@@ -104,14 +102,14 @@ public class RatingServiceTests {
         food.setRatings(ratings);
         foodRepo.save(food);
         
-        assertEquals(4.0, food.getAverage(), 0.001);
+        assertEquals(7, food.getRatingResult());
     }
     
     @Test
     @Transactional
     public void HighestRatingTest() {
         
-        assertEquals(5, ratingService.getHighestRatedFood().getAverage(), 0.001);
+        assertEquals(4, ratingService.getHighestRatedFood().getRatingResult(), 0.001);
     }
     
     @Test
@@ -124,9 +122,9 @@ public class RatingServiceTests {
     @Transactional
     public void getThreeTopRated() {
         List<Food> theBest = ratingService.getTopHighestRated(3);
-        assertEquals(5, theBest.get(0).getAverage(), 0.001);
-        assertEquals(4, theBest.get(1).getAverage(), 0.001);
-        assertEquals(3, theBest.get(2).getAverage(), 0.001);
+        assertEquals(4, theBest.get(0).getRatingResult(), 0.001);
+        assertEquals(2, theBest.get(1).getRatingResult(), 0.001);
+        assertEquals(2, theBest.get(2).getRatingResult(), 0.001);
         
     }
     

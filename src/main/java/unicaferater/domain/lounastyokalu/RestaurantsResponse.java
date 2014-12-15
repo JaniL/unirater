@@ -1,7 +1,7 @@
-package unicaferater.domain;
+package unicaferater.domain.lounastyokalu;
 
 import java.util.List;
-import unicaferater.domain.Restaurant;
+import unicaferater.domain.database.Restaurant;
 
 public class RestaurantsResponse {
     /**
@@ -49,6 +49,9 @@ public class RestaurantsResponse {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Pyyntö ravintoloiden listauksesta, jonka status on " + this.getStatus() + " ja siihen kuuluu " + this.getData().size() + " ravintolaa.";
+        if (this.getStatus().equals("OK")) {
+            return "Vastaus ravintoloiden listauksesta, jonka status on " + this.getStatus() + " ja johon kuuluu " + this.getData().size() + " ravintolaa.";
+        }
+        return "Vastaus ravintoloiden listauksesta, jonka status on " + this.getStatus() + ".";
 	}
 }

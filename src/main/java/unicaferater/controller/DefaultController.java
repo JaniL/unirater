@@ -13,8 +13,7 @@ import unicaferater.Repository.RatingRepository;
  * Created by jani on 29.10.2014.
  */
 @Controller
-@RequestMapping("/index")
-@ResponseBody
+@RequestMapping("/etsieainakaantannehaluu")
 public class DefaultController {
 
     @Autowired
@@ -22,10 +21,12 @@ public class DefaultController {
     @Autowired
     RatingRepository ratingRepo;
 
+    /**
+     *  Defaultti ohjaa nyt oikein /foodsiin
+     * @return
+     */ 
     @RequestMapping(method = RequestMethod.GET)
-    public String lol() {
-        System.out.println("do this pls");
-        return "lol oon paras";
-
+    public String Foods() {
+        return "redirect:/foods"; 
     }
 }
