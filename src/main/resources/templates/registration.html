@@ -24,7 +24,7 @@
                 If the user is using social sign in, add the signInProvider
                 as a hidden field.
             -->
-            <input type="hidden" th:if="${user.signInProvider != null}" th:field="signInProvider"/>
+            <input type="hidden" th:if="${registration.getSignInProvider() != null}" th:field="signInProvider"/>
             <div class="row">
                 <div id="form-group-firstName" class="form-group col-lg-4">
                     <label class="control-label" for="user-firstName">Etunimi:</label>
