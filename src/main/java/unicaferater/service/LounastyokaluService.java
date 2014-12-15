@@ -122,31 +122,37 @@ public class LounastyokaluService {
                 List<Food> foods = new ArrayList<>();
                 for (FoodDetails foodDetails : menuOfTheDay.getData()) {
 
+                    Food food = foodRepository.findByName(foodDetails.getName());
 
-                    Food food = new Food();
+                    if (food == null) {
+                        food = new Food();
 
-                    food.setName(foodDetails.getName());
-                    food.setLastSeenOnMenu(date);
+                        food.setName(foodDetails.getName());
+                        food.setLastSeenOnMenu(date);
 
-                    unicaferater.domain.common.Price price = null;
-                    String priceString = foodDetails.getPrice().getName();
+                        unicaferater.domain.common.Price price = null;
+                        String priceString = foodDetails.getPrice().getName();
 
-                    // System.out.println("PriceString: " + priceString);
+                        // System.out.println("PriceString: " + priceString);
 
 
-                    // System.out.println("Olio: " + price);
+                        // System.out.println("Olio: " + price);
 
-                    price = priceRepo.findByName(foodDetails.getPrice().getName());
-                    if (price == null) {
-                        PriceValue value = foodDetails.getPrice().getValue();
-                        value = priceValueRepository.save(value);
-                        foodDetails.getPrice().setValue(value);
-                        price = priceRepo.save(foodDetails.getPrice());
+                        price = priceRepo.findByName(foodDetails.getPrice().getName());
+                        if (price == null) {
+                            PriceValue value = foodDetails.getPrice().getValue();
+                            value = priceValueRepository.save(value);
+                            foodDetails.getPrice().setValue(value);
+                            price = priceRepo.save(foodDetails.getPrice());
+                        }
+                        food.setPrice(price);
+
+                        // food.setRestaurant(repoRes);
+                        foodRepository.save(food);
                     }
-                    food.setPrice(price);
 
-                    // food.setRestaurant(repoRes);
-                    foodRepository.save(food);
+
+
 
                     // if (foods.isEmpty() || !foods.contains(food)) {
                     foods.add(food);
