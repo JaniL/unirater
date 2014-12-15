@@ -24,7 +24,7 @@
                 If the user is using social sign in, add the signInProvider
                 as a hidden field.
             -->
-            <input type="hidden" th:if="${user.getSignInProvider()} != null" th:field="signInProvider"/>
+            <input type="hidden" th:if="${user.signInProvider} != null" field="signInProvider"/>
             <div class="row">
                 <div id="form-group-firstName" class="form-group col-lg-4">
                     <label class="control-label" for="user-firstName">Etunimi:</label>
@@ -32,7 +32,7 @@
                         Add the firstName field to the form and ensure
                         that validation errors are shown.
                     -->
-                    <input id="user-firstName" th:field="firstName" class="form-control"/>
+                    <input id="user-firstName" th:field="*{firstName}" class="form-control"/>
 
                 </div>
             </div>
@@ -43,7 +43,7 @@
                         Add the lastName field to the form and ensure
                         that validation errors are shown.
                     -->
-                    <input id="user-lastName" th:field="lastName" class="form-control"/>
+                    <input id="user-lastName" th:field="*{lastName}" class="form-control"/>
 
                 </div>
             </div>
@@ -54,14 +54,14 @@
                         Add the email field to the form and ensure
                         that validation errors are shown.
                     -->
-                    <input id="user-email" th:field="email" class="form-control"/>
+                    <input id="user-email" th:field="*{email}" class="form-control"/>
                 </div>
             </div>
             <!--
                 If the user is creating a normal user account, add password fields
                 to the form.
             -->
-            <div th:if="${user.getSignInProvider()} == null">
+            <div th:if="${user.signInProvider} == null">
                 <div class="row">
                     <div id="form-group-password" class="form-group col-lg-4">
                         <label class="control-label" for="user-password">Salasana:</label>
@@ -69,7 +69,7 @@
                             Add the password field to the form and ensure
                             that validation errors are shown.
                         -->
-                        <input type="password" id="user-password" th:field="password" class="form-control"/>
+                        <input type="password" id="user-password" th:field="*{password}" class="form-control"/>
                     </div>
                 </div>
                 <div class="row">
@@ -79,7 +79,7 @@
                             Add the passwordVerification field to the form and ensure
                             that validation errors are shown.
                         -->
-                        <input type="password" id="user-passwordVerification" th:field="passwordVerification" class="form-control"/>
+                        <input type="password" id="user-passwordVerification" th:field="*{passwordVerification}" class="form-control"/>
                     </div>
                 </div>
             </div>
