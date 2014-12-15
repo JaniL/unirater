@@ -60,6 +60,10 @@ public class LounastyokaluService {
         return result;
     }
 
+    /**
+     * Tallentaa kaikki rajapinnasta saatavat ruokalistat tietokantaan.
+     * @param restaurantsResponse Rajapinnasta saatava lista ravintoloista. Saadaan irti fetchRestaurants-metodilla.
+     */
     public void saveAllToRepo(RestaurantsResponse restaurantsResponse) {
         for (Restaurant restaurant : restaurantsResponse.getData()) {
             // System.out.println("Käydään läpi ravintolan " + restaurant.getName() + " listat. (id " + restaurant.getId() + ")");

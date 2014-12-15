@@ -45,7 +45,7 @@ public class FoodController {
     private MenuOfTheDayRepository menuRepo;
 
     /**
-     * Listaa kaikki ruuat ja ravintolat omaan modeliin
+     * Listaa kaikki ruokalistat ja ravintolat omaan modeliin
      *
      * @param model
      * @return palauttaa indexi sivun
@@ -58,6 +58,12 @@ public class FoodController {
         return "index";
     }
 
+    /**
+     * Listaa pyydetyn ravintolan ruokalistat ja ravintolat
+     * @param model
+     * @param restaurantUri
+     * @return Palauttaa sivun, joka sisältää ravintolan ruokalistat sekä ravintolat valikossa
+     */
     @RequestMapping(value = "/{restaurantUri}", method = RequestMethod.GET)
     public String listFoodsByRestaurant(Model model, @PathVariable String restaurantUri) {
 

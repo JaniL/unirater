@@ -24,15 +24,27 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public class Food extends AbstractPersistable<Long> {
 // @Column(unique = true)
 
+    /**
+     * Ruuan nimi
+     */
     private String name;
+
+    /**
+     * Ruuan hinta
+     */
     private Price price;
+
     private int total; //olisko helpompi pitää ruuan arvostelu karmaa omassa muuttujassa?
 
+    /**
+     * Ruokalistat joissa kyseinen ruoka löytyy
+     */
     @ManyToOne
     private MenuOfTheDay menus;
 
     @Temporal(TemporalType.DATE)
     private Date lastSeenOnMenu;
+
     @OneToMany(cascade=CascadeType.ALL) //cascade vaadittiin että homma ei kaatuisi
     private List<Rating> ratings;
     
@@ -41,6 +53,9 @@ public class Food extends AbstractPersistable<Long> {
         total = 0; //joka olisi alussa 0
     }
 
+    /**
+     * @return Palauttaa ruuan nimen
+     */
     public String getName() {
         return name;
     }
@@ -74,14 +89,25 @@ public class Food extends AbstractPersistable<Long> {
         return sum; 
     }
 
+    /**
+     * Asettaa ruuan nimen
+     * @param name Ruuan nimi
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * @return Palauttaa ruuan hinnan
+     */
     public Price getPrice() {
         return price;
     }
 
+    /**
+     * Asettaa ruuan hinnan
+     * @param price Ruuan hinta
+     */
     public void setPrice(Price price) {
         this.price = price;
     }
@@ -94,10 +120,17 @@ public class Food extends AbstractPersistable<Long> {
         this.ratings = ratings;
     }
 
+    /**
+     * @return Palauttaa ruokalistat, joista ruoka löytyy
+     */
     public MenuOfTheDay getMenus() {
         return menus;
     }
 
+    /**
+     * Asettaa listan ruokalistoista, joista ruoka löytyy
+     * @param menus Ruokalistat, joista ruoka löytyy
+     */
     public void setMenus(MenuOfTheDay menus) {
         this.menus = menus;
     }

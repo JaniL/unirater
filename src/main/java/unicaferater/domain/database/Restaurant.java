@@ -6,7 +6,6 @@
 package unicaferater.domain.database;
 
 import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,16 +20,26 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  */
 @Entity
 public class Restaurant extends AbstractPersistable<Long> {
-    
+
+    /**
+     * Ravintolan nimi
+     */
     @Column(unique = true)
     private String name;
 
+    /**
+     * Ravintolan SEO-ystävällinen nimi
+     * URL-osoitetta varten
+     */
     @Column(unique = true)
     private String uri;
     
     //@OneToMany(fetch = FetchType.LAZY)
     //private List<Food> foods;
 
+    /**
+     * Ravintolan ruokalistat
+     */
     @OneToMany(fetch = FetchType.LAZY)
     private List<MenuOfTheDay> menus;
 
@@ -41,10 +50,17 @@ public class Restaurant extends AbstractPersistable<Long> {
         foods = new ArrayList();
     }*/
 
+    /**
+     * @return Palauttaa listan ruokalistoista
+     */
     public List<MenuOfTheDay> getMenus() {
         return menus;
     }
 
+    /**
+     * Asettaa listan ruokalistoista
+     * @param menus Lista ruokalistoista
+     */
     public void setMenus(List<MenuOfTheDay> menus) {
         this.menus = menus;
     }
@@ -56,22 +72,37 @@ public class Restaurant extends AbstractPersistable<Long> {
     public void setAreacode(int areacode) {
 		this.areacode = areacode;
 	}
-    
+
+    /**
+     * @return Palauttaa ravintolan nimen
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Asettaa ravintolan nimen.
+     * Asettaa myös samalla ravintolan SEO-ystävällisen nimen.
+     * @param name Ravintolan nimi
+     */
     public void setName(String name) {
         this.name = name;
         setUri(name);
     }
 
+    /**
+     * @return Palauttaa ravintolan SEO-ystävällisen nimen
+     */
     public String getUri() {
         return uri;
     }
 
-    public void setUri(String uri) {
-        this.uri = Normalizer.normalize(uri.toLowerCase(), Normalizer.Form.NFD)
+    /**
+     * Asettaa ravintolan SEO-ystävällisen nimen.
+     * @param name Ravintolan nimi alkuperäisessä muodossa
+     */
+    public void setUri(String name) {
+        this.uri = Normalizer.normalize(name.toLowerCase(), Normalizer.Form.NFD)
                 .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
                 .replaceAll("[^\\p{Alnum}]+", "-");
     }

@@ -15,6 +15,17 @@ import unicaferater.domain.database.Restaurant;
  */
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
+    /**
+     * Hakee ravintolan tietokannasta nimen perusteella
+     * @param name Ravintolan nimi
+     * @return Palauttaa ravintolan
+     */
     Restaurant findByName(String name);
+
+    /**
+     * Hakee ravintolan tietokannasta ravintolan SEO-ystävällisen nimen perusteella
+     * @param uri Ravintolan SEO-ystävällinen nimi
+     * @return Palauttaa ravintolan
+     */
     Restaurant findByUri(String uri);
 }
