@@ -39,13 +39,13 @@ public class RegistrationController {
                                       BindingResult result,
                                       WebRequest request) throws DuplicateEmailException {
         if (result.hasErrors()) {
-            return "user/registrationForm";
+            return "registration";
         }
  
         User registered = createUserAccount(userAccountData, result);
  
         if (registered == null) {
-            return "user/registrationForm";
+            return "registration";
         }
         SecurityUtil.logInUser(registered);
         ProviderSignInUtils.handlePostSignUp(registered.getEmail(), request);
@@ -92,7 +92,7 @@ public class RegistrationController {
         RegistrationForm registration = createRegistrationDTO(connection);
         model.addAttribute("user", registration);
 
-        return "user/registrationForm";
+        return "registration";
     }
 
     private RegistrationForm createRegistrationDTO(Connection<?> connection) {
