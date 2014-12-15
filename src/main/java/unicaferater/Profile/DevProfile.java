@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile(value = {"dev", "default"})
+@Profile("dev")
 
 public class DevProfile {
     

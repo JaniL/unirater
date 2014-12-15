@@ -14,7 +14,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@Profile("prod")
+@Profile(value = {"prod"})
 public class ProdProfile {
     
  
@@ -59,6 +59,8 @@ public class ProdProfile {
         basicDataSource.setUrl(dbUrl);
         basicDataSource.setUsername(username);
         basicDataSource.setPassword(password);
+
+        System.out.println("PSQL otettu käyttöön.");
 
         return basicDataSource;
     }
