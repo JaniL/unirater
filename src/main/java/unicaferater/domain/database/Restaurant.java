@@ -76,13 +76,13 @@ public class Restaurant extends AbstractPersistable<Long> {
                 .replaceAll("[^\\p{Alnum}]+", "-");
     }
 
-    /*public List<Food> getFoods() {
+    /* public List<Food> getFoods() {
         return foods;
     }
 
     public void setFoods(List<Food> foods) {
         this.foods = foods;
-    }*/
+    } */
 
     @Override
     public String toString() {

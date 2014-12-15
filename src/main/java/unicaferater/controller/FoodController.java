@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import unicaferater.Repository.FoodRepository;
+import unicaferater.Repository.MenuOfTheDayRepository;
 import unicaferater.Repository.RatingRepository;
 import unicaferater.Repository.RestaurantRepository;
 import unicaferater.domain.database.Food;
+import unicaferater.domain.database.MenuOfTheDay;
 import unicaferater.domain.database.Rating;
 
 /**
@@ -38,16 +40,19 @@ public class FoodController {
     @Autowired
     private RatingRepository ratingRepo;
 
+    @Autowired
+    private MenuOfTheDayRepository menuRepo;
+
     /**
      * Listaa kaikki ruuat ja ravintolat omaan modeliin
      *
      * @param model
      * @return palauttaa indexi sivun
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value="/", method = RequestMethod.GET)
     public String listFoods(Model model) {
-
-        model.addAttribute("foods", foodRepo.findAll());
+        System.out.println("index-sivu");
+        model.addAttribute("menus", menuRepo.findAll());
         model.addAttribute("restaurants", restaurantRepo.findAll());
 
         return "index";
@@ -56,7 +61,19 @@ public class FoodController {
     @RequestMapping(value = "/{restaurantUri}", method = RequestMethod.GET)
     public String listFoodsByRestaurant(Model model, @PathVariable String restaurantUri) {
 
-        model.addAttribute("foods", foodRepo.findByRestaurant(restaurantRepo.findByUri(restaurantUri)));
+        List<MenuOfTheDay> menus;
+        System.out.println(restaurantUri);
+        if (restaurantUri.equals("favicon") || restaurantUri.equals("")) {
+            System.out.println("derp");
+            menus = menuRepo.findAll();
+        } else {
+            menus = menuRepo.findByRestaurant(restaurantRepo.findByUri(restaurantUri));
+        }
+
+        System.out.println("hello");
+        System.out.println(menus);
+        System.out.println(menus.size());
+        model.addAttribute("menus", menus);
         model.addAttribute("restaurants", restaurantRepo.findAll());
         return "index";
     }

@@ -10,9 +10,11 @@ import unicaferater.domain.database.MenuOfTheDay;
 import unicaferater.domain.database.Restaurant;
 
 import java.util.Date;
+import java.util.List;
 
 
 public interface MenuOfTheDayRepository extends JpaRepository<MenuOfTheDay, Long> {
     MenuOfTheDay findByRestaurantAndDate(Restaurant restaurant, Date date);
+    List<MenuOfTheDay> findByRestaurant(Restaurant restaurant);
 
 }

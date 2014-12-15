@@ -14,13 +14,13 @@ import java.util.List;
 @Entity
 public class MenuOfTheDay extends AbstractPersistable<Long> {
 
-    @OneToMany
+    @ManyToOne
     private Restaurant restaurant;
 
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @OneToMany(cascade= CascadeType.ALL)
+    @OneToMany
     private List<Food> menu;
 
     public MenuOfTheDay() {

@@ -51,7 +51,7 @@
                 <div class="col-md-6">
                     <h1>Päivän ruuat</h1>
 
-                    <table class="table table-bordered">
+                    <table th:each="menu : ${menus}" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Ruoka</th>
@@ -60,7 +60,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="food : ${foods}">
+                            <tr th:each="food : ${menu.menu}">
                                 <td th:text="${food.name}">Pizzaa</td>
                                 <td th:text="${food.price}">Halpaa</td>
                                 <td th:text="${food.total}">12</td> 

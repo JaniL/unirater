@@ -41,7 +41,8 @@ public class LounastyokaluService {
 		RestaurantsResponse result = restTemplate.getForObject(API_URL + "/restaurants", RestaurantsResponse.class);
 		
 		
-		System.out.println(result);
+		// System.out.println(result);
+
 		return result;
 		
 	}
@@ -77,17 +78,32 @@ public class LounastyokaluService {
             //    foods = repoRes.getFoods();
             // }
 
+            // System.out.println("Lisätään ravintolan " + repoRes.getName() + " ruokalistat.");
+
             RestaurantResponse restaurantResponse = fetchRestaurant(id);
 
             List<unicaferater.domain.database.MenuOfTheDay> menus = repoRes.getMenus();
+            if (menus == null) {
+                menus = new ArrayList<>();
+            }
 
 
             for (MenuOfTheDay menuOfTheDay : restaurantResponse.getData()) {
                 Date date = menuOfTheDay.getDate();
 
-                if (menuOfTheDayRepository.findByRestaurantAndDate(repoRes,date) == null) {
+                if (menuOfTheDayRepository.findByRestaurantAndDate(repoRes,date) != null) {
                     // jos päivän lista löytyy jo,
                     // niin listaa ei lisätä uudelleen
+
+                    // System.out.println("Lista löytyy jo, ei lisätä.");
+                    continue;
+                }
+
+                if (menuOfTheDay.getData().size() == 0) {
+                    // jos lista on tyhjä,
+                    // niin tyhjää listaa ei lisätä
+
+                    // System.out.println("Lista on tyhjä, ei lisätä.");
                     continue;
                 }
 
@@ -107,7 +123,7 @@ public class LounastyokaluService {
                     Price price = null;
                     String priceString = foodDetails.getPrice().getName();
 
-                    System.out.println("PriceString: " + priceString);
+                    // System.out.println("PriceString: " + priceString);
 
                     if (priceString.equals("Edullisesti")) {
                         price = Price.Edullisesti;
@@ -119,11 +135,11 @@ public class LounastyokaluService {
                         price = Price.Makeasti;
                     }
 
-                    System.out.println("Olio: " + price);
+                    // System.out.println("Olio: " + price);
 
                     food.setPrice(price);
 
-                    food.setRestaurant(repoRes);
+                    // food.setRestaurant(repoRes);
                     foodRepository.save(food);
 
                     // if (foods.isEmpty() || !foods.contains(food)) {
@@ -131,13 +147,14 @@ public class LounastyokaluService {
                     // }
                 }
                 dbMenu.setMenu(foods);
+                dbMenu = menuOfTheDayRepository.save(dbMenu);
+                System.out.println("Menun ravintola: " + dbMenu.getRestaurant());
                 menus.add(dbMenu);
-                menuOfTheDayRepository.save(dbMenu);
             }
 
             // repoRes.setFoods(foods);
             repoRes.setMenus(menus);
-            restaurantRepository.save(repoRes);
+            repoRes = restaurantRepository.save(repoRes);
 
 
 

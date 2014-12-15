@@ -27,8 +27,10 @@ public class Food extends AbstractPersistable<Long> {
     private String name;
     private Price price;
     private int total; //olisko helpompi pitää ruuan arvostelu karmaa omassa muuttujassa?
+
     @ManyToOne
-    private Restaurant restaurant;
+    private MenuOfTheDay menus;
+
     @Temporal(TemporalType.DATE)
     private Date lastSeenOnMenu;
     @OneToMany(cascade=CascadeType.ALL) //cascade vaadittiin että homma ei kaatuisi
@@ -92,12 +94,12 @@ public class Food extends AbstractPersistable<Long> {
         this.ratings = ratings;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public MenuOfTheDay getMenus() {
+        return menus;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setMenus(MenuOfTheDay menus) {
+        this.menus = menus;
     }
 
     public Date getLastSeenOnMenu() {

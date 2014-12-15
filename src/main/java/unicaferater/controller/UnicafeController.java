@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import unicaferater.Repository.FoodRepository;
+import unicaferater.Repository.MenuOfTheDayRepository;
 import unicaferater.Repository.RestaurantRepository;
 import unicaferater.domain.lounastyokalu.FoodDetails;
 import unicaferater.domain.lounastyokalu.MenuOfTheDay;
@@ -47,6 +48,9 @@ public class UnicafeController {
     @Autowired
     private LounastyokaluService lounastyokaluService;
 
+    @Autowired
+    private MenuOfTheDayRepository menuRepo;
+
     @RequestMapping(method = RequestMethod.GET)
     public String list() throws MalformedURLException, IOException, IllegalArgumentException, FeedException {
         /* URL url = new URL("http://www.hyyravintolat.fi/rss/fin/11/");
@@ -60,6 +64,9 @@ public class UnicafeController {
         RestaurantResponse restaurantResponse = lounastyokaluService.fetchRestaurant((long) 9);
 
         for (MenuOfTheDay menuOfTheDay : restaurantResponse.getData()) {
+            if (menuOfTheDay.getData().size() == 0) {
+                continue;
+            }
             System.out.println(menuOfTheDay.getDate());
             for (FoodDetails foodDetails : menuOfTheDay.getData()) {
                 System.out.println(foodDetails.getName() + " (" + foodDetails.getPrice().getName() + ")");
@@ -107,5 +114,14 @@ public class UnicafeController {
 
         return "saved things!";
 
+    }
+
+    @RequestMapping(value = "stats", method = RequestMethod.GET)
+    public String stats() {
+        String merkkijono;
+
+        merkkijono = "Listoja löytyy: " + menuRepo.count() + "\n";
+
+        return merkkijono;
     }
 }

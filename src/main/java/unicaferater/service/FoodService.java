@@ -25,8 +25,8 @@ public class FoodService {
         for (Food f : foodRepository.findAll()) {
             ret += "*" + f.getName();
             ret += " - " + f.getPrice();
-            if (f.getRestaurant() != null) {
-                ret += " - " + f.getRestaurant().getName();
+            if ("" != null) {
+                ret += " - " + "";
             }
             ret += " - " + f.getRatingResult();
             ret += "<br>\n";
@@ -41,8 +41,8 @@ public class FoodService {
         for (Food f : foodRepository.findAllByName(name)) {
             ret += "*" + f.getName();
             ret += " - " + f.getPrice();
-            if (f.getRestaurant() != null) {
-                ret += " - " + f.getRestaurant().getName();
+            if ("" != null) {
+                ret += " - " + "";
             }
             ret += " - " + f.getRatingResult();
             ret += "<br>\n";
