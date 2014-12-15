@@ -18,7 +18,6 @@ import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.RatingRepository;
 import unicaferater.Repository.RestaurantRepository;
 import unicaferater.domain.database.Food;
-import unicaferater.domain.database.Price;
 import unicaferater.domain.database.Rating;
 import unicaferater.domain.database.Restaurant;
 

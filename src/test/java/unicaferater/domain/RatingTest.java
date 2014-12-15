@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import unicaferater.Repository.RatingRepository;
 import unicaferater.domain.database.Food;
-import unicaferater.domain.database.Price;
 import unicaferater.domain.database.Rating;
 
 
@@ -31,6 +30,7 @@ public class RatingTest {
 
     Food food;
     Rating rating;
+    unicaferater.domain.common.Price price;
       @Autowired
     RatingRepository ratingrepository;
       
@@ -39,9 +39,11 @@ public class RatingTest {
     public void setUp() {
         this.food = new Food();
         this.rating = new Rating();
-        
+        this.price = new unicaferater.domain.common.Price();
+        price.setName("Kevyesti");
+
         food.setName("JaninSukat");
-        food.setPrice(Price.Makeasti);
+        food.setPrice(price);
         rating.setRating(1);
         Date date = new Date();
         rating.setDate(date);

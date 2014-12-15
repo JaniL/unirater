@@ -20,11 +20,11 @@ public class DevProfile {
 //    public void init() {
 //        Food food = new Food();
 //        food.setName("asd");
-//        food.setPrice(Price.Kevyesti);
+
 //        
 //        Food food2 = new Food();
 //        food2.setName("Makarooni");
-//        food2.setPrice(Price.Maukkaasti);
+
 //        
 //        Rating rating2 = new Rating();
 //        rating2.setDate(new Date());

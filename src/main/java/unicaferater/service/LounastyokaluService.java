@@ -4,16 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import unicaferater.Repository.FoodRepository;
-import unicaferater.Repository.MenuOfTheDayRepository;
-import unicaferater.Repository.RestaurantRepository;
+import unicaferater.Repository.*;
+import unicaferater.domain.common.PriceValue;
 import unicaferater.domain.database.Food;
-import unicaferater.domain.database.Price;
 import unicaferater.domain.database.Restaurant;
-import unicaferater.domain.lounastyokalu.FoodDetails;
-import unicaferater.domain.lounastyokalu.MenuOfTheDay;
-import unicaferater.domain.lounastyokalu.RestaurantResponse;
-import unicaferater.domain.lounastyokalu.RestaurantsResponse;
+import unicaferater.domain.lounastyokalu.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +27,12 @@ public class LounastyokaluService {
 
     @Autowired
     private MenuOfTheDayRepository menuOfTheDayRepository;
+
+    @Autowired
+    private PriceRepository priceRepo;
+
+    @Autowired
+    private PriceValueRepository priceValueRepository;
 
     /**
      * Hakee Unicafen rajapinnasta ravintolat ja niiden id:t.
@@ -124,23 +125,21 @@ public class LounastyokaluService {
                     food.setName(foodDetails.getName());
                     food.setLastSeenOnMenu(date);
 
-                    Price price = null;
+                    unicaferater.domain.common.Price price = null;
                     String priceString = foodDetails.getPrice().getName();
 
                     // System.out.println("PriceString: " + priceString);
 
-                    if (priceString.equals("Edullisesti")) {
-                        price = Price.Edullisesti;
-                    } else if (priceString.equals("Maukkaasti")) {
-                        price = Price.Maukkaasti;
-                    } else if (priceString.equals("Kevyesti")) {
-                        price = Price.Kevyesti;
-                    } else if (priceString.equals("Makeasti")) {
-                        price = Price.Makeasti;
-                    }
 
                     // System.out.println("Olio: " + price);
 
+                    price = priceRepo.findByName(foodDetails.getPrice().getName());
+                    if (price == null) {
+                        PriceValue value = foodDetails.getPrice().getValue();
+                        value = priceValueRepository.save(value);
+                        foodDetails.getPrice().setValue(value);
+                        price = priceRepo.save(foodDetails.getPrice());
+                    }
                     food.setPrice(price);
 
                     // food.setRestaurant(repoRes);

@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import unicaferater.domain.common.Price;
 
 /**
  *
@@ -32,6 +33,7 @@ public class Food extends AbstractPersistable<Long> {
     /**
      * Ruuan hinta
      */
+    @ManyToOne
     private Price price;
 
     private int total; //olisko helpompi pitää ruuan arvostelu karmaa omassa muuttujassa?

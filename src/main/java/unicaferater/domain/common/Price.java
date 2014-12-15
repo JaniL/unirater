@@ -1,10 +1,22 @@
-package unicaferater.domain.lounastyokalu;
+package unicaferater.domain.common;
+
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 /**
  * Created by jani on 14.12.2014.
  */
-public class Price {
+
+@Entity
+public class Price extends AbstractPersistable<Long> {
+
+    @Column(unique = true)
     private String name;
+
+    @OneToOne
     private PriceValue value;
 
     public String getName() {

@@ -1,9 +1,14 @@
-package unicaferater.domain.lounastyokalu;
+package unicaferater.domain.common;
+
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
+import javax.persistence.Entity;
 
 /**
  * Created by jani on 14.12.2014.
  */
-public class PriceValue {
+@Entity
+public class PriceValue extends AbstractPersistable<Long> {
     private String contract;
     private String graduate;
     private String graduate_hyy;

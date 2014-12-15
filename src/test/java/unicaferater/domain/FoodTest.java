@@ -25,7 +25,6 @@ import unicaferater.Application;
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.RatingRepository;
 import unicaferater.domain.database.Food;
-import unicaferater.domain.database.Price;
 import unicaferater.domain.database.Rating;
 
 /**
@@ -46,12 +45,17 @@ public class FoodTest {
     Food food;
     ArrayList<Rating> arv;
 
+    unicaferater.domain.common.Price price;
+
     @Before
     @Transactional
     public void setUp() {
+        this.price = new unicaferater.domain.common.Price();
+        price.setName("Kevyesti");
+
         this.food = new Food();
         food.setName("porkkanakakku");
-        food.setPrice(Price.Kevyesti);
+        food.setPrice(price);
 
         Rating arvostelut = new Rating();
         arvostelut.setRating(2);
@@ -63,7 +67,7 @@ public class FoodTest {
     @Test
     @Transactional
     public void getterSetterTest() {
-        assertEquals(food.getPrice(), Price.Kevyesti);
+        assertEquals(food.getPrice(), price);
         assertEquals(food.getName(), "porkkanakakku");
         assertEquals(food.getRatingResult(), 2);
     }

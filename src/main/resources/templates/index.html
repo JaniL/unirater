@@ -64,7 +64,7 @@
                     <tbody>
                     <tr th:each="food : ${menu.menu}">
                         <td th:text="${food.name}">Pizzaa</td>
-                        <td th:text="${food.price}">Halpaa</td>
+                        <td th:text="${food.price.name}">Halpaa</td>
                         <td th:text="${food.total}">12</td>
                         <td class="ratingstars">
                             <div class="btn-group btn-group-xs" role="group" aria-label="...">

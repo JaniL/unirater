@@ -1,8 +1,7 @@
 package unicaferater.domain.lounastyokalu;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.util.List;
+import unicaferater.domain.common.Price;
 
 /**
  * Created by jani on 9.12.2014.
