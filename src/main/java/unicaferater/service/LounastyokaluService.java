@@ -148,14 +148,12 @@ public class LounastyokaluService {
                 }
                 dbMenu.setMenu(foods);
                 dbMenu = menuOfTheDayRepository.save(dbMenu);
-                System.out.println("Menun ravintola: " + dbMenu.getRestaurant());
                 menus.add(dbMenu);
             }
 
             // repoRes.setFoods(foods);
             repoRes.setMenus(menus);
             repoRes = restaurantRepository.save(repoRes);
-
 
 
         }

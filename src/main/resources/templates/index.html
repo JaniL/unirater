@@ -51,29 +51,32 @@
                 <div class="col-md-6">
                     <h1>Päivän ruuat</h1>
 
-                    <table th:each="menu : ${menus}" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Ruoka</th>
-                                <th>Hintaluokka</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="food : ${menu.menu}">
-                                <td th:text="${food.name}">Pizzaa</td>
-                                <td th:text="${food.price}">Halpaa</td>
-                                <td th:text="${food.total}">12</td> 
-                                <td class="ratingstars">
-                                    <form th:action="@{|/${food.id}|}" method="post">
-                                        <input type="number" name="arvostelu" />
-                                        <input type="submit" name="Hyvää vaiko Pahaa" />
-                                    </form> 
-                                </td>
-                                    
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div th:each="menu : ${menus}">
+                        <h2 th:text="${menu.date}">24.12.2014</h2>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Ruoka</th>
+                                    <th>Hintaluokka</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="food : ${menu.menu}">
+                                    <td th:text="${food.name}">Pizzaa</td>
+                                    <td th:text="${food.price}">Halpaa</td>
+                                    <td th:text="${food.total}">12</td>
+                                    <td class="ratingstars">
+                                        <form th:action="@{|/${food.id}|}" method="post">
+                                            <input type="number" name="arvostelu" />
+                                            <input type="submit" name="Hyvää vaiko Pahaa" />
+                                        </form>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div>

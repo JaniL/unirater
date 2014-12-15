@@ -22,6 +22,7 @@ import unicaferater.Repository.RestaurantRepository;
 import unicaferater.domain.database.Food;
 import unicaferater.domain.database.MenuOfTheDay;
 import unicaferater.domain.database.Rating;
+import unicaferater.domain.database.Restaurant;
 
 /**
  *
@@ -51,7 +52,6 @@ public class FoodController {
      */
     @RequestMapping(value="/", method = RequestMethod.GET)
     public String listFoods(Model model) {
-        System.out.println("index-sivu");
         model.addAttribute("menus", menuRepo.findAll());
         model.addAttribute("restaurants", restaurantRepo.findAll());
 
@@ -62,17 +62,12 @@ public class FoodController {
     public String listFoodsByRestaurant(Model model, @PathVariable String restaurantUri) {
 
         List<MenuOfTheDay> menus;
-        System.out.println(restaurantUri);
         if (restaurantUri.equals("favicon") || restaurantUri.equals("")) {
-            System.out.println("derp");
             menus = menuRepo.findAll();
         } else {
-            menus = menuRepo.findByRestaurant(restaurantRepo.findByUri(restaurantUri));
+            Restaurant restaurant = restaurantRepo.findByUri(restaurantUri);
+            menus = menuRepo.findByRestaurant(restaurant);
         }
-
-        System.out.println("hello");
-        System.out.println(menus);
-        System.out.println(menus.size());
         model.addAttribute("menus", menus);
         model.addAttribute("restaurants", restaurantRepo.findAll());
         return "index";
