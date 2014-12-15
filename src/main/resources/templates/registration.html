@@ -5,88 +5,88 @@
     <script type="text/javascript" src="/static/js/app/user.form.js"></script>
 </head>
 <body>
-    <div class="page-header">
-        <h1>Rekisteröidy</h1>
-    </div>
-    <!--
-        If the user is anonymous (not logged in), show the registration form.
-    -->
-    <div class="panel panel-default" sec:authorize="isAnonymous()">
-        <div class="panel-body">
+<div class="page-header">
+    <h1>Rekisteröidy</h1>
+</div>
+<!--
+    If the user is anonymous (not logged in), show the registration form.
+-->
+<div class="panel panel-default" sec:authorize="isAnonymous()">
+    <div class="panel-body">
+        <!--
+            Ensure that when the form is submitted, a POST request is send to url
+            '/user/register'.
+        -->
+        <form action="/user/register" th:object="${user}" method="POST" enctype="utf8" role="form">
+            <!-- Add CSRF token to the request. -->
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <!--
-                Ensure that when the form is submitted, a POST request is send to url
-                '/user/register'.
+                If the user is using social sign in, add the signInProvider
+                as a hidden field.
             -->
-            <form action="/user/register" commandName="user" method="POST" enctype="utf8" role="form">
-                <!-- Add CSRF token to the request. -->
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                <!--
-                    If the user is using social sign in, add the signInProvider
-                    as a hidden field.
-                -->
-                <form:hidden th:if="${user.signInProvider != null}" path="signInProvider"/>
-                <div class="row">
-                    <div id="form-group-firstName" class="form-group col-lg-4">
-                        <label class="control-label" for="user-firstName">Etunimi:</label>
-                        <!--
-                            Add the firstName field to the form and ensure
-                            that validation errors are shown.
-                        -->
-                        <input id="user-firstName" path="firstName" class="form-control"/>
+            <input type="hidden" th:if="${user.signInProvider != null}" th:field="signInProvider"/>
+            <div class="row">
+                <div id="form-group-firstName" class="form-group col-lg-4">
+                    <label class="control-label" for="user-firstName">Etunimi:</label>
+                    <!--
+                        Add the firstName field to the form and ensure
+                        that validation errors are shown.
+                    -->
+                    <input id="user-firstName" th:field="firstName" class="form-control"/>
 
-                    </div>
                 </div>
-                <div class="row">
-                    <div id="form-group-lastName" class="form-group col-lg-4">
-                        <label class="control-label" for="user-lastName">Sukunimi:</label>
-                        <!--
-                            Add the lastName field to the form and ensure
-                            that validation errors are shown.
-                        -->
-                        <input id="user-lastName" path="lastName" class="form-control"/>
+            </div>
+            <div class="row">
+                <div id="form-group-lastName" class="form-group col-lg-4">
+                    <label class="control-label" for="user-lastName">Sukunimi:</label>
+                    <!--
+                        Add the lastName field to the form and ensure
+                        that validation errors are shown.
+                    -->
+                    <input id="user-lastName" th:field="lastName" class="form-control"/>
 
+                </div>
+            </div>
+            <div class="row">
+                <div id="form-group-email" class="form-group col-lg-4">
+                    <label class="control-label" for="user-email">Email:</label>
+                    <!--
+                        Add the email field to the form and ensure
+                        that validation errors are shown.
+                    -->
+                    <input id="user-email" th:field="email" class="form-control"/>
+                </div>
+            </div>
+            <!--
+                If the user is creating a normal user account, add password fields
+                to the form.
+            -->
+            <div th:if="${user.signInProvider == null}">
+                <div class="row">
+                    <div id="form-group-password" class="form-group col-lg-4">
+                        <label class="control-label" for="user-password">Salasana:</label>
+                        <!--
+                            Add the password field to the form and ensure
+                            that validation errors are shown.
+                        -->
+                        <input type="password" id="user-password" th:field="password" class="form-control"/>
                     </div>
                 </div>
                 <div class="row">
-                    <div id="form-group-email" class="form-group col-lg-4">
-                        <label class="control-label" for="user-email">Email:</label>
+                    <div id="form-group-passwordVerification" class="form-group col-lg-4">
+                        <label class="control-label" for="user-passwordVerification">Vahvista salasana:</label>
                         <!--
-                            Add the email field to the form and ensure
+                            Add the passwordVerification field to the form and ensure
                             that validation errors are shown.
                         -->
-                        <input id="user-email" path="email" class="form-control"/>
+                        <input type="password" id="user-passwordVerification" th:field="passwordVerification" class="form-control"/>
                     </div>
                 </div>
-                <!--
-                    If the user is creating a normal user account, add password fields
-                    to the form.
-                -->
-                <div th:if="${user.signInProvider == null}">
-                    <div class="row">
-                        <div id="form-group-password" class="form-group col-lg-4">
-                            <label class="control-label" for="user-password">Salasana:</label>
-                            <!--
-                                Add the password field to the form and ensure
-                                that validation errors are shown.
-                            -->
-                            <input type="password" id="user-password" path="password" class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div id="form-group-passwordVerification" class="form-group col-lg-4">
-                            <label class="control-label" for="user-passwordVerification">Vahvista salasana:</label>
-                            <!--
-                                Add the passwordVerification field to the form and ensure
-                                that validation errors are shown.
-                            -->
-                            <input type="password" id="user-passwordVerification" path="passwordVerification" class="form-control"/>
-                        </div>
-                    </div>
-                </div>
-                <!-- Add the submit button to the form. -->
-                <button type="submit" class="btn btn-default">Rekisteröidy!</button>
-            </form>
-        </div>
+            </div>
+            <!-- Add the submit button to the form. -->
+            <button type="submit" class="btn btn-default">Rekisteröidy!</button>
+        </form>
     </div>
+</div>
 </body>
 </html>
