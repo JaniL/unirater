@@ -23,6 +23,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import unicaferater.Application;
 import unicaferater.Repository.FoodRepository;
+import unicaferater.Repository.PriceRepository;
 import unicaferater.Repository.RatingRepository;
 import unicaferater.domain.database.Food;
 import unicaferater.domain.database.Rating;
@@ -41,6 +42,8 @@ public class FoodTest {
     FoodRepository foodrepository;
       @Autowired
     RatingRepository ratingrepository;
+    @Autowired
+    PriceRepository priceRepository;
 
     Food food;
     ArrayList<Rating> arv;
@@ -52,6 +55,7 @@ public class FoodTest {
     public void setUp() {
         this.price = new unicaferater.domain.common.Price();
         price.setName("Kevyesti");
+        price = priceRepository.save(price);
 
         this.food = new Food();
         food.setName("porkkanakakku");
