@@ -27,10 +27,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- *
- * @author tixtixti
- */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
