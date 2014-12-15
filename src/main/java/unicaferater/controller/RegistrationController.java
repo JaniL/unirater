@@ -1,8 +1,12 @@
 package unicaferater.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionKey;
+import org.springframework.social.connect.UserProfile;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +17,7 @@ import org.springframework.web.context.request.WebRequest;
  
 import javax.validation.Valid;
 import unicaferater.auth.RegistrationForm;
+import unicaferater.auth.SocialMediaService;
 import unicaferater.config.SecurityUtil;
 import unicaferater.domain.User;
 import unicaferater.exception.DuplicateEmailException;
@@ -29,7 +34,7 @@ public class RegistrationController {
         this.service = service;
     }
  
-    @RequestMapping(value ="/user/register", method = RequestMethod.GET)
+    @RequestMapping(value ="/user/register", method = RequestMethod.POST)
     public String registerUserAccount(@Valid @ModelAttribute("user") RegistrationForm userAccountData,
                                       BindingResult result,
                                       WebRequest request) throws DuplicateEmailException {
@@ -78,5 +83,31 @@ public class RegistrationController {
         );
  
         result.addError(error);
+    }
+
+    @RequestMapping(value = "/user/register", method = RequestMethod.GET)
+    public String showRegistrationForm(WebRequest request, Model model) {
+        Connection<?> connection = ProviderSignInUtils.getConnection(request);
+
+        RegistrationForm registration = createRegistrationDTO(connection);
+        model.addAttribute("user", registration);
+
+        return "user/registrationForm";
+    }
+
+    private RegistrationForm createRegistrationDTO(Connection<?> connection) {
+        RegistrationForm dto = new RegistrationForm();
+
+        if (connection != null) {
+            UserProfile socialMediaProfile = connection.fetchUserProfile();
+            dto.setEmail(socialMediaProfile.getEmail());
+            dto.setFirstName(socialMediaProfile.getFirstName());
+            dto.setLastName(socialMediaProfile.getLastName());
+
+            ConnectionKey providerKey = connection.getKey();
+            dto.setSignInProvider(SocialMediaService.valueOf(providerKey.getProviderId().toUpperCase()));
+        }
+
+        return dto;
     }
 }
