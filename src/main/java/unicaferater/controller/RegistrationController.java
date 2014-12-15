@@ -29,7 +29,7 @@ public class RegistrationController {
         this.service = service;
     }
  
-    @RequestMapping(value ="/user/register", method = RequestMethod.POST)
+    @RequestMapping(value ="/user/register", method = RequestMethod.GET)
     public String registerUserAccount(@Valid @ModelAttribute("user") RegistrationForm userAccountData,
                                       BindingResult result,
                                       WebRequest request) throws DuplicateEmailException {
