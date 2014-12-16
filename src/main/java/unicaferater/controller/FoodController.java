@@ -104,7 +104,8 @@ public class FoodController {
     public String postRating(@PathVariable Long foodId, @PathVariable int vote, HttpServletRequest request) {
         String ret = "/user/login";
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.getPrincipal() != null && User.class.isAssignableFrom(auth.getPrincipal().getClass())) {
+        User u = userRepo.findByEmail(auth.getName());
+        if (u != null) {
 
             Food food = foodRepo.findOne(foodId);
             Rating rating = new Rating();
@@ -113,7 +114,7 @@ public class FoodController {
             } else {
                 rating.setRating(1);
             }
-            User u = (User) auth.getPrincipal();
+
             long userId = u.getId();
 //        long userId = 123;
 
