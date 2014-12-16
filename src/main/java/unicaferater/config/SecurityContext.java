@@ -49,7 +49,7 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
                         .deleteCookies("JSESSIONID")
                         .logoutUrl("/user/logout")
                         .logoutSuccessUrl("/")
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                 //Adds the SocialAuthenticationFilter to Spring Security's filter chain.
                 .and()
                     .apply(new SpringSocialConfigurer());
