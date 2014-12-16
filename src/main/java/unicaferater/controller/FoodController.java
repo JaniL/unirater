@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +21,8 @@ import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.MenuOfTheDayRepository;
 import unicaferater.Repository.RatingRepository;
 import unicaferater.Repository.RestaurantRepository;
+import unicaferater.Repository.UserRepository;
+import unicaferater.domain.User;
 import unicaferater.domain.database.Food;
 import unicaferater.domain.database.MenuOfTheDay;
 import unicaferater.domain.database.Rating;
@@ -43,6 +47,9 @@ public class FoodController {
 
     @Autowired
     private MenuOfTheDayRepository menuRepo;
+    
+    @Autowired
+    private UserRepository userRepo;
 
     /**
      * Listaa kaikki ruokalistat ja ravintolat omaan modeliin
@@ -94,17 +101,27 @@ public class FoodController {
     @RequestMapping(value = "/{foodId}", method = RequestMethod.POST)
     public String postRating(@PathVariable Long foodId, @ModelAttribute Rating rating) {
         Food food = foodRepo.findOne(foodId);
-
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User u = (User) auth.getPrincipal();
+        long userId = u.getId();
+        
+        rating.setUserId(userId);
         Date date = new Date();
         rating.setDate(date);
-        ratingRepo.findAll().add(rating);
+        rating.setFood(food);
         
         List<Rating> ratingNewList =  foodRepo.findOne(foodId).getRatings();
+        Rating vanha = ratingRepo.findByUserIdAndFood(userId, food);
+        if(vanha != null) {
+            ratingRepo.delete(vanha);
+            ratingNewList.remove(vanha);
+        }
         ratingNewList.add(rating);
         ratingRepo.save(rating);
         food.setRatings(ratingNewList);
         food.getRatingResult(); // Että tallentaisi totaalin. Voi muuttaa sinne frontiinki.
         foodRepo.save(food);
-        return "redirect:/11"; // minne tän pitäs ohjata uudelleen. 
+        return "redirect:/11"; // minne tän pitäs ohjata uudelleen. Voidaan laittaa palauttaa vaikka ratingin ravintolan kohdalle?
     }
 }

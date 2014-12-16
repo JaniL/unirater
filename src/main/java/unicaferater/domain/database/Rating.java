@@ -3,7 +3,9 @@ package unicaferater.domain.database;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import unicaferater.domain.User;
 
 /**
  *
@@ -15,6 +17,27 @@ public class Rating extends AbstractPersistable<Long> {
     private int rating;
     @javax.persistence.Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
+    
+    private Long userId;
+    
+    @ManyToOne
+    private Food food;
+
+    public Food getFood() {
+        return food;
+    }
+
+    public void setFood(Food food) {
+        this.food = food;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public int getRating() {
         return rating;
