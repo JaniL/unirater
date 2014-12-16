@@ -50,13 +50,6 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
                 //Configures url based authorization
                 .and()
                     .authorizeRequests()
-                        //Anyone can access the urls
-                        .antMatchers(
-                                "/auth/**",
-                                "/login",
-                                "/signup/**",
-                                "/user/register/**"
-                        ).permitAll()
                         //The rest of the our application is protected.
                         .antMatchers("/**").hasRole("USER")
                 //Adds the SocialAuthenticationFilter to Spring Security's filter chain.
