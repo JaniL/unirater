@@ -5,8 +5,10 @@
  */
 package unicaferater.controller;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -47,7 +49,7 @@ public class FoodController {
 
     @Autowired
     private MenuOfTheDayRepository menuRepo;
-    
+
     @Autowired
     private UserRepository userRepo;
 
@@ -57,7 +59,7 @@ public class FoodController {
      * @param model
      * @return palauttaa indexi sivun
      */
-    @RequestMapping(value="/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String listFoods(Model model) {
         model.addAttribute("menus", menuRepo.findAll());
         model.addAttribute("restaurants", restaurantRepo.findAll());
@@ -67,9 +69,11 @@ public class FoodController {
 
     /**
      * Listaa pyydetyn ravintolan ruokalistat ja ravintolat
+     *
      * @param model
      * @param restaurantUri
-     * @return Palauttaa sivun, joka sisältää ravintolan ruokalistat sekä ravintolat valikossa
+     * @return Palauttaa sivun, joka sisältää ravintolan ruokalistat sekä
+     * ravintolat valikossa
      */
     @RequestMapping(value = "/{restaurantUri}", method = RequestMethod.GET)
     public String listFoodsByRestaurant(Model model, @PathVariable String restaurantUri) {
@@ -87,41 +91,49 @@ public class FoodController {
     }
 
     /**
-     * Tekee POST pyynnön kyseisen Ruuan ID:hen 
-     * Pitäisi ottaa Modelista Rating arvio.
-     * Rating lisätään päivämäärä jollain arvostelu on annettu. 
-     * lisätään rating ruualle annettujen arvostelujen listaan.
-     * Tallenetaan kaikki.
+     * Tekee POST pyynnön kyseisen Ruuan ID:hen Pitäisi ottaa Modelista Rating
+     * arvio. Rating lisätään päivämäärä jollain arvostelu on annettu. lisätään
+     * rating ruualle annettujen arvostelujen listaan. Tallenetaan kaikki.
+     *
      * @param foodId
-     * @param rating
-     * @return HEP! Tällä hetkellä ohjaa meilahteen. 
-     * Miten saataisiin ohjaamaan sinne mistä on tullut? 
-     * Tai jonnekin relevanttiin paikkan?
+     * @param vote
+     * @return HEP! Tällä hetkellä ohjaa meilahteen. Miten saataisiin ohjaamaan
+     * sinne mistä on tullut? Tai jonnekin relevanttiin paikkan?
      */
-    @RequestMapping(value = "/{foodId}", method = RequestMethod.POST)
-    public String postRating(@PathVariable Long foodId, @ModelAttribute Rating rating) {
-        Food food = foodRepo.findOne(foodId);
-        
+    @RequestMapping(value = "rate/{foodId}/{vote}", method = RequestMethod.GET)
+    public String postRating(@PathVariable Long foodId, @PathVariable int vote, HttpServletRequest request) {
+        String ret = "/user/login";
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User u = (User) auth.getPrincipal();
-        long userId = u.getId();
-        
-        rating.setUserId(userId);
-        Date date = new Date();
-        rating.setDate(date);
-        rating.setFood(food);
-        
-        List<Rating> ratingNewList =  foodRepo.findOne(foodId).getRatings();
-        Rating vanha = ratingRepo.findByUserIdAndFood(userId, food);
-        if(vanha != null) {
-            ratingRepo.delete(vanha);
-            ratingNewList.remove(vanha);
+        if (auth != null && auth.getPrincipal() != null && User.class.isAssignableFrom(auth.getPrincipal().getClass())) {
+
+            Food food = foodRepo.findOne(foodId);
+            Rating rating = new Rating();
+            if (vote == 0) {
+                rating.setRating(-1);
+            } else {
+                rating.setRating(1);
+            }
+            User u = (User) auth.getPrincipal();
+            long userId = u.getId();
+
+            rating.setUserId(userId);
+            Date date = new Date();
+            rating.setDate(date);
+            rating.setFood(food);
+
+            List<Rating> ratingNewList = foodRepo.findOne(foodId).getRatings();
+            Rating vanha = ratingRepo.findByUserIdAndFood(userId, food);
+            if (vanha != null) {
+                ratingRepo.delete(vanha);
+                ratingNewList.remove(vanha);
+            }
+            ratingNewList.add(rating);
+            ratingRepo.save(rating);
+            food.setRatings(ratingNewList);
+            food.getRatingResult(); // Että tallentaisi totaalin. Voi muuttaa sinne frontiinki.
+            foodRepo.save(food);
+            ret = (String) request.getHeader("Referer");
         }
-        ratingNewList.add(rating);
-        ratingRepo.save(rating);
-        food.setRatings(ratingNewList);
-        food.getRatingResult(); // Että tallentaisi totaalin. Voi muuttaa sinne frontiinki.
-        foodRepo.save(food);
-        return "redirect:/11"; // minne tän pitäs ohjata uudelleen. Voidaan laittaa palauttaa vaikka ratingin ravintolan kohdalle?
+        return "redirect:"+ ret; // minne tän pitäs ohjata uudelleen. Voidaan laittaa palauttaa vaikka ratingin ravintolan kohdalle?
     }
 }

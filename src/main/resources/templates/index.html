@@ -75,8 +75,8 @@
                         <td th:text="${food.total}">12</td>
                         <td class="ratingstars">
                             <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                <button type="button" class="btn btn-success">Pidin</button>
-                                <button type="button" class="btn btn-danger">En pitänyt</button>
+                                <a th:href="@{'/rate/'+${food.id}+'/1'}" class="btn btn-success">Pidin</a>
+                                <a th:href="@{'/rate/'+${food.id}+'/0'}" class="btn btn-danger">En pitänyt</a>
                             </div>
                         </td>
 
