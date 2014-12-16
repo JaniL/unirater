@@ -24,17 +24,4 @@ public class LoginController {
     public String showLoginPage() {
         return "login";
     }
-
-    @RequestMapping(value="/testiasd",method=RequestMethod.GET)
-    public String testi() {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getDetails());
-
-        System.out.println((UserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-
-        UserDetails customUser = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(customUser.getId());
-        return "lol";
-    }
 }
