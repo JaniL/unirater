@@ -8,12 +8,8 @@ package unicaferater.domain.database;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
+
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import unicaferater.domain.common.Price;
 
@@ -28,6 +24,7 @@ public class Food extends AbstractPersistable<Long> {
     /**
      * Ruuan nimi
      */
+    @Column(unique=true)
     private String name;
 
     /**
@@ -41,8 +38,8 @@ public class Food extends AbstractPersistable<Long> {
     /**
      * Ruokalistat joissa kyseinen ruoka löytyy
      */
-    @ManyToOne
-    private MenuOfTheDay menus;
+    @ManyToMany
+    private List<MenuOfTheDay> menus;
 
     @Temporal(TemporalType.DATE)
     private Date lastSeenOnMenu;
@@ -52,6 +49,7 @@ public class Food extends AbstractPersistable<Long> {
     
     public Food() {
         this.ratings = new ArrayList();
+        this.menus = new ArrayList<>();
         total = 0; //joka olisi alussa 0
     }
 
@@ -125,15 +123,17 @@ public class Food extends AbstractPersistable<Long> {
     /**
      * @return Palauttaa ruokalistat, joista ruoka löytyy
      */
-    public MenuOfTheDay getMenus() {
+    public List<MenuOfTheDay> getMenus() {
         return menus;
     }
+
+
 
     /**
      * Asettaa listan ruokalistoista, joista ruoka löytyy
      * @param menus Ruokalistat, joista ruoka löytyy
      */
-    public void setMenus(MenuOfTheDay menus) {
+    public void setMenus(List<MenuOfTheDay> menus) {
         this.menus = menus;
     }
 

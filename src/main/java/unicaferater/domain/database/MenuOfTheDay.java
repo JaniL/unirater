@@ -29,7 +29,7 @@ public class MenuOfTheDay extends AbstractPersistable<Long> {
     /**
      * Lista ruuista
      */
-    @OneToMany
+    @ManyToMany
     private List<Food> menu;
 
     public MenuOfTheDay() {
