@@ -13,16 +13,16 @@ import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.*;
 import java.util.EnumSet;
 
-public class ExampleApplicationConfig implements WebApplicationInitializer {
+public class ApplicationConfig implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        // AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        // rootContext.register(ExampleApplicationContext.class);
+        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+        rootContext.register(ApplicationContext.class);
 
-        // ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext));
-        // dispatcher.setLoadOnStartup(1);
-        // dispatcher.addMapping("/");
+        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext));
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
 
         EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
 
@@ -39,6 +39,6 @@ public class ExampleApplicationConfig implements WebApplicationInitializer {
         // FilterRegistration.Dynamic sitemesh = servletContext.addFilter("sitemesh", new ConfigurableSiteMeshFilter());
         // sitemesh.addMappingForUrlPatterns(dispatcherTypes, true, "*.jsp");
 
-        // servletContext.addListener(new ContextLoaderListener(rootContext));
+        servletContext.addListener(new ContextLoaderListener(rootContext));
     }
 }
