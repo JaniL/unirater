@@ -12,12 +12,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
 import unicaferater.Repository.UserRepository;
 import unicaferater.auth.RepositoryUserDetailsService;
 import unicaferater.service.SimpleSocialUserDetailsService;
- 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityContext extends WebSecurityConfigurerAdapter {
@@ -35,6 +36,7 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
  
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        System.out.println("Tehdään httpsec config");
         http
                 //Configures form login
                 .formLogin()
@@ -47,6 +49,7 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
                         .deleteCookies("JSESSIONID")
                         .logoutUrl("/user/logout")
                         .logoutSuccessUrl("/")
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 //Adds the SocialAuthenticationFilter to Spring Security's filter chain.
                 .and()
                     .apply(new SpringSocialConfigurer());

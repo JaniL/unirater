@@ -27,7 +27,7 @@
         </div>
 
         <!-- Specifies action and HTTP method -->
-        <form action="/login/authenticate" method="POST" role="form">
+        <form action="/user/login/authenticate" method="POST" role="form">
             <!-- Add CSRF token -->
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <div class="row">
