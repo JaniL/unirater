@@ -24,14 +24,14 @@ public class Restaurant extends AbstractPersistable<Long> {
     /**
      * Ravintolan nimi
      */
-    @Column(unique = true)
+//    @Column(unique = true)
     private String name;
 
     /**
      * Ravintolan SEO-ystävällinen nimi
      * URL-osoitetta varten
      */
-    @Column(unique = true)
+//    @Column(unique = true)
     private String uri;
     
     //@OneToMany(fetch = FetchType.LAZY)

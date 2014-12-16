@@ -9,12 +9,13 @@ import org.springframework.context.annotation.Import;
 
 import unicaferater.Profile.DevProfile;
 import unicaferater.Profile.ProdProfile;
+import unicaferater.Profile.TestProfile;
 
 @Configuration
 @ComponentScan
 @EnableWebMvc
 @EnableAutoConfiguration
-@Import({DevProfile.class, ProdProfile.class})
+@Import({DevProfile.class, ProdProfile.class, TestProfile.class})
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

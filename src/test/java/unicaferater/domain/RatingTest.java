@@ -6,20 +6,15 @@
 package unicaferater.domain;
 
 import java.util.Date;
-
 import javax.transaction.Transactional;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.test.context.ActiveProfiles;
 import unicaferater.Repository.RatingRepository;
 import unicaferater.domain.database.Food;
 import unicaferater.domain.database.Rating;
-
 
 /**
  *
@@ -31,9 +26,9 @@ public class RatingTest {
     Food food;
     Rating rating;
     unicaferater.domain.common.Price price;
-      @Autowired
+    @Autowired
     RatingRepository ratingrepository;
-      
+
     @Before
     @Transactional
     public void setUp() {
@@ -41,16 +36,13 @@ public class RatingTest {
         this.rating = new Rating();
         this.price = new unicaferater.domain.common.Price();
         price.setName("Kevyesti");
-
         food.setName("JaninSukat");
         food.setPrice(price);
         rating.setRating(1);
         Date date = new Date();
         rating.setDate(date);
-        
-
     }
-    
+
     @Test
     @Transactional
     public void getSetTest() {
@@ -58,13 +50,13 @@ public class RatingTest {
         assertEquals(rating.getRating(), 1);
         assertFalse(rating.getDate().before(date));
     }
-//        @Test
-//    @Transactional
-//    public void dateBasePleaseWorkTest() {
-//        Rating rate = new Rating();
-//        rate.setRating(1);
-//        ratingrepository.save(rate); //NPE miksi? 
-//        assertEquals(ratingrepository.count(), 1);
-//        assertEquals(ratingrepository.findAll().get(0),1);
-//    }
+// @Test
+// @Transactional
+// public void dateBasePleaseWorkTest() {
+// Rating rate = new Rating();
+// rate.setRating(1);
+// ratingrepository.save(rate); //NPE miksi?
+// assertEquals(ratingrepository.count(), 1);
+// assertEquals(ratingrepository.findAll().get(0),1);
+// }
 }

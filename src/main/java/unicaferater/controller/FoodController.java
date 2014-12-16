@@ -5,9 +5,12 @@
  */
 package unicaferater.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,7 +53,7 @@ public class FoodController {
      * @param model
      * @return palauttaa indexi sivun
      */
-    @RequestMapping(value="/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String listFoods(Model model) {
         model.addAttribute("menus", menuRepo.findAll());
         model.addAttribute("restaurants", restaurantRepo.findAll());
@@ -60,9 +63,11 @@ public class FoodController {
 
     /**
      * Listaa pyydetyn ravintolan ruokalistat ja ravintolat
+     *
      * @param model
      * @param restaurantUri
-     * @return Palauttaa sivun, joka sisältää ravintolan ruokalistat sekä ravintolat valikossa
+     * @return Palauttaa sivun, joka sisältää ravintolan ruokalistat sekä
+     * ravintolat valikossa
      */
     @RequestMapping(value = "/{restaurantUri}", method = RequestMethod.GET)
     public String listFoodsByRestaurant(Model model, @PathVariable String restaurantUri) {
@@ -80,26 +85,31 @@ public class FoodController {
     }
 
     /**
-     * Tekee POST pyynnön kyseisen Ruuan ID:hen 
-     * Pitäisi ottaa Modelista Rating arvio.
-     * Rating lisätään päivämäärä jollain arvostelu on annettu. 
-     * lisätään rating ruualle annettujen arvostelujen listaan.
-     * Tallenetaan kaikki.
+     * Tekee POST pyynnön kyseisen Ruuan ID:hen Pitäisi ottaa Modelista Rating
+     * arvio. Rating lisätään päivämäärä jollain arvostelu on annettu. lisätään
+     * rating ruualle annettujen arvostelujen listaan. Tallenetaan kaikki.
+     *
      * @param foodId
+     * @param restaurantId
      * @param rating
-     * @return HEP! Tällä hetkellä ohjaa meilahteen. 
-     * Miten saataisiin ohjaamaan sinne mistä on tullut? 
-     * Tai jonnekin relevanttiin paikkan?
+     * @return HEP! Tällä hetkellä ohjaa meilahteen. Miten saataisiin ohjaamaan
+     * sinne mistä on tullut? Tai jonnekin relevanttiin paikkan?
+     * @throws java.text.ParseException
      */
-    @RequestMapping(value = "/{foodId}", method = RequestMethod.POST)
-    public String postRating(@PathVariable Long foodId, @ModelAttribute Rating rating) {
-        Food food = foodRepo.findOne(foodId);
+    @RequestMapping(value = "/{restaurantId}/{foodId}", method = RequestMethod.POST)
+    public String postRating(@PathVariable("foodId") Long foodId, @PathVariable("restaurantId") Long restaurantId, @ModelAttribute Rating rating) throws ParseException {
 
-        Date date = new Date();
-        rating.setDate(date);
+        Food food = foodRepo.findOne(foodId);
+        Restaurant resta = restaurantRepo.findOne(restaurantId);
+
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date();
+        Date todayWithZeroTime = formatter.parse(formatter.format(today));
+        rating.setDate(today);
+
         ratingRepo.findAll().add(rating);
         
-        List<Rating> ratingNewList =  foodRepo.findOne(foodId).getRatings();
+        List<Rating> ratingNewList = foodRepo.findOne(foodId).getRatings();
         ratingNewList.add(rating);
         ratingRepo.save(rating);
         food.setRatings(ratingNewList);
