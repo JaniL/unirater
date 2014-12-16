@@ -9,6 +9,7 @@ package unicaferater.controller;
  *
  * @author chang
  */
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,5 +20,14 @@ public class LoginController {
     @RequestMapping(value = "/user/login", method = RequestMethod.GET)
     public String showLoginPage() {
         return "login";
+    }
+
+    @RequestMapping(value="/testiasd",method=RequestMethod.GET)
+    public String testi() {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getDetails());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return "lol";
     }
 }
