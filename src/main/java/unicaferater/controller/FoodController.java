@@ -115,6 +115,7 @@ public class FoodController {
             }
             User u = (User) auth.getPrincipal();
             long userId = u.getId();
+//        long userId = 123;
 
             rating.setUserId(userId);
             Date date = new Date();
@@ -124,7 +125,6 @@ public class FoodController {
             List<Rating> ratingNewList = foodRepo.findOne(foodId).getRatings();
             Rating vanha = ratingRepo.findByUserIdAndFood(userId, food);
             if (vanha != null) {
-                ratingRepo.delete(vanha);
                 ratingNewList.remove(vanha);
             }
             ratingNewList.add(rating);
@@ -132,8 +132,11 @@ public class FoodController {
             food.setRatings(ratingNewList);
             food.getRatingResult(); // Että tallentaisi totaalin. Voi muuttaa sinne frontiinki.
             foodRepo.save(food);
+            if (vanha != null) {
+                ratingRepo.delete(vanha);
+            }
             ret = (String) request.getHeader("Referer");
         }
-        return "redirect:"+ ret; // minne tän pitäs ohjata uudelleen. Voidaan laittaa palauttaa vaikka ratingin ravintolan kohdalle?
+        return "redirect:" + ret; // minne tän pitäs ohjata uudelleen. Voidaan laittaa palauttaa vaikka ratingin ravintolan kohdalle?
     }
 }
