@@ -147,7 +147,7 @@ public class LounastyokaluService {
                         }
                         food.setPrice(price);
 
-                        // food.setRestaurant(repoRes);
+                        food.setRestaurant(repoRes);
                         foodRepository.save(food);
                     }
 

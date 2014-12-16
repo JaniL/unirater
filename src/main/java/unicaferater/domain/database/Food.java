@@ -50,6 +50,12 @@ public class Food extends AbstractPersistable<Long> {
     @OneToMany(cascade=CascadeType.ALL) //cascade vaadittiin että homma ei kaatuisi
     private List<Rating> ratings;
     
+    /**
+     * Ravintola johon kyseinen ruoka liittyy
+     */
+    @ManyToOne
+    private Restaurant restaurant;
+    
     public Food() {
         this.ratings = new ArrayList();
         total = 0; //joka olisi alussa 0
@@ -144,4 +150,22 @@ public class Food extends AbstractPersistable<Long> {
     public void setLastSeenOnMenu(Date lastSeenOnMenu) {
         this.lastSeenOnMenu = lastSeenOnMenu;
     }
+
+    /**
+     * 
+     * @return Palauttaa ravintolan johon liittyy
+     */
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    /**
+     * Asettaa ruoalle ravintolan.
+     * @param restaurant 
+     */
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+    
+    
 }
