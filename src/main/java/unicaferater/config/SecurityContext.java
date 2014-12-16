@@ -38,15 +38,15 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
         http
                 //Configures form login
                 .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login/authenticate")
-                    .failureUrl("/login?error=bad_credentials")
+                    .loginPage("/user/login")
+                    .loginProcessingUrl("/user/login/authenticate")
+                    .failureUrl("/user/login?error=bad_credentials")
                 //Configures the logout function
                 .and()
                     .logout()
                         .deleteCookies("JSESSIONID")
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
+                        .logoutUrl("/user/logout")
+                        .logoutSuccessUrl("/")
                 //Adds the SocialAuthenticationFilter to Spring Security's filter chain.
                 .and()
                     .apply(new SpringSocialConfigurer());
