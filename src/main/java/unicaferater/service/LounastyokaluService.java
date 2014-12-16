@@ -122,7 +122,7 @@ public class LounastyokaluService {
                 List<Food> foods = new ArrayList<>();
                 for (FoodDetails foodDetails : menuOfTheDay.getData()) {
 
-                    Food food = foodRepository.findByName(foodDetails.getName());
+                    Food food = foodRepository.findByNameAndRestaurant(foodDetails.getName(), repoRes);
 
                     if (food == null) {
                         food = new Food();
@@ -147,8 +147,7 @@ public class LounastyokaluService {
                         }
                         food.setPrice(price);
 
-                        // food.setRestaurant(repoRes);
-                        food = foodRepository.save(food);
+                        foodRepository.save(food);
                     }
 
 
