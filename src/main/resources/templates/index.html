@@ -39,8 +39,15 @@
 
             </ul>
 
+            <ul class="nav navbar-nav navbar-right">
+                <li sec:authorize="isAnonymous()"><a href="/logout">Kirjaudu sisään</a></li>
+                <li sec:authorize="isAuthenticated()"><a href="/logout">Kirjaudu ulos</a></li>
+            </ul>
+
 
         </div><!-- /.navbar-collapse -->
+
+
 
 
     </div><!-- /.container-fluid -->
