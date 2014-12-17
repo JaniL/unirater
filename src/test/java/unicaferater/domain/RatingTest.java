@@ -58,13 +58,5 @@ public class RatingTest {
         assertEquals(rating.getRating(), 1);
         assertFalse(rating.getDate().before(date));
     }
-//        @Test
-//    @Transactional
-//    public void dateBasePleaseWorkTest() {
-//        Rating rate = new Rating();
-//        rate.setRating(1);
-//        ratingrepository.save(rate); //NPE miksi? 
-//        assertEquals(ratingrepository.count(), 1);
-//        assertEquals(ratingrepository.findAll().get(0),1);
-//    }
+
 }
