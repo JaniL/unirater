@@ -5,23 +5,34 @@
  */
 package unicaferater.controller;
 
+<<<<<<< HEAD
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+=======
+import java.security.Principal;
+>>>>>>> master
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+<<<<<<< HEAD
 import org.joda.time.LocalDate;
+=======
+import javax.servlet.http.HttpServletRequest;
+
+>>>>>>> master
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.MenuOfTheDayRepository;
 import unicaferater.Repository.RatingRepository;
 import unicaferater.Repository.RestaurantRepository;
+import unicaferater.Repository.UserRepository;
+import unicaferater.domain.User;
 import unicaferater.domain.database.Food;
 import unicaferater.domain.database.MenuOfTheDay;
 import unicaferater.domain.database.Rating;
@@ -47,19 +58,51 @@ public class FoodController {
     @Autowired
     private MenuOfTheDayRepository menuRepo;
 
+    @Autowired
+    private UserRepository userRepo;
+
     /**
      * Listaa kaikki ruokalistat ja ravintolat omaan modeliin
      *
      * @param model
      * @return palauttaa indexi sivun
      */
+<<<<<<< HEAD
     @RequestMapping(value = "/", method = RequestMethod.GET)
+=======
+    /* @RequestMapping(value = "/", method = RequestMethod.GET)
+>>>>>>> master
     public String listFoods(Model model) {
         model.addAttribute("menus", menuRepo.findAll());
         model.addAttribute("restaurants", restaurantRepo.findAll());
 
         return "index";
+    } */
+
+    /**
+     * Etsii käyttäjän sijainnin ja ohjaa lähimmän ravintolan sivulle.
+     * @param model
+     * @return palauttaa paikannussivun
+     */
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String locateUser(Model model) {
+        model.addAttribute("restaurants", restaurantRepo.findAll());
+
+        return "paikannus";
     }
+
+    @RequestMapping(value="/json/etsiUri/{restaurantNimi}", method=RequestMethod.GET)
+    @ResponseBody
+    public String etsiUri(@PathVariable String restaurantNimi) {
+        Restaurant restaurant = restaurantRepo.findByName(restaurantNimi);
+
+        if (restaurant != null) {
+            return restaurant.getUri();
+        } else {
+            return null;
+        }
+    }
+
 
     /**
      * Listaa pyydetyn ravintolan ruokalistat ja ravintolat
@@ -73,16 +116,31 @@ public class FoodController {
     public String listFoodsByRestaurant(Model model, @PathVariable String restaurantUri) {
 
         List<MenuOfTheDay> menus;
+        Restaurant restaurant = null;
         if (restaurantUri.equals("favicon") || restaurantUri.equals("")) {
             menus = menuRepo.findAll();
         } else {
-            Restaurant restaurant = restaurantRepo.findByUri(restaurantUri);
+            restaurant = restaurantRepo.findByUri(restaurantUri);
             menus = menuRepo.findByRestaurant(restaurant);
         }
         model.addAttribute("menus", menus);
+        model.addAttribute("restaurant", restaurant);
         model.addAttribute("restaurants", restaurantRepo.findAll());
         return "index";
     }
+
+    /* @RequestMapping(value="/json/{restaurantUri}", method=RequestMethod.GET, produces="application/json")
+    @ResponseBody
+    public List<MenuOfTheDay> listMenusByRestaurantJson(@PathVariable String restaurantUri) {
+        System.out.println("halp");
+        Restaurant restaurant = restaurantRepo.findByUri(restaurantUri);
+        List<MenuOfTheDay> menus = menuRepo.findByRestaurant(restaurant);
+        for (MenuOfTheDay menu : menus) {
+            menu.getMenu();
+        }
+
+        return menus;
+    } */
 
     /**
      * Tekee POST pyynnön kyseisen Ruuan ID:hen Pitäisi ottaa Modelista Rating
@@ -90,6 +148,7 @@ public class FoodController {
      * rating ruualle annettujen arvostelujen listaan. Tallenetaan kaikki.
      *
      * @param foodId
+<<<<<<< HEAD
      * @param restaurantId
      * @param rating
      * @return HEP! Tällä hetkellä ohjaa meilahteen. Miten saataisiin ohjaamaan
@@ -116,5 +175,50 @@ public class FoodController {
         food.getRatingResult(); // Että tallentaisi totaalin. Voi muuttaa sinne frontiinki.
         foodRepo.save(food);
         return "redirect:/11"; // minne tän pitäs ohjata uudelleen. 
+=======
+     * @param vote
+     * @return HEP! Tällä hetkellä ohjaa meilahteen. Miten saataisiin ohjaamaan
+     * sinne mistä on tullut? Tai jonnekin relevanttiin paikkan?
+     */
+    @RequestMapping(value = "rate/{foodId}/{vote}", method = RequestMethod.GET)
+    public String postRating(@PathVariable Long foodId, @PathVariable int vote, HttpServletRequest request) {
+        String ret = "/user/login";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User u = userRepo.findByEmail(auth.getName());
+        if (u != null) {
+
+            Food food = foodRepo.findOne(foodId);
+            Rating rating = new Rating();
+            if (vote == 0) {
+                rating.setRating(-1);
+            } else {
+                rating.setRating(1);
+            }
+
+            long userId = u.getId();
+//        long userId = 123;
+
+            rating.setUserId(userId);
+            Date date = new Date();
+            rating.setDate(date);
+            rating.setFood(food);
+
+            List<Rating> ratingNewList = foodRepo.findOne(foodId).getRatings();
+            Rating vanha = ratingRepo.findByUserIdAndFood(userId, food);
+            if (vanha != null) {
+                ratingNewList.remove(vanha);
+            }
+            ratingNewList.add(rating);
+            ratingRepo.save(rating);
+            food.setRatings(ratingNewList);
+            food.getRatingResult(); // Että tallentaisi totaalin. Voi muuttaa sinne frontiinki.
+            foodRepo.save(food);
+            if (vanha != null) {
+                ratingRepo.delete(vanha);
+            }
+            ret = (String) request.getHeader("Referer");
+        }
+        return "redirect:" + ret; // minne tän pitäs ohjata uudelleen. Voidaan laittaa palauttaa vaikka ratingin ravintolan kohdalle?
+>>>>>>> master
     }
 }

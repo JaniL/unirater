@@ -9,10 +9,14 @@ package unicaferater.controller;
  *
  * @author chang
  */
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
- 
+import unicaferater.auth.UserDetails;
+
+import java.nio.file.attribute.UserPrincipal;
+
 @Controller
 public class LoginController {
  

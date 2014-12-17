@@ -8,12 +8,9 @@ package unicaferater.domain.database;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import unicaferater.domain.common.Price;
 
@@ -41,17 +38,29 @@ public class Food extends AbstractPersistable<Long> {
     /**
      * Ruokalistat joissa kyseinen ruoka löytyy
      */
-    @ManyToOne
-    private MenuOfTheDay menus;
+
+    @JsonIgnore
+    @ManyToMany
+    private List<MenuOfTheDay> menus;
 
     @Temporal(TemporalType.DATE)
     private Date lastSeenOnMenu;
 
+    @JsonIgnore
     @OneToMany(cascade=CascadeType.ALL) //cascade vaadittiin että homma ei kaatuisi
     private List<Rating> ratings;
     
+    /**
+     * Ravintola johon kyseinen ruoka liittyy
+     */
+
+    @JsonIgnore
+    @ManyToOne
+    private Restaurant restaurant;
+    
     public Food() {
         this.ratings = new ArrayList();
+        this.menus = new ArrayList<>();
         total = 0; //joka olisi alussa 0
     }
 
@@ -125,15 +134,17 @@ public class Food extends AbstractPersistable<Long> {
     /**
      * @return Palauttaa ruokalistat, joista ruoka löytyy
      */
-    public MenuOfTheDay getMenus() {
+    public List<MenuOfTheDay> getMenus() {
         return menus;
     }
+
+
 
     /**
      * Asettaa listan ruokalistoista, joista ruoka löytyy
      * @param menus Ruokalistat, joista ruoka löytyy
      */
-    public void setMenus(MenuOfTheDay menus) {
+    public void setMenus(List<MenuOfTheDay> menus) {
         this.menus = menus;
     }
 
@@ -144,4 +155,22 @@ public class Food extends AbstractPersistable<Long> {
     public void setLastSeenOnMenu(Date lastSeenOnMenu) {
         this.lastSeenOnMenu = lastSeenOnMenu;
     }
+
+    /**
+     * 
+     * @return Palauttaa ravintolan johon liittyy
+     */
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    /**
+     * Asettaa ruoalle ravintolan.
+     * @param restaurant 
+     */
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+    
+    
 }

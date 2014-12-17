@@ -6,6 +6,7 @@
 package unicaferater.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import unicaferater.domain.database.Food;
 
 import unicaferater.domain.database.Rating;
 
@@ -15,4 +16,5 @@ import unicaferater.domain.database.Rating;
  */
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 
+    public Rating findByUserIdAndFood(Long userId, Food food);
 }

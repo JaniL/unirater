@@ -37,6 +37,7 @@
                             </ul>
                         </li>
 
+<<<<<<< HEAD
                     </ul>
 
 
@@ -79,6 +80,68 @@
                     </div>
                 </div>
 
+=======
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Etusivu</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ravintolat <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li th:each="restaurant : ${restaurants}"><a th:href="@{|/${restaurant.uri}|}" th:text="${restaurant.name}">Kumpula</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li sec:authorize="isAnonymous()"><a href="/user/login">Kirjaudu sisään</a></li>
+                <li sec:authorize="isAuthenticated()"><a href="/user/logout">Kirjaudu ulos</a></li>
+            </ul>
+
+
+        </div><!-- /.navbar-collapse -->
+
+
+
+
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container-fluid">
+    <div class="row" th:switch="${restaurant}">
+        <div class="col-md-6" th:case="null">
+            <p>Ravintolaa ei löydy.</p>
+        </div>
+        <div class="col-md-6" th:case="*">
+            <h1 th:text="${restaurant.name}">Ylioppilasaukio</h1>
+
+            <div th:each="menu : ${menus}">
+                <h2 th:text="${menu.date}">24.12.2014</h2>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Ruoka</th>
+                        <th>Hintaluokka</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="food : ${menu.menu}">
+                        <td th:text="${food.name}">Pizzaa</td>
+                        <td th:text="${food.price.name}">Halpaa</td>
+                        <td th:text="${food.total}">12</td>
+                        <td class="ratingstars">
+                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                <a th:href="@{'/rate/'+${food.id}+'/1'}" class="btn btn-success">Pidin</a>
+                                <a th:href="@{'/rate/'+${food.id}+'/0'}" class="btn btn-danger">En pitänyt</a>
+                            </div>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+>>>>>>> master
             </div>
         </div>
 

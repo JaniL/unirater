@@ -1,12 +1,26 @@
 package unicaferater.Profile;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import unicaferater.service.LounastyokaluService;
+
+import javax.annotation.PostConstruct;
 
 @Configuration
 @Profile("dev")
 
 public class DevProfile {
+
+    @Autowired
+    private LounastyokaluService lounastyokaluService;
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Haetaan ruokalistat..");
+        lounastyokaluService.saveAllToRepo(lounastyokaluService.fetchRestaurants());
+        System.out.println("Ruokalistat haettu!");
+    }
     
 //    @Autowired 
 //    private FoodRepository foodRepo;

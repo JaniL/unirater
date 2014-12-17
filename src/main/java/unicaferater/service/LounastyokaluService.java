@@ -7,9 +7,9 @@ import org.springframework.web.client.RestTemplate;
 
 import unicaferater.Repository.*;
 import unicaferater.domain.common.PriceValue;
-import unicaferater.domain.database.Food;
-import unicaferater.domain.database.Restaurant;
+import unicaferater.domain.database.*;
 import unicaferater.domain.lounastyokalu.*;
+import unicaferater.domain.lounastyokalu.MenuOfTheDay;
 
 
 import java.util.ArrayList;
@@ -122,7 +122,8 @@ public class LounastyokaluService {
                 List<Food> foods = new ArrayList<>();
                 for (FoodDetails foodDetails : menuOfTheDay.getData()) {
 
-                    Food food = foodRepository.findByName(foodDetails.getName());
+                    Food food = foodRepository.findByNameAndRestaurant(foodDetails.getName(),repoRes);
+
 
                     if (food == null) {
                         food = new Food();
@@ -147,8 +148,10 @@ public class LounastyokaluService {
                         }
                         food.setPrice(price);
 
+                        food.setRestaurant(repoRes);
+
                         // food.setRestaurant(repoRes);
-                        foodRepository.save(food);
+                        food = foodRepository.save(food);
                     }
 
 
@@ -160,12 +163,19 @@ public class LounastyokaluService {
                 }
                 dbMenu.setMenu(foods);
                 dbMenu = menuOfTheDayRepository.save(dbMenu);
+                //for (Food food : foods) {
+                //    food.getMenus().add(dbMenu);
+                //    foodRepository.save(food);
+                //}
                 menus.add(dbMenu);
             }
 
             // repoRes.setFoods(foods);
             repoRes.setMenus(menus);
             repoRes = restaurantRepository.save(repoRes);
+            //for (unicaferater.domain.database.MenuOfTheDay menu : menus) {
+            //    menuOfTheDayRepository.save(menu);
+            //}
 
 
         }
