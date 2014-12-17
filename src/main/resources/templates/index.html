@@ -33,12 +33,6 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ravintolat <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation" class="dropdown-header">Keskusta</li>
-                        <li th:each="restaurant : ${restaurants}"><a th:href="@{|/${restaurant.uri}|}" th:text="${restaurant.name}">Kumpula</a></li>
-                        <li role="presentation" class="dropdown-header">Kumpula</li>
-                        <li role="presentation" class="dropdown-header">Meilahti</li>
-                        <li role="presentation" class="dropdown-header">Viikki</li>
-                        <li role="presentation" class="dropdown-header">Metropolia</li>
                         <li th:each="restaurant : ${restaurants}"><a th:href="@{|/${restaurant.uri}|}" th:text="${restaurant.name}">Kumpula</a></li>
                     </ul>
                 </li>
