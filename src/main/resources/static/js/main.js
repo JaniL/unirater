@@ -17,7 +17,7 @@ var paikanna = function() {
         /* geolocation is available */
         $("#sisalto").html("<p>Etsitään lähintä ravintolaa..</p>");
         navigator.geolocation.getCurrentPosition(function(position) {
-            $.getJSON( "http://messi.hyyravintolat.fi/publicapi/restaurant/locate/" + position.coords.latitude + "/" + position.coords.longitude, function( data ) {
+            $.getJSON( "http://messi.hyyravintolat.fi/publicapi/restaurant/locate/" + position.coords.longitude + "/" + position.coords.latitude, function( data ) {
                 $("#sisalto").html("<p>Ravintola löytyi!</p>");
                 haeRavintolanUri(data.data.name, function(res) {
                     location.href = "http://unirater.herokuapp.com/" + res;
