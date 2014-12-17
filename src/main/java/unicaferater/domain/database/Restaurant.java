@@ -11,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -40,6 +42,8 @@ public class Restaurant extends AbstractPersistable<Long> {
     /**
      * Ravintolan ruokalistat
      */
+
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
     private List<MenuOfTheDay> menus;
 

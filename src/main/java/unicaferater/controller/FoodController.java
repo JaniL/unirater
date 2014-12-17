@@ -7,6 +7,7 @@ package unicaferater.controller;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,10 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.MenuOfTheDayRepository;
 import unicaferater.Repository.RatingRepository;
@@ -59,13 +57,38 @@ public class FoodController {
      * @param model
      * @return palauttaa indexi sivun
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    /* @RequestMapping(value = "/", method = RequestMethod.GET)
     public String listFoods(Model model) {
         model.addAttribute("menus", menuRepo.findAll());
         model.addAttribute("restaurants", restaurantRepo.findAll());
 
         return "index";
+    } */
+
+    /**
+     * Etsii käyttäjän sijainnin ja ohjaa lähimmän ravintolan sivulle.
+     * @param model
+     * @return palauttaa paikannussivun
+     */
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String locateUser(Model model) {
+        model.addAttribute("restaurants", restaurantRepo.findAll());
+
+        return "paikannus";
     }
+
+    @RequestMapping(value="/json/etsiUri/{restaurantNimi}", method=RequestMethod.GET)
+    @ResponseBody
+    public String etsiUri(@PathVariable String restaurantNimi) {
+        Restaurant restaurant = restaurantRepo.findByName(restaurantNimi);
+
+        if (restaurant != null) {
+            return restaurant.getUri();
+        } else {
+            return null;
+        }
+    }
+
 
     /**
      * Listaa pyydetyn ravintolan ruokalistat ja ravintolat
@@ -79,16 +102,31 @@ public class FoodController {
     public String listFoodsByRestaurant(Model model, @PathVariable String restaurantUri) {
 
         List<MenuOfTheDay> menus;
+        Restaurant restaurant = null;
         if (restaurantUri.equals("favicon") || restaurantUri.equals("")) {
             menus = menuRepo.findAll();
         } else {
-            Restaurant restaurant = restaurantRepo.findByUri(restaurantUri);
+            restaurant = restaurantRepo.findByUri(restaurantUri);
             menus = menuRepo.findByRestaurant(restaurant);
         }
         model.addAttribute("menus", menus);
+        model.addAttribute("restaurant", restaurant);
         model.addAttribute("restaurants", restaurantRepo.findAll());
         return "index";
     }
+
+    /* @RequestMapping(value="/json/{restaurantUri}", method=RequestMethod.GET, produces="application/json")
+    @ResponseBody
+    public List<MenuOfTheDay> listMenusByRestaurantJson(@PathVariable String restaurantUri) {
+        System.out.println("halp");
+        Restaurant restaurant = restaurantRepo.findByUri(restaurantUri);
+        List<MenuOfTheDay> menus = menuRepo.findByRestaurant(restaurant);
+        for (MenuOfTheDay menu : menus) {
+            menu.getMenu();
+        }
+
+        return menus;
+    } */
 
     /**
      * Tekee POST pyynnön kyseisen Ruuan ID:hen Pitäisi ottaa Modelista Rating

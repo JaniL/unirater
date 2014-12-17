@@ -12,9 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import unicaferater.Repository.UserRepository;
 import unicaferater.auth.RepositoryUserDetailsService;
 import unicaferater.service.SimpleSocialUserDetailsService;
@@ -37,6 +39,11 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         System.out.println("Tehdään httpsec config");
+
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+
         http
                 //Configures form login
                 .formLogin()
@@ -52,7 +59,8 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                 //Adds the SocialAuthenticationFilter to Spring Security's filter chain.
                 .and()
-                    .apply(new SpringSocialConfigurer());
+                    .apply(new SpringSocialConfigurer())
+        .and().addFilterBefore(filter,CsrfFilter.class);
     }
  
     @Override

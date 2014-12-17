@@ -59,43 +59,8 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-<div class="container-fluid">
-    <div class="row" th:switch="${restaurant}">
-        <div class="col-md-6" th:case="null">
-            <p>Ravintolaa ei löydy.</p>
-        </div>
-        <div class="col-md-6" th:case="*">
-            <h1 th:text="${restaurant.name}">Ylioppilasaukio</h1>
+<div class="container-fluid" id="sisalto">
 
-            <div th:each="menu : ${menus}">
-                <h2 th:text="${menu.date}">24.12.2014</h2>
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Ruoka</th>
-                        <th>Hintaluokka</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="food : ${menu.menu}">
-                        <td th:text="${food.name}">Pizzaa</td>
-                        <td th:text="${food.price.name}">Halpaa</td>
-                        <td th:text="${food.total}">12</td>
-                        <td class="ratingstars">
-                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                <a th:href="@{'/rate/'+${food.id}+'/1'}" class="btn btn-success">Pidin</a>
-                                <a th:href="@{'/rate/'+${food.id}+'/0'}" class="btn btn-danger">En pitänyt</a>
-                            </div>
-                        </td>
-
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -103,5 +68,10 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/main.js"></script>
+<script>
+    $(document).ready(function() {
+        paikanna();
+    });
+</script>
 </body>
 </html>

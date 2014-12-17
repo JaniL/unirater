@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import unicaferater.domain.common.Price;
 
@@ -37,18 +38,23 @@ public class Food extends AbstractPersistable<Long> {
     /**
      * Ruokalistat joissa kyseinen ruoka löytyy
      */
+
+    @JsonIgnore
     @ManyToMany
     private List<MenuOfTheDay> menus;
 
     @Temporal(TemporalType.DATE)
     private Date lastSeenOnMenu;
 
+    @JsonIgnore
     @OneToMany(cascade=CascadeType.ALL) //cascade vaadittiin että homma ei kaatuisi
     private List<Rating> ratings;
     
     /**
      * Ravintola johon kyseinen ruoka liittyy
      */
+
+    @JsonIgnore
     @ManyToOne
     private Restaurant restaurant;
     
