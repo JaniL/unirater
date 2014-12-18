@@ -4,11 +4,9 @@ import com.sun.syndication.io.FeedException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +19,6 @@ import unicaferater.domain.lounastyokalu.MenuOfTheDay;
 import unicaferater.domain.lounastyokalu.RestaurantResponse;
 import unicaferater.domain.lounastyokalu.RestaurantsResponse;
 import unicaferater.service.LounastyokaluService;
-import unicaferater.service.RestaurantService;
 
 import javax.transaction.Transactional;
 
