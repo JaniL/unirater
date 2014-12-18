@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,11 +31,10 @@ import unicaferater.Repository.RestaurantRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
-public class SingUpControllerTest {
+public class RegistarationControllerTest {
 
-    private final String API_URI = "/singup";
-    @Autowired
-    private RestaurantRepository restarepo;
+    private final String API_URI = "/user/register";
+
 
     @Autowired
     private WebApplicationContext webAppContext;
@@ -47,9 +47,21 @@ public class SingUpControllerTest {
     }
 
     @Test
-    public void statusOk() throws Exception {
+    public void isAPage() throws Exception{
         mockMvc.perform(get(API_URI))
-                .andExpect(status().isOk()
-                );
+                .andExpect(status().isOk());
     }
+//    @Test
+//    public void RegisterValidData() throws Exception {
+//        mockMvc.perform(
+//                post(API_URI)
+//                .param("user-firstName", "John")
+//                .param("user-lastName", "Doe")
+//                .param("user-email", "john.doe@aol.com")
+//                .param("user-password", "john1234")
+//                .param("user-passwordVerification", "john1234")
+//        )
+//                .andExpect(redirectedUrl("/"));
+////                .andExpect(flash().attribute("alertSuccess", "Account successfully created"));
+//    }
 }

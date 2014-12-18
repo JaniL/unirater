@@ -59,7 +59,21 @@
             <version>3.2.5.RELEASE</version>
         </dependency>
 
-
+        
+            <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-htmlunit-driver</artifactId>
+        <version>2.43.1</version>
+        <scope>test</scope>
+    </dependency>
+        
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>2.43.1</version>
+        <scope>test</scope>
+    </dependency>
+                
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-facebook</artifactId>
