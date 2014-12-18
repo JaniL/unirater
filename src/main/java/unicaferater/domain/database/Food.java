@@ -47,7 +47,7 @@ public class Food extends AbstractPersistable<Long> {
     private Date lastSeenOnMenu;
 
     @JsonIgnore
-    @OneToMany(cascade=CascadeType.ALL) //cascade vaadittiin että homma ei kaatuisi
+    @OneToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER) //cascade vaadittiin että homma ei kaatuisi
     private List<Rating> ratings;
     
     /**

@@ -34,6 +34,7 @@ import static org.junit.Assert.assertEquals;
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
+@Transactional
 public class MenuOfTheDayTest {
 
     @Autowired
@@ -52,7 +53,6 @@ public class MenuOfTheDayTest {
     private Date date;
 
     @Before
-    @Transactional
     public void setUp() {
         date = new Date();
 
@@ -74,7 +74,6 @@ public class MenuOfTheDayTest {
     }
 
     @Test
-    @Transactional
     public void getterSetterTest() {
         assertEquals(menu.getMenu(),listOfFoods);
         assertEquals(menu.getRestaurant(),restaurant);
@@ -82,7 +81,6 @@ public class MenuOfTheDayTest {
     }
 
     @Test
-    @Transactional
     public void databaseTest() {
         restaurant = restaurantRepository.save(restaurant);
         food = foodRepository.save(food);
@@ -92,7 +90,6 @@ public class MenuOfTheDayTest {
     }
 
     @Test
-    @Transactional
     public void repoFindByRestaurantAndDateTest() {
         restaurant = restaurantRepository.save(restaurant);
         food = foodRepository.save(food);
@@ -102,7 +99,6 @@ public class MenuOfTheDayTest {
     }
 
     @Test
-    @Transactional
     public void repoFindByRestaurantTest() {
         restaurant = restaurantRepository.save(restaurant);
         food = foodRepository.save(food);

@@ -31,6 +31,7 @@ import static org.junit.Assert.assertEquals;
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
+@Transactional
 public class RestaurantTest {
 
     @Autowired
@@ -39,7 +40,6 @@ public class RestaurantTest {
     private Restaurant restaurant;
 
     @Before
-    @Transactional
     public void setUp() {
         restaurant = new Restaurant();
         restaurant.setName("Päärakennus");
@@ -47,14 +47,12 @@ public class RestaurantTest {
     }
 
     @Test
-    @Transactional
     public void getterSetterTest() {
         assertEquals(restaurant.getName(),"Päärakennus");
         assertEquals(restaurant.getUri(), "paarakennus");
     }
 
     @Test
-    @Transactional
     public void databaseTest() {
         restaurantRepository.save(restaurant);
         Restaurant foo2 = restaurantRepository.findAll().get(0);
@@ -62,7 +60,6 @@ public class RestaurantTest {
     }
 
     @Test
-    @Transactional
     public void repoFindByNameTest() {
         restaurantRepository.save(restaurant);
         Restaurant foo2 = restaurantRepository.findByName("Päärakennus");
@@ -70,7 +67,6 @@ public class RestaurantTest {
     }
 
     @Test
-    @Transactional
     public void repoFindByUriTest() {
         restaurantRepository.save(restaurant);
         Restaurant foo2 = restaurantRepository.findByUri("paarakennus");

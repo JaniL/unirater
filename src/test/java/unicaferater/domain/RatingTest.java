@@ -26,6 +26,7 @@ import unicaferater.domain.database.Rating;
  * @author tixtixti
  */
 @ActiveProfiles("test")
+@Transactional
 public class RatingTest {
 
     Food food;
@@ -35,7 +36,6 @@ public class RatingTest {
     RatingRepository ratingrepository;
       
     @Before
-    @Transactional
     public void setUp() {
         this.food = new Food();
         this.rating = new Rating();
@@ -52,7 +52,6 @@ public class RatingTest {
     }
     
     @Test
-    @Transactional
     public void getSetTest() {
         Date date = new Date();
         assertEquals(rating.getRating(), 1);

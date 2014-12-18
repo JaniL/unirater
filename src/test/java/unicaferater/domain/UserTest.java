@@ -23,6 +23,8 @@ import unicaferater.Repository.UserRepository;
 import unicaferater.auth.Role;
 import unicaferater.auth.SocialMediaService;
 
+import javax.transaction.Transactional;
+
 /**
  *
  * @author Timo
@@ -31,6 +33,7 @@ import unicaferater.auth.SocialMediaService;
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
+@Transactional
 public class UserTest {
         @Autowired
     UserRepository userrepository;
