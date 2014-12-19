@@ -21,6 +21,7 @@ local.properties
 .settings/
 .loadpath
 nbactions.xml
+*.iml
 
 # External tool builders
 .externalToolBuilders/
