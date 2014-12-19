@@ -1,4 +1,4 @@
-UniRater 29.10.2014
+UniRater 19.12.2014
 ----------------------------------------------------------------------------
 
 [![Build Status](https://travis-ci.org/JaniL/wepaharkka.svg?branch=master)](https://travis-ci.org/JaniL/wepaharkka)
@@ -7,10 +7,11 @@ UniRater 29.10.2014
 UniRater on webpalvelu, jossa käyttäjät voivat arvostella ja katsoa
 arvosteluja kyseisenä päivänä tarjolla oleviiin ruokiin eri Unicafe ravintoloissa.
 Käyttäjät saavat ravintolan valittuaan tarjolle kyseisen päivänä ruuat ja
-ruokien arvosteluiden keskiarvot. Arvostelut kirjataan asteikolla 0-5.
+ruokien arvosteluiden keskiarvot. Arvostelu tapahtuu ilmoittamalla pitikö ruuasta vai eikö pitänyt. Palvelu laskee jatkuvasti arvosanaa näistä, joka näkyy ruokien yhteydessä. 
 
-Tietokannasta on myös mahdollista tehdä kootusti hakuja etsien parhaiten
-arvosteltuja ravintoloita ja parhaiten arvosteltuja ruokia. 
+Saapuessa sivulle, palvelu kysyy lupaa paikantaa käyttäjä, luvan saatuaan paikantaa käyttäjän ja laskee lähimmän unicafe ravintolan ja näyttää tämän unicafen sivun. 
+
+Mikäli palvelu ei jostain syytä näytä päivän ruokia oikein voi tilannetta koettaa korjata menemällä osoitteeseen https://unirater.herokuapp.com/unicafe/saveall Tämä päivittää tietokannassa olevat ruuat. 
 
 https://unirater.herokuapp.com/
 
