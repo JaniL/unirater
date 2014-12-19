@@ -19,36 +19,36 @@ public class FoodService {
 
     @Autowired
     private FoodRepository foodRepository;
-
-    public String listAll() {
-        String ret = "<p>";
-        for (Food f : foodRepository.findAll()) {
-            ret += "*" + f.getName();
-            ret += " - " + f.getPrice();
-            if ("" != null) {
-                ret += " - " + "";
-            }
-            ret += " - " + f.getRatingResult();
-            ret += "<br>\n";
-        }
-        ret += "</p>";
-
-        return ret;
-    }
-    
-    public String listByName(String name) {
-        String ret = "<p>";
-        for (Food f : foodRepository.findAllByName(name)) {
-            ret += "*" + f.getName();
-            ret += " - " + f.getPrice();
-            if ("" != null) {
-                ret += " - " + "";
-            }
-            ret += " - " + f.getRatingResult();
-            ret += "<br>\n";
-        }
-        ret += "</p>";
-
-        return ret;
-    }
+//
+//    public String listAll() {
+//        String ret = "<p>";
+//        for (Food f : foodRepository.findAll()) {
+//            ret += "*" + f.getName();
+//            ret += " - " + f.getPrice();
+//            if ("" != null) {
+//                ret += " - " + "";
+//            }
+//            ret += " - " + f.getRatingResult();
+//            ret += "<br>\n";
+//        }
+//        ret += "</p>";
+//
+//        return ret;
+//    }
+//
+//    public String listByName(String name) {
+//        String ret = "<p>";
+//        for (Food f : foodRepository.findAllByName(name)) {
+//            ret += "*" + f.getName();
+//            ret += " - " + f.getPrice();
+//            if ("" != null) {
+//                ret += " - " + "";
+//            }
+//            ret += " - " + f.getRatingResult();
+//            ret += "<br>\n";
+//        }
+//        ret += "</p>";
+//
+//        return ret;
+//    }
 }
