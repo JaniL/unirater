@@ -40,7 +40,7 @@ public class RatingTest {
         this.food = new Food();
         this.rating = new Rating();
         this.price = new unicaferater.domain.common.Price();
-        price.setName("Kevyesti");
+        price.setName("Makeasti");
 
         food.setName("JaninSukat");
         food.setPrice(price);
