@@ -22,6 +22,7 @@ import unicaferater.Repository.FoodRepository;
 import unicaferater.Repository.UserRepository;
 import unicaferater.auth.Role;
 import unicaferater.auth.SocialMediaService;
+import unicaferater.auth.UserDetails;
 
 import javax.transaction.Transactional;
 
@@ -45,6 +46,9 @@ public class UserTest {
      Role role;
     SocialMediaService SMS;
     User user;
+    Long id;
+    UserDetails userDetails;
+    UserDetails.Builder builder2;
     
     @Before
     public void setUp() {
@@ -53,6 +57,7 @@ public class UserTest {
         this.firstname ="Foo";
         this.lastname ="Bar";
         this.email ="foo.bar@helsinki.fi";
+        this.id = (long)12;
         this.role = Role.ROLE_USER;
         this.SMS =SocialMediaService.FACEBOOK;
         
@@ -72,5 +77,16 @@ public class UserTest {
      @Test
      public void hello() {
          assertTrue(user.getSignInProvider() == SMS);
+         builder2.setFirstName(firstname);
+         builder2.setLastName(lastname);
+         builder2.setPassword(password);
+         builder2.setId(id);
+
+         assertEquals(builder2.getFirstName(), firstname);
+         assertEquals(builder2.getLastName(), lastname);
+        assertEquals(builder2.getPassword(),password);
+         assertEquals(builder2.getId(),id);
+
+
      }
 }
