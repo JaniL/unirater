@@ -60,7 +60,7 @@ public class UserTest {
         this.id = (long)12;
         this.role = Role.ROLE_USER;
         this.SMS =SocialMediaService.FACEBOOK;
-        
+        builder2 = new UserDetails.Builder();
         
         user.setEmail(email);
         user.setFirstName(firstname);
