@@ -1,5 +1,7 @@
 package unicaferater.domain.common;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Column;
@@ -33,5 +35,36 @@ public class Price extends AbstractPersistable<Long> {
 
     public void setValue(PriceValue value) {
         this.value = value;
+    }
+
+    @JsonSetter("value")
+    public void setValueFromJson(JsonNode valueNode) {
+        if (valueNode == null || valueNode.isNull() || valueNode.isArray()) {
+            this.value = null;
+            return;
+        }
+
+        if (!valueNode.isObject()) {
+            this.value = null;
+            return;
+        }
+
+        PriceValue parsedValue = new PriceValue();
+        parsedValue.setContract(readText(valueNode, "contract"));
+        parsedValue.setGraduate(readText(valueNode, "graduate"));
+        parsedValue.setGraduate_hyy(readText(valueNode, "graduate_hyy"));
+        parsedValue.setNormal(readText(valueNode, "normal"));
+        parsedValue.setStudent(readText(valueNode, "student"));
+        parsedValue.setStudent_hyy(readText(valueNode, "student_hyy"));
+        this.value = parsedValue;
+    }
+
+    private String readText(JsonNode node, String fieldName) {
+        JsonNode fieldNode = node.get(fieldName);
+        if (fieldNode == null || fieldNode.isNull()) {
+            return null;
+        }
+
+        return fieldNode.asText();
     }
 }

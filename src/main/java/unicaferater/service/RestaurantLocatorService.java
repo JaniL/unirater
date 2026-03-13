@@ -2,6 +2,8 @@ package unicaferater.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unicaferater.Repository.RestaurantRepository;
 import unicaferater.domain.database.Restaurant;
 
@@ -12,16 +14,22 @@ import java.util.Map;
 
 @Service
 public class RestaurantLocatorService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestaurantLocatorService.class);
     private static final String FALLBACK_URI = "exactum";
     private static final double EARTH_RADIUS_METERS = 6371000.0;
+    private static final int COVERAGE_LOGGED_SIZE_UNSET = -1;
 
     private static final Map<String, GeoPoint> KNOWN_LOCATIONS = createKnownLocations();
 
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    private int coverageLoggedForRestaurantCount = COVERAGE_LOGGED_SIZE_UNSET;
+
     public String findClosestRestaurantUri(double longitude, double latitude) {
         List<Restaurant> restaurants = restaurantRepository.findAll();
+        logCoordinateCoverage(restaurants);
+
         String closestRestaurantUri = null;
         double closestDistance = Double.MAX_VALUE;
 
@@ -43,6 +51,33 @@ public class RestaurantLocatorService {
         }
 
         return FALLBACK_URI;
+    }
+
+    private void logCoordinateCoverage(List<Restaurant> restaurants) {
+        if (restaurants == null || restaurants.isEmpty()) {
+            return;
+        }
+
+        if (coverageLoggedForRestaurantCount == restaurants.size()) {
+            return;
+        }
+
+        int missingCount = 0;
+        for (Restaurant restaurant : restaurants) {
+            if (resolveLocation(restaurant) == null) {
+                missingCount++;
+                LOGGER.warn("Missing coordinates for restaurant uri='{}' name='{}'", restaurant.getUri(), restaurant.getName());
+            }
+        }
+
+        coverageLoggedForRestaurantCount = restaurants.size();
+
+        if (missingCount == 0) {
+            LOGGER.info("RestaurantLocatorService coordinate coverage OK: {} restaurants mapped", restaurants.size());
+            return;
+        }
+
+        LOGGER.warn("RestaurantLocatorService coordinate coverage incomplete: {} of {} restaurants missing coordinates", missingCount, restaurants.size());
     }
 
     private GeoPoint resolveLocation(Restaurant restaurant) {
@@ -110,6 +145,7 @@ public class RestaurantLocatorService {
         addLocation(locations, 60.1710677, 24.94779, "kaisa-talo", "well-kaisa-talo");
         addLocation(locations, 60.2293081, 25.0219459, "viikuna");
         addLocation(locations, 60.1729842, 24.9527106, "soc-kom", "sockom");
+        addLocation(locations, 60.1710892, 24.9469878, "serpens");
         addLocation(locations, 60.1703421, 24.9502665, "rotunda");
         addLocation(locations, 60.1702958, 24.9484087, "porthania", "porthania-opettajien-ravintola");
         addLocation(locations, 60.2050081, 24.9621377, "physicum");
@@ -119,7 +155,7 @@ public class RestaurantLocatorService {
         addLocation(locations, 60.1905362, 24.909113, "meilahti");
         addLocation(locations, 60.2044631, 24.9615065, "exactum");
         addLocation(locations, 60.205562, 24.9638146, "chemicum", "chemicum-opettajien-ravintola");
-        addLocation(locations, 60.1705956, 24.9478616, "cafe-portaali");
+        addLocation(locations, 60.1705956, 24.9478616, "cafe-portaali", "portaali");
 
         return locations;
     }

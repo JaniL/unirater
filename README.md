@@ -27,7 +27,7 @@ Lesandre, Janluu, Coolness, neodyymi
 
 The UniCafe integration now uses the current API endpoint:
 
-- `https://unicafe.fi/wp-json/swiss/v1/restaurants-messi/?lang=fi`
+- `https://unicafe.fi/wp-json/swiss/v1/restaurants/?lang=fi`
 
 Container runtime defaults to `dev` profile so menus are fetched on startup.
 

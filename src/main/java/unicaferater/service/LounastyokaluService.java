@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class LounastyokaluService {
     private static final String API_URL = "https://unicafe.fi/wp-json/swiss/v1";
-    private static final String RESTAURANTS_ENDPOINT = "/restaurants-messi/?lang=fi";
+    private static final String RESTAURANTS_ENDPOINT = "/restaurants/?lang=fi";
     private RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
