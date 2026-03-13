@@ -1,0 +1,10 @@
+.git
+.gitignore
+.idea
+target
+*.iml
+.DS_Store
+**/.DS_Store
+README.md
+Procfile
+.travis.yml

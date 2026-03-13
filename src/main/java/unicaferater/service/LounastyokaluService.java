@@ -19,8 +19,9 @@ import java.util.List;
 
 @Service
 public class LounastyokaluService {
-	private String API_URL = "http://messi.hyyravintolat.fi/publicapi";
-	private RestTemplate restTemplate = new RestTemplate();
+    private static final String API_URL = "https://unicafe.fi/wp-json/swiss/v1";
+    private static final String RESTAURANTS_ENDPOINT = "/restaurants-messi/?lang=fi";
+    private RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -42,13 +43,40 @@ public class LounastyokaluService {
      * @return Palauttaa Unicafen ravintolat
      */
 	public RestaurantsResponse fetchRestaurants(){		
-		RestaurantsResponse result = restTemplate.getForObject(API_URL + "/restaurants", RestaurantsResponse.class);
-		
-		
-		// System.out.println(result);
+		RestaurantFeedItem[] items = fetchRestaurantFeed();
 
-		return result;
-		
+        RestaurantsResponse result = new RestaurantsResponse();
+        result.setStatus("OK");
+
+        List<Restaurant> restaurants = new ArrayList<>();
+        if (items != null) {
+            for (RestaurantFeedItem item : items) {
+                RestaurantResponse restaurantResponse = item.getMenuData();
+                if (restaurantResponse == null) {
+                    continue;
+                }
+
+                String name = restaurantResponse.getName();
+                if (name == null || name.trim().isEmpty()) {
+                    name = item.getTitle();
+                }
+
+                if (name == null || name.trim().isEmpty()) {
+                    continue;
+                }
+
+                Restaurant restaurant = new Restaurant();
+                restaurant.setName(name);
+                if (restaurantResponse.getAreacode() != null) {
+                    restaurant.setAreacode(restaurantResponse.getAreacode());
+                }
+
+                restaurants.add(restaurant);
+            }
+        }
+
+        result.setData(restaurants);
+        return result;
 	}
 
     /**
@@ -57,11 +85,19 @@ public class LounastyokaluService {
      * @return Palauttaa pyydetyn ravintolan ruokalistat sekä informaatiota ravintolasta. (mm. aukioloajat)
      */
     public RestaurantResponse fetchRestaurant(Long id) {
-        RestaurantResponse result = restTemplate.getForObject(API_URL + "/restaurant/" + id, RestaurantResponse.class);
+        RestaurantFeedItem[] items = fetchRestaurantFeed();
+        if (items == null) {
+            return null;
+        }
 
-        // System.out.println(result);
+        for (RestaurantFeedItem item : items) {
+            RestaurantResponse restaurantResponse = item.getMenuData();
+            if (restaurantResponse != null && id.equals(restaurantResponse.getId())) {
+                return restaurantResponse;
+            }
+        }
 
-        return result;
+        return null;
     }
 
     /**
@@ -69,49 +105,61 @@ public class LounastyokaluService {
      * @param restaurantsResponse Rajapinnasta saatava lista ravintoloista. Saadaan irti fetchRestaurants-metodilla.
      */
     public void saveAllToRepo(RestaurantsResponse restaurantsResponse) {
-        for (Restaurant restaurant : restaurantsResponse.getData()) {
-            // System.out.println("Käydään läpi ravintolan " + restaurant.getName() + " listat. (id " + restaurant.getId() + ")");
-            Restaurant repoRes = restaurantRepository.findByName(restaurant.getName());
+        RestaurantFeedItem[] items = fetchRestaurantFeed();
+        if (items == null) {
+            return;
+        }
 
-            Long id = restaurant.getId();
-
-            if (repoRes == null) {
-                repoRes = restaurantRepository.save(restaurant);
+        for (RestaurantFeedItem item : items) {
+            RestaurantResponse restaurantResponse = item.getMenuData();
+            if (restaurantResponse == null) {
+                continue;
             }
 
-            //List<Food> foods;
-            // if (repoRes.getFoods() == null) {
-            //    foods = new ArrayList<>();
-            // } else {
-            //    foods = repoRes.getFoods();
-            // }
+            String restaurantName = restaurantResponse.getName();
+            if (restaurantName == null || restaurantName.trim().isEmpty()) {
+                restaurantName = item.getTitle();
+            }
+            if (restaurantName == null || restaurantName.trim().isEmpty()) {
+                continue;
+            }
 
-            // System.out.println("Lisätään ravintolan " + repoRes.getName() + " ruokalistat.");
-
-            RestaurantResponse restaurantResponse = fetchRestaurant(id);
+            Restaurant repoRes = restaurantRepository.findByName(restaurantName);
+            if (repoRes == null) {
+                repoRes = new Restaurant();
+                repoRes.setName(restaurantName);
+                if (restaurantResponse.getAreacode() != null) {
+                    repoRes.setAreacode(restaurantResponse.getAreacode());
+                }
+                repoRes = restaurantRepository.save(repoRes);
+            }
 
             List<unicaferater.domain.database.MenuOfTheDay> menus = repoRes.getMenus();
             if (menus == null) {
                 menus = new ArrayList<>();
             }
 
+            List<MenuOfTheDay> sourceMenus = restaurantResponse.getData();
+            if (sourceMenus == null) {
+                continue;
+            }
 
-            for (MenuOfTheDay menuOfTheDay : restaurantResponse.getData()) {
-                Date date = menuOfTheDay.getDate();
-
-                if (menuOfTheDayRepository.findByRestaurantAndDate(repoRes,date) != null) {
-                    // jos päivän lista löytyy jo,
-                    // niin listaa ei lisätä uudelleen
-
-                    // System.out.println("Lista löytyy jo, ei lisätä.");
+            for (MenuOfTheDay menuOfTheDay : sourceMenus) {
+                if (menuOfTheDay == null) {
                     continue;
                 }
 
-                if (menuOfTheDay.getData().size() == 0) {
-                    // jos lista on tyhjä,
-                    // niin tyhjää listaa ei lisätä
+                Date date = menuOfTheDay.getDate();
+                if (date == null) {
+                    continue;
+                }
 
-                    // System.out.println("Lista on tyhjä, ei lisätä.");
+                if (menuOfTheDayRepository.findByRestaurantAndDate(repoRes, date) != null) {
+                    continue;
+                }
+
+                List<FoodDetails> menuFoods = menuOfTheDay.getData();
+                if (menuFoods == null || menuFoods.isEmpty()) {
                     continue;
                 }
 
@@ -120,66 +168,64 @@ public class LounastyokaluService {
                 dbMenu.setDate(date);
 
                 List<Food> foods = new ArrayList<>();
-                for (FoodDetails foodDetails : menuOfTheDay.getData()) {
+                for (FoodDetails foodDetails : menuFoods) {
+                    if (foodDetails == null || foodDetails.getName() == null || foodDetails.getName().trim().isEmpty()) {
+                        continue;
+                    }
 
-                    Food food = foodRepository.findByNameAndRestaurant(foodDetails.getName(),repoRes);
-
-
+                    Food food = foodRepository.findByNameAndRestaurant(foodDetails.getName(), repoRes);
                     if (food == null) {
                         food = new Food();
-
                         food.setName(foodDetails.getName());
                         food.setLastSeenOnMenu(date);
 
-                        unicaferater.domain.common.Price price = null;
-                        String priceString = foodDetails.getPrice().getName();
-
-                        // System.out.println("PriceString: " + priceString);
-
-
-                        // System.out.println("Olio: " + price);
-
-                        price = priceRepo.findByName(foodDetails.getPrice().getName());
-                        if (price == null) {
-                            PriceValue value = foodDetails.getPrice().getValue();
-                            value = priceValueRepository.save(value);
-                            foodDetails.getPrice().setValue(value);
-                            price = priceRepo.save(foodDetails.getPrice());
+                        unicaferater.domain.common.Price price = resolvePrice(foodDetails);
+                        if (price != null) {
+                            food.setPrice(price);
                         }
-                        food.setPrice(price);
 
                         food.setRestaurant(repoRes);
-
-                        // food.setRestaurant(repoRes);
                         food = foodRepository.save(food);
                     }
 
-
-
-
-                    // if (foods.isEmpty() || !foods.contains(food)) {
                     foods.add(food);
-                    // }
                 }
+
+                if (foods.isEmpty()) {
+                    continue;
+                }
+
                 dbMenu.setMenu(foods);
                 dbMenu = menuOfTheDayRepository.save(dbMenu);
-                //for (Food food : foods) {
-                //    food.getMenus().add(dbMenu);
-                //    foodRepository.save(food);
-                //}
                 menus.add(dbMenu);
             }
 
-            // repoRes.setFoods(foods);
             repoRes.setMenus(menus);
-            repoRes = restaurantRepository.save(repoRes);
-            //for (unicaferater.domain.database.MenuOfTheDay menu : menus) {
-            //    menuOfTheDayRepository.save(menu);
-            //}
-
-
+            restaurantRepository.save(repoRes);
         }
     }
-	
-	
+
+    private RestaurantFeedItem[] fetchRestaurantFeed() {
+        return restTemplate.getForObject(API_URL + RESTAURANTS_ENDPOINT, RestaurantFeedItem[].class);
+    }
+
+    private unicaferater.domain.common.Price resolvePrice(FoodDetails foodDetails) {
+        if (foodDetails.getPrice() == null || foodDetails.getPrice().getName() == null) {
+            return null;
+        }
+
+        unicaferater.domain.common.Price price = priceRepo.findByName(foodDetails.getPrice().getName());
+        if (price != null) {
+            return price;
+        }
+
+        PriceValue value = foodDetails.getPrice().getValue();
+        if (value != null) {
+            value = priceValueRepository.save(value);
+            foodDetails.getPrice().setValue(value);
+        }
+
+        return priceRepo.save(foodDetails.getPrice());
+    }
+
 }

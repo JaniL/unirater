@@ -1,8 +1,11 @@
 package unicaferater.domain.lounastyokalu;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 import unicaferater.domain.database.Restaurant;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RestaurantsResponse {
     /**
      * Pyynnön status

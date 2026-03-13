@@ -20,3 +20,36 @@ UniRater ota yhteyttä:
 
 IRCnet:
 Lesandre, Janluu, Coolness, neodyymi
+
+----------------------------------------------------------------------------
+
+## Running with Podman
+
+The UniCafe integration now uses the current API endpoint:
+
+- `https://unicafe.fi/wp-json/swiss/v1/restaurants-messi/?lang=fi`
+
+Container runtime defaults to `dev` profile so menus are fetched on startup.
+
+### Build image
+
+```bash
+podman build --format docker -t unirater:latest .
+```
+
+### Run container
+
+```bash
+podman run --rm -p 8080:8080 --name unirater unirater:latest
+```
+
+### Run with podman-compose
+
+```bash
+podman-compose up --build
+```
+
+### Health check
+
+- Endpoint: `http://localhost:8080/health`
+- Expected response: `ok`

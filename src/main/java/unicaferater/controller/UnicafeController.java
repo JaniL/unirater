@@ -59,12 +59,16 @@ public class UnicafeController {
         String ret = unicafeService.getAll();
         return ret; */
     	
-    	lounastyokaluService.fetchRestaurants();
+		lounastyokaluService.fetchRestaurants();
         System.out.println("pow");
         RestaurantResponse restaurantResponse = lounastyokaluService.fetchRestaurant((long) 9);
 
+        if (restaurantResponse == null || restaurantResponse.getData() == null) {
+            return "";
+        }
+
         for (MenuOfTheDay menuOfTheDay : restaurantResponse.getData()) {
-            if (menuOfTheDay.getData().size() == 0) {
+            if (menuOfTheDay.getData() == null || menuOfTheDay.getData().size() == 0) {
                 continue;
             }
             System.out.println(menuOfTheDay.getDate());

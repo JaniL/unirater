@@ -1,15 +1,20 @@
 package unicaferater.domain.lounastyokalu;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by jani on 9.12.2014.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MenuOfTheDay {
     /**
      * Listan ruuat
@@ -41,7 +46,13 @@ public class MenuOfTheDay {
      * @return Palauttaa listan suomenkielisen päivämäärän
      */
     public Date getDate() {
-        return date_en;
+        if (date != null) {
+            return date;
+        }
+        if (date_en != null) {
+            return date_en;
+        }
+        return date_sv;
     }
 
     /**
@@ -73,7 +84,7 @@ public class MenuOfTheDay {
      * @return Palauttaa ruotsinkielisen päivämäärän
      */
     public Date getDate_sv() {
-        return date_en;
+        return date_sv;
     }
 
     /**
@@ -81,7 +92,7 @@ public class MenuOfTheDay {
      * @param date
      */
     public void setDate(String date) {
-
+        this.date = parseDate(date);
     }
 
     /**
@@ -89,17 +100,7 @@ public class MenuOfTheDay {
      * @param date_en
      */
     public void setDate_en(String date_en) {
-        //this.date_en = date_en;
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE dd.MM yyyy", Locale.ENGLISH);
-        try {
-            this.date_en = simpleDateFormat.parse(date_en + " " + Calendar.getInstance().get(Calendar.YEAR));
-            // this.date_en.
-        } catch (ParseException e) {
-            System.out.println("ei onnistunut");
-            System.out.println(e);
-            this.date_en = new Date();
-        }
+        this.date_en = parseDate(date_en);
     }
 
     /**
@@ -107,7 +108,7 @@ public class MenuOfTheDay {
      * @param date_sv
      */
     public void setDate_sv(String date_sv) {
-
+        this.date_sv = parseDate(date_sv);
     }
 
     /**
@@ -116,5 +117,54 @@ public class MenuOfTheDay {
      */
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    private Date parseDate(String dateString) {
+        if (dateString == null || dateString.trim().isEmpty()) {
+            return null;
+        }
+
+        Pattern pattern = Pattern.compile("(\\d{1,2})\\.(\\d{1,2})\\.");
+        Matcher matcher = pattern.matcher(dateString);
+        if (matcher.find()) {
+            int day = Integer.parseInt(matcher.group(1));
+            int month = Integer.parseInt(matcher.group(2));
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.MONTH, month - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+
+            return calendar.getTime();
+        }
+
+        String[] patterns = {"EEE dd.MM.", "EEE dd.MM", "dd.MM."};
+        Locale[] locales = {Locale.ENGLISH, new Locale("fi", "FI"), new Locale("sv", "SE")};
+
+        for (Locale locale : locales) {
+            for (String patternString : patterns) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(patternString, locale);
+                simpleDateFormat.setLenient(true);
+                try {
+                    Date parsedDate = simpleDateFormat.parse(dateString);
+                    Calendar calendar = Calendar.getInstance();
+                    Calendar parsedCalendar = Calendar.getInstance();
+                    parsedCalendar.setTime(parsedDate);
+                    calendar.set(Calendar.MONTH, parsedCalendar.get(Calendar.MONTH));
+                    calendar.set(Calendar.DAY_OF_MONTH, parsedCalendar.get(Calendar.DAY_OF_MONTH));
+                    calendar.set(Calendar.HOUR_OF_DAY, 0);
+                    calendar.set(Calendar.MINUTE, 0);
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    return calendar.getTime();
+                } catch (ParseException ignored) {
+                }
+            }
+        }
+
+        return null;
     }
 }
