@@ -12,7 +12,7 @@ ruokien arvosteluiden keskiarvot. Arvostelut kirjataan asteikolla 0-5.
 Tietokannasta on myös mahdollista tehdä kootusti hakuja etsien parhaiten
 arvosteltuja ravintoloita ja parhaiten arvosteltuja ruokia. 
 
-https://unirater.herokuapp.com/
+Run locally at `http://localhost:8080/` (see Podman instructions below).
 
 ----------------------------------------------------------------------------
 

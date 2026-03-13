@@ -7,9 +7,13 @@ var haeRavintolanRuokalistat = function(uri,callback) {
 }
 
 var haeRavintolanUri = function(nimi,callback) {
-    $.get( "/json/etsiUri/" + nimi, function( data ) {
+    $.get( "/json/etsiUri/" + encodeURIComponent(nimi), function( data ) {
             callback(data);
     });
+}
+
+var ohjaaFallbackiin = function() {
+    location.href = "/exactum";
 }
 
 var paikanna = function() {
@@ -17,15 +21,22 @@ var paikanna = function() {
         /* geolocation is available */
         $("#sisalto").html("<p>Etsitään lähintä ravintolaa..</p>");
         navigator.geolocation.getCurrentPosition(function(position) {
-            $.getJSON( "http://messi.hyyravintolat.fi/publicapi/restaurant/locate/" + position.coords.longitude + "/" + position.coords.latitude, function( data ) {
-                $("#sisalto").html("<p>Ravintola löytyi!</p>");
-                haeRavintolanUri(data.data.name, function(res) {
-                    location.href = "http://unirater.herokuapp.com/" + res;
-                });
+            $.getJSON( "/json/closest/" + position.coords.longitude + "/" + position.coords.latitude, function( data ) {
+                if (data && data.uri) {
+                    $("#sisalto").html("<p>Ravintola löytyi!</p>");
+                    location.href = "/" + data.uri;
+                    return;
+                }
+
+                ohjaaFallbackiin();
+            }).fail(function() {
+                ohjaaFallbackiin();
             });
+        }, function() {
+            ohjaaFallbackiin();
         });
     } else {
-        location.href = "http://unirater.herokuapp.com/ylioppilasaukio";
+        ohjaaFallbackiin();
     }
 }
 

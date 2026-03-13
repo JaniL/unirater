@@ -9,6 +9,7 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import unicaferater.domain.database.Food;
 import unicaferater.domain.database.MenuOfTheDay;
 import unicaferater.domain.database.Rating;
 import unicaferater.domain.database.Restaurant;
+import unicaferater.service.RestaurantLocatorService;
 
 /**
  *
@@ -50,6 +52,9 @@ public class FoodController {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private RestaurantLocatorService restaurantLocatorService;
 
     /**
      * Listaa kaikki ruokalistat ja ravintolat omaan modeliin
@@ -87,6 +92,19 @@ public class FoodController {
         } else {
             return null;
         }
+    }
+
+    @RequestMapping(value = "/json/closest/{longitude}/{latitude}", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, String> closestRestaurant(@PathVariable double longitude, @PathVariable double latitude) {
+        String closestUri = restaurantLocatorService.findClosestRestaurantUri(longitude, latitude);
+        if (closestUri == null || closestUri.trim().isEmpty()) {
+            closestUri = "exactum";
+        }
+
+        Map<String, String> response = new HashMap<>();
+        response.put("uri", closestUri);
+        return response;
     }
 
 
