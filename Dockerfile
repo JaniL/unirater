@@ -1,24 +1,29 @@
-FROM maven:3.9.6-eclipse-temurin-8 AS build
+FROM golang:1.27-alpine AS build
 
 WORKDIR /app
 
-COPY pom.xml /app/pom.xml
-COPY src /app/src
+COPY go.mod go.sum ./
+RUN go mod download
 
-RUN mvn -DskipTests package
+COPY cmd cmd
+COPY internal internal
 
-FROM eclipse-temurin:8-jre
+RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/unirater ./cmd/unirater
 
-WORKDIR /app
+FROM alpine:3.20
 
-RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache ca-certificates wget
 
-COPY --from=build /app/target/*.jar /app/app.jar
+COPY --from=build /out/unirater /app/unirater
 
-ENV SPRING_PROFILES_ACTIVE=dev
+USER nobody:nobody
+
+ENV PORT=8080
 
 EXPOSE 8080
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=5 CMD curl -fsS http://127.0.0.1:8080/health || exit 1
+# Kept for local podman runs; the serverless platform ignores it.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=5 \
+  CMD wget -q -O /dev/null http://127.0.0.1:8080/health || exit 1
 
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["/app/unirater"]

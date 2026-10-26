@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+</head>
+<body>
+<div class="page-header">
+    <h1>Unirater</h1>
+</div>
+
+{{if not .Auth.Authenticated}}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h2>Kirjaudu sisään</h2>
+
+        {{if .LoginError}}
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            Kirjautuminen epäonnistui
+        </div>
+        {{end}}
+
+        <form action="/user/login/authenticate" method="POST" role="form">
+            <input type="hidden" name="_csrf" value="{{.CSRF}}"/>
+            <div class="row">
+                <div id="form-group-email" class="form-group col-lg-4">
+                    <label class="control-label" for="user-email">Sähköpostiosoite:</label>
+                    <input id="user-email" name="username" type="text" class="form-control" value="{{.Form.Email}}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div id="form-group-password" class="form-group col-lg-4">
+                    <label class="control-label" for="user-password">Salasana:</label>
+                    <input id="user-password" name="password" type="password" class="form-control"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-4">
+                    <button type="submit" class="btn btn-default">Kirjaudu sisään</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="form-group col-lg-4">
+                <a href="/user/register">Rekisteröidy</a>
+            </div>
+        </div>
+    </div>
+</div>
+{{else}}
+<p>lolapua:D</p>
+{{end}}
+</body>
+</html>

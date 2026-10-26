@@ -8,3 +8,6 @@ target
 README.md
 Procfile
 .travis.yml
+terraform
+src
+compose.yaml

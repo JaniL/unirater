@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Unicafe Rater</title>
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+{{template "navbar" .}}
+
+<div class="container-fluid">
+    <div class="row">
+        {{if .Restaurant}}
+        <div class="col-md-6">
+            <h1>{{.Restaurant.Name}}</h1>
+
+            {{range .Menus}}
+            <h2>{{.DateString}}</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Ruoka</th>
+                    <th>Hintaluokka</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range .Foods}}
+                <tr>
+                    <td>{{.Name}}</td>
+                    <td>{{.PriceName}}</td>
+                    <td>{{.Total}}</td>
+                    <td class="ratingstars">
+                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                            <a href="/rate/{{.ID}}/1" class="btn btn-success">Pidin</a>
+                            <a href="/rate/{{.ID}}/0" class="btn btn-danger">En pitänyt</a>
+                        </div>
+                    </td>
+                </tr>
+                {{end}}
+                </tbody>
+            </table>
+            {{end}}
+        </div>
+        {{else}}
+        <div class="col-md-6">
+            <p>Ravintolaa ei löydy.</p>
+        </div>
+        {{end}}
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

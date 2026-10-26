@@ -30,3 +30,13 @@ nbactions.xml
 nbactions.xml
 
 .DS_Store
+
+# terraform
+terraform/.terraform/
+terraform/terraform.tfstate*
+terraform/*.backup
+crash.log
+
+# go
+*.test
+unirater

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+</head>
+<body>
+<div class="page-header">
+    <h1>Rekisteröidy</h1>
+</div>
+
+{{if not .Auth.Authenticated}}
+<div class="panel panel-default">
+    <div class="panel-body">
+        {{if .Errors}}
+        <div class="alert alert-danger">
+            {{range $field, $message := .Errors}}
+            <p>{{$message}}</p>
+            {{end}}
+        </div>
+        {{end}}
+        <form action="/user/register" method="POST" role="form">
+            <input type="hidden" name="_csrf" value="{{.CSRF}}"/>
+            <div class="row">
+                <div id="form-group-firstName" class="form-group col-lg-4">
+                    <label class="control-label" for="user-firstName">Etunimi:</label>
+                    <input id="user-firstName" name="firstName" class="form-control" value="{{.Form.FirstName}}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div id="form-group-lastName" class="form-group col-lg-4">
+                    <label class="control-label" for="user-lastName">Sukunimi:</label>
+                    <input id="user-lastName" name="lastName" class="form-control" value="{{.Form.LastName}}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div id="form-group-email" class="form-group col-lg-4">
+                    <label class="control-label" for="user-email">Email:</label>
+                    <input id="user-email" name="email" class="form-control" value="{{.Form.Email}}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div id="form-group-password" class="form-group col-lg-4">
+                    <label class="control-label" for="user-password">Salasana:</label>
+                    <input type="password" id="user-password" name="password" class="form-control"/>
+                </div>
+            </div>
+            <div class="row">
+                <div id="form-group-passwordVerification" class="form-group col-lg-4">
+                    <label class="control-label" for="user-passwordVerification">Vahvista salasana:</label>
+                    <input type="password" id="user-passwordVerification" name="passwordVerification" class="form-control"/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-default">Rekisteröidy!</button>
+        </form>
+    </div>
+</div>
+{{end}}
+</body>
+</html>

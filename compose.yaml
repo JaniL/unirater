@@ -5,12 +5,36 @@ services:
       dockerfile: Dockerfile
     container_name: unirater
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      DATABASE_URL: postgres://unirater:unirater@db:5432/unirater?sslmode=disable
+      SESSION_SECRET: dev-only-secret
+      SYNC_ON_STARTUP: "true"
+      # GEOFENCE_ENABLED omitted: loopback/private addresses pass anyway.
     ports:
       - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/health"]
       interval: 30s
       timeout: 5s
       retries: 5
-      start_period: 40s
+      start_period: 10s
+
+  db:
+    image: docker.io/library/postgres:16-alpine
+    container_name: unirater-db
+    environment:
+      POSTGRES_USER: unirater
+      POSTGRES_PASSWORD: unirater
+      POSTGRES_DB: unirater
+    volumes:
+      - unirater-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U unirater"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+volumes:
+  unirater-db:
