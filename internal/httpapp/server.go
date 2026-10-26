@@ -6,6 +6,7 @@ import (
 	"embed"
 	"fmt"
 	"html/template"
+	"io/fs"
 	"log"
 	"net/http"
 	"sync"
@@ -47,13 +48,21 @@ func New(sessionSecret []byte, st *store.Store, acc *accounts.Service, client *u
 		return nil, fmt.Errorf("httpapp: parsing templates: %w", err)
 	}
 
+	// The embed directive stores the assets under static/; re-root the
+	// FS so StripPrefix("/static/") resolves /static/css/x.css to
+	// static/css/x.css.
+	staticRoot, err := fs.Sub(staticFS, "static")
+	if err != nil {
+		return nil, fmt.Errorf("httpapp: opening embedded static root: %w", err)
+	}
+
 	return &Server{
 		store:           st,
 		sessions:        newSessionStore(sessionSecret),
 		accounts:        acc,
 		client:          client,
 		tpl:             tpl,
-		static:          http.StripPrefix("/static/", http.FileServerFS(staticFS)),
+		static:          http.StripPrefix("/static/", http.FileServerFS(staticRoot)),
 		geofenceEnabled: geofenceEnabled,
 		trustProxy:      trustProxy,
 	}, nil
